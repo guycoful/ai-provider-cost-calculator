@@ -1,0 +1,2404 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="מחשבון עצמאי להשוואת עלויות AI בין Microsoft, Anthropic, OpenAI ו-Google על בסיס תהליך וטוקנים זהים.">
+  <title>מחשבון השוואת עלויות AI</title>
+  <style>
+    :root {
+      --ink: #15241f;
+      --ink-soft: #4d5e57;
+      --paper: #f5f2e9;
+      --surface: #fffdf7;
+      --surface-strong: #ffffff;
+      --line: #d9ddd3;
+      --line-strong: #b9c2b9;
+      --green: #176b4d;
+      --green-dark: #0e4f38;
+      --green-soft: #ddefe5;
+      --mint: #b9e8d2;
+      --amber: #9a5b06;
+      --amber-dark: #663a00;
+      --amber-soft: #fff1cc;
+      --red: #a73d35;
+      --red-soft: #fde7df;
+      --blue: #245f8f;
+      --blue-soft: #e4f0f8;
+      --violet: #6653a4;
+      --violet-soft: #eeeafd;
+      --shadow: 0 18px 50px rgba(27, 48, 40, 0.09);
+      --shadow-soft: 0 8px 24px rgba(27, 48, 40, 0.06);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --focus: #0b6e99;
+      --max-width: 1240px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      min-width: 280px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 9% 2%, rgba(185, 232, 210, 0.48), transparent 24rem),
+        radial-gradient(circle at 96% 14%, rgba(255, 225, 159, 0.34), transparent 25rem),
+        var(--paper);
+      font-family: Arial, "Noto Sans Hebrew", "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button,
+    select,
+    input[type="checkbox"] {
+      cursor: pointer;
+    }
+
+    a {
+      color: var(--green-dark);
+      text-underline-offset: 0.18em;
+      text-decoration-thickness: 1px;
+    }
+
+    a:hover {
+      color: var(--blue);
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: fixed;
+      inset-block-start: 12px;
+      inset-inline-start: 12px;
+      z-index: 1000;
+      padding: 10px 14px;
+      color: white;
+      background: var(--ink);
+      border-radius: 10px;
+      transform: translateY(-180%);
+      transition: transform 160ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .shell {
+      width: min(var(--max-width), calc(100% - 36px));
+      margin-inline: auto;
+    }
+
+    .top-rule {
+      height: 7px;
+      background: linear-gradient(90deg, var(--green-dark), var(--mint) 47%, #f2b761 75%, var(--red));
+    }
+
+    .hero {
+      padding-block: 28px 30px;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-block-end: 52px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--ink);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      color: white;
+      background: var(--green-dark);
+      border-radius: 12px 12px 4px 12px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .source-date {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 6px 12px;
+      color: var(--ink-soft);
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(185, 194, 185, 0.9);
+      border-radius: 999px;
+      font-size: 0.83rem;
+      font-weight: 700;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.7fr);
+      gap: clamp(28px, 6vw, 82px);
+      align-items: end;
+    }
+
+    .eyebrow,
+    .section-kicker {
+      margin: 0 0 12px;
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-block-start: 0;
+    }
+
+    h1 {
+      max-width: 830px;
+      margin-block-end: 20px;
+      font-size: clamp(2.6rem, 6vw, 5.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.065em;
+    }
+
+    .hero-lead {
+      max-width: 760px;
+      margin-block-end: 26px;
+      color: var(--ink-soft);
+      font-size: clamp(1.04rem, 1.8vw, 1.25rem);
+    }
+
+    .hero-chips,
+    .inline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip,
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .chip {
+      color: var(--green-dark);
+      background: var(--green-soft);
+      border: 1px solid #b7d9c8;
+    }
+
+    .hero-summary {
+      position: relative;
+      overflow: hidden;
+      padding: 25px;
+      color: white;
+      background: var(--ink);
+      border-radius: var(--radius-xl) var(--radius-xl) 8px var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-summary::after {
+      content: "";
+      position: absolute;
+      inset-block-end: -80px;
+      inset-inline-start: -70px;
+      width: 190px;
+      height: 190px;
+      background: rgba(185, 232, 210, 0.14);
+      border-radius: 50%;
+    }
+
+    .hero-summary strong {
+      display: block;
+      margin-block-end: 4px;
+      font-size: 2.3rem;
+      line-height: 1;
+    }
+
+    .hero-summary > p {
+      margin-block-end: 24px;
+      color: #d9e4df;
+    }
+
+    .summary-rule {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.17);
+      border-radius: 14px;
+    }
+
+    .summary-rule div {
+      min-height: 96px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .summary-rule span {
+      display: block;
+      margin-block-start: 6px;
+      color: #c5d3cd;
+      font-size: 0.78rem;
+    }
+
+    .critical-alert {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      margin-block-start: 42px;
+      padding: clamp(20px, 3vw, 30px);
+      background: var(--amber-soft);
+      border: 1px solid #e0bb68;
+      border-inline-start: 8px solid var(--amber);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .alert-icon {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      color: white;
+      background: var(--amber-dark);
+      border-radius: 50%;
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+
+    .critical-alert h2 {
+      margin-block-end: 9px;
+      color: var(--amber-dark);
+      font-size: clamp(1.15rem, 2vw, 1.45rem);
+    }
+
+    .critical-alert p {
+      margin-block-end: 10px;
+      color: #5e431e;
+    }
+
+    .critical-alert p:last-child {
+      margin-block-end: 0;
+    }
+
+    .badge-official {
+      color: var(--green-dark);
+      background: var(--green-soft);
+      border: 1px solid #a9d4be;
+    }
+
+    .badge-partial {
+      color: #174e72;
+      background: var(--blue-soft);
+      border: 1px solid #b8d5e7;
+    }
+
+    .badge-estimate {
+      color: #6c3900;
+      background: #ffe2a8;
+      border: 1px solid #d99c3b;
+    }
+
+    .method-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      overflow: hidden;
+      margin-block: 0 34px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .method-step {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      min-height: 112px;
+      padding: 20px;
+      background: rgba(255, 253, 247, 0.95);
+    }
+
+    .method-number {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      color: white;
+      background: var(--green-dark);
+      border-radius: 9px;
+      font-weight: 800;
+    }
+
+    .method-step strong {
+      display: block;
+      margin-block-end: 4px;
+    }
+
+    .method-step p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+    }
+
+    main {
+      padding-block-end: 60px;
+    }
+
+    .panel,
+    .provider-card,
+    .results-panel,
+    .info-section {
+      background: rgba(255, 253, 247, 0.96);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .panel,
+    .results-panel,
+    .info-section {
+      border-radius: var(--radius-xl);
+    }
+
+    .panel {
+      margin-block-end: 24px;
+      padding: clamp(22px, 4vw, 38px);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-block-end: 26px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+    }
+
+    .section-heading p {
+      max-width: 600px;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) repeat(3, minmax(140px, 0.55fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    .field label,
+    .field-label {
+      display: block;
+      margin-block-end: 7px;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      color: var(--ink);
+      background: var(--surface-strong);
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+    }
+
+    .field input,
+    .field select {
+      min-height: 48px;
+      padding: 10px 12px;
+    }
+
+    .field textarea {
+      min-height: 112px;
+      padding: 12px 14px;
+      resize: vertical;
+    }
+
+    .field input:hover,
+    .field select:hover,
+    .field textarea:hover {
+      border-color: #7f9188;
+    }
+
+    .field input[aria-invalid="true"] {
+      background: #fff8f6;
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(167, 61, 53, 0.12);
+    }
+
+    .field-help,
+    .field-error,
+    .micro-note {
+      margin-block-start: 6px;
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .field-error {
+      min-height: 1.1em;
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap input {
+      padding-right: 12px;
+      padding-left: 72px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .input-suffix {
+      position: absolute;
+      inset-block-start: 50%;
+      right: auto;
+      left: 12px;
+      color: var(--ink-soft);
+      font-size: 0.72rem;
+      font-weight: 700;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .providers-panel {
+      padding-block-end: 28px;
+    }
+
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    fieldset {
+      min-width: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    .provider-card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+    }
+
+    .provider-card::before {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 0;
+      width: 5px;
+      background: var(--provider-color, var(--green));
+    }
+
+    .provider-card.microsoft {
+      --provider-color: #397aa7;
+      grid-column: 1 / -1;
+    }
+
+    .provider-card.anthropic {
+      --provider-color: #a6543a;
+    }
+
+    .provider-card.openai {
+      --provider-color: #176b4d;
+    }
+
+    .provider-card.google {
+      --provider-color: #6a58a6;
+    }
+
+    .provider-legend {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      margin-block-end: 18px;
+      padding: 0;
+      font-size: 1.12rem;
+      font-weight: 900;
+    }
+
+    .provider-dot {
+      width: 12px;
+      height: 12px;
+      flex: 0 0 auto;
+      background: var(--provider-color, var(--green));
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px rgba(23, 107, 77, 0.13);
+    }
+
+    .provider-subtitle {
+      margin: -9px 0 18px;
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+    }
+
+    .microsoft-split {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .pricing-track {
+      padding: 19px;
+      background: #f8faf8;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+
+    .pricing-track.estimate {
+      background: #fff8e8;
+      border-color: #e5bf76;
+    }
+
+    .track-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-block-end: 14px;
+    }
+
+    .track-heading h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .selected-rate {
+      min-height: 42px;
+      margin-block-start: 10px;
+      padding: 9px 11px;
+      color: var(--ink-soft);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px dashed var(--line-strong);
+      border-radius: 10px;
+      font-size: 0.78rem;
+      unicode-bidi: plaintext;
+    }
+
+    .credit-number {
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    details.advanced {
+      margin-block-start: 14px;
+      border-block-start: 1px solid var(--line);
+      padding-block-start: 12px;
+    }
+
+    details.advanced summary {
+      min-height: 42px;
+      color: var(--green-dark);
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding-block-start: 8px;
+    }
+
+    .event-grid .field input {
+      min-height: 42px;
+    }
+
+    .event-grid .field label {
+      font-size: 0.76rem;
+    }
+
+    .event-grid .input-wrap input {
+      padding-right: 12px;
+      padding-left: 58px;
+    }
+
+    .toggle-list {
+      display: grid;
+      gap: 9px;
+      margin-block-start: 16px;
+    }
+
+    .toggle-list > legend {
+      margin-block-end: 2px;
+      padding: 0;
+    }
+
+    .toggle {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: start;
+      min-height: 44px;
+      padding: 10px 11px;
+      background: #f7f8f5;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+    }
+
+    .toggle input {
+      width: 20px;
+      height: 20px;
+      margin: 2px 0 0;
+      accent-color: var(--green);
+    }
+
+    .toggle span {
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
+    .toggle small {
+      display: block;
+      margin-block-start: 2px;
+      color: var(--ink-soft);
+      font-size: 0.73rem;
+      font-weight: 400;
+    }
+
+    .toggle:has(input:disabled) {
+      opacity: 0.58;
+      cursor: not-allowed;
+    }
+
+    .toggle:has(input:disabled) input,
+    .toggle:has(input:disabled) span {
+      cursor: not-allowed;
+    }
+
+    .cache-assumption {
+      display: grid;
+      grid-template-columns: 1fr minmax(150px, 230px);
+      gap: 18px;
+      align-items: center;
+      margin-block-start: 18px;
+      padding: 17px 18px;
+      background: var(--violet-soft);
+      border: 1px solid #d0c7ef;
+      border-radius: 15px;
+    }
+
+    .cache-assumption h3 {
+      margin-block-end: 3px;
+      font-size: 0.94rem;
+    }
+
+    .cache-assumption p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+    }
+
+    .cache-assumption .field input:disabled {
+      color: #7d8782;
+      background: #eeeee9;
+      cursor: not-allowed;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-block-start: 20px;
+    }
+
+    .button-secondary,
+    .scale-button {
+      min-height: 44px;
+      padding: 9px 14px;
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--line-strong);
+      border-radius: 11px;
+      font-weight: 800;
+    }
+
+    .button-secondary:hover,
+    .scale-button:hover {
+      background: var(--green-soft);
+      border-color: #8dbda7;
+    }
+
+    .results-panel {
+      margin-block: 30px 24px;
+      padding: clamp(22px, 4vw, 38px);
+    }
+
+    .result-content[hidden] {
+      display: none !important;
+    }
+
+    .validation-banner {
+      display: none;
+      margin-block-end: 18px;
+      padding: 12px 14px;
+      color: #772c26;
+      background: var(--red-soft);
+      border: 1px solid #e1a69c;
+      border-radius: 12px;
+      font-weight: 800;
+    }
+
+    .results-panel.is-invalid .validation-banner {
+      display: block;
+    }
+
+    .result-cards {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr 1fr;
+      gap: 14px;
+      margin-block-end: 20px;
+    }
+
+    .result-card {
+      min-width: 0;
+      padding: 18px;
+      background: #f6f8f4;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+    }
+
+    .result-card.primary {
+      color: white;
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+    }
+
+    .result-label {
+      display: block;
+      margin-block-end: 7px;
+      color: var(--ink-soft);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .result-card.primary .result-label,
+    .result-card.primary .result-meta {
+      color: #cde3d8;
+    }
+
+    .result-value {
+      display: block;
+      overflow-wrap: anywhere;
+      font-size: clamp(1.25rem, 2.5vw, 1.85rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+    }
+
+    .result-meta {
+      display: block;
+      margin-block-start: 6px;
+      color: var(--ink-soft);
+      font-size: 0.76rem;
+    }
+
+    .chart-card,
+    .table-card {
+      margin-block-start: 16px;
+      padding: 20px;
+      background: var(--surface-strong);
+      border: 1px solid var(--line);
+      border-radius: 17px;
+    }
+
+    .card-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-block-end: 18px;
+    }
+
+    .card-heading h3 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+
+    .card-heading p {
+      margin: 3px 0 0;
+      color: var(--ink-soft);
+      font-size: 0.76rem;
+    }
+
+    .scale-control {
+      display: inline-flex;
+      padding: 3px;
+      background: #edf0eb;
+      border-radius: 11px;
+    }
+
+    .scale-button {
+      min-height: 38px;
+      padding: 6px 10px;
+      background: transparent;
+      border-color: transparent;
+      font-size: 0.76rem;
+    }
+
+    .scale-button[aria-pressed="true"] {
+      color: white;
+      background: var(--ink);
+      box-shadow: 0 2px 8px rgba(21, 36, 31, 0.18);
+    }
+
+    .chart {
+      display: grid;
+      gap: 12px;
+    }
+
+    .chart-row {
+      display: grid;
+      grid-template-columns: minmax(185px, 0.8fr) minmax(170px, 1.7fr) minmax(90px, auto);
+      gap: 14px;
+      align-items: center;
+    }
+
+    .chart-label {
+      min-width: 0;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .chart-label small {
+      display: block;
+      color: var(--ink-soft);
+      font-size: 0.68rem;
+      font-weight: 600;
+    }
+
+    .chart-track {
+      position: relative;
+      height: 28px;
+      overflow: hidden;
+      background: #edf0eb;
+      border-radius: 8px;
+    }
+
+    .chart-bar {
+      width: 0;
+      height: 100%;
+      background: var(--bar-color, var(--green));
+      border-radius: 8px;
+      transition: width 260ms ease;
+    }
+
+    .chart-row.is-estimate .chart-track {
+      background: repeating-linear-gradient(135deg, #fff3d8, #fff3d8 8px, #f7e5bd 8px, #f7e5bd 16px);
+      border: 1px dashed #c48626;
+    }
+
+    .chart-row.is-estimate .chart-bar {
+      background: repeating-linear-gradient(135deg, #bc7420, #bc7420 8px, #d79646 8px, #d79646 16px);
+    }
+
+    .chart-value {
+      direction: ltr;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-align: left;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      overscroll-behavior-inline: contain;
+    }
+
+    .scroll-hint {
+      display: none;
+      margin: 0 0 8px;
+      color: var(--ink-soft);
+      font-size: 0.76rem;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    caption {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    th,
+    td {
+      padding: 13px 14px;
+      border-block-end: 1px solid var(--line);
+      text-align: right;
+      vertical-align: top;
+    }
+
+    thead th {
+      color: #e7eee9;
+      background: var(--ink);
+      font-size: 0.73rem;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    tbody tr:last-child td,
+    tbody tr:last-child th {
+      border-block-end: 0;
+    }
+
+    tbody tr:hover {
+      background: #f8faf7;
+    }
+
+    tbody tr.estimate-row {
+      background: #fff9eb;
+    }
+
+    tbody tr.estimate-row:hover {
+      background: #fff3d2;
+    }
+
+    .rank-cell {
+      width: 54px;
+      color: var(--ink-soft);
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .model-cell strong {
+      display: block;
+    }
+
+    .model-cell small,
+    .basis-cell small,
+    .rate-cell small {
+      display: block;
+      margin-block-start: 3px;
+      color: var(--ink-soft);
+      font-size: 0.7rem;
+      line-height: 1.4;
+    }
+
+    .money-cell {
+      direction: ltr;
+      font-variant-numeric: tabular-nums;
+      font-weight: 900;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .money-cell small {
+      direction: rtl;
+      text-align: right;
+      white-space: normal;
+      unicode-bidi: plaintext;
+    }
+
+    .basis-cell strong {
+      unicode-bidi: plaintext;
+    }
+
+    .info-section {
+      margin-block-start: 24px;
+      padding: clamp(22px, 4vw, 36px);
+    }
+
+    .caveat-grid,
+    .license-grid,
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .caveat-card,
+    .license-card,
+    .source-card {
+      padding: 18px;
+      background: #f8f9f6;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+    }
+
+    .caveat-card h3,
+    .license-card h3,
+    .source-card h3 {
+      margin-block-end: 7px;
+      font-size: 0.95rem;
+    }
+
+    .caveat-card p,
+    .license-card p,
+    .source-card p,
+    .license-card li,
+    .source-card li {
+      margin-block-end: 6px;
+      color: var(--ink-soft);
+      font-size: 0.8rem;
+    }
+
+    .license-card ul,
+    .source-card ul {
+      margin: 0;
+      padding-inline-start: 18px;
+    }
+
+    .source-card li {
+      overflow-wrap: anywhere;
+    }
+
+    .about-note {
+      margin-block-start: 16px;
+      padding: 15px 17px;
+      color: var(--ink-soft);
+      background: var(--blue-soft);
+      border: 1px solid #b8d5e7;
+      border-radius: 13px;
+      font-size: 0.8rem;
+    }
+
+    .footer {
+      padding-block: 26px 38px;
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    .live-region {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .ltr,
+    bdi {
+      direction: ltr;
+      unicode-bidi: isolate;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-summary {
+        max-width: 620px;
+      }
+
+      .form-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .form-grid .process-field {
+        grid-column: 1 / -1;
+      }
+
+      .microsoft-split,
+      .provider-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .provider-card.microsoft {
+        grid-column: auto;
+      }
+
+      .result-cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .result-card.primary {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .scroll-hint {
+        display: block;
+      }
+    }
+
+    @media (max-width: 740px) {
+      .shell {
+        width: min(100% - 24px, var(--max-width));
+      }
+
+      .brand-row {
+        align-items: flex-start;
+        margin-block-end: 34px;
+      }
+
+      .source-date {
+        max-width: 150px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 14vw, 4.2rem);
+      }
+
+      .critical-alert {
+        grid-template-columns: 1fr;
+      }
+
+      .method-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading,
+      .card-heading {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .form-grid,
+      .result-cards,
+      .caveat-grid,
+      .license-grid,
+      .source-grid,
+      .cache-assumption {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid .process-field,
+      .result-card.primary {
+        grid-column: auto;
+      }
+
+      .chart-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 7px 12px;
+      }
+
+      .chart-track {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
+      .chart-value {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+    }
+
+    @media (max-width: 460px) {
+      .shell {
+        width: min(100% - 18px, var(--max-width));
+      }
+
+      .brand-row {
+        flex-direction: column;
+      }
+
+      .source-date {
+        max-width: none;
+      }
+
+      .panel,
+      .results-panel,
+      .info-section {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .provider-card,
+      .pricing-track,
+      .chart-card,
+      .table-card {
+        padding: 16px;
+      }
+
+      .summary-rule {
+        grid-template-columns: 1fr;
+      }
+
+      .event-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .scale-control {
+        width: 100%;
+      }
+
+      .scale-button {
+        flex: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+
+      .top-rule,
+      .form-actions,
+      .scale-control,
+      .skip-link {
+        display: none !important;
+      }
+
+      .shell {
+        width: 100%;
+      }
+
+      .hero {
+        padding-block: 10px;
+      }
+
+      .brand-row {
+        margin-block-end: 20px;
+      }
+
+      .panel,
+      .provider-card,
+      .results-panel,
+      .info-section,
+      .critical-alert,
+      .hero-summary {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 36pt;
+      }
+
+      .critical-alert,
+      .badge-estimate,
+      .estimate-row {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .table-scroll {
+        overflow: visible;
+      }
+
+      table {
+        min-width: 0;
+        font-size: 8pt;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#microsoft-comparison-warning">דלג לאזהרה ולמחשבון</a>
+  <div class="top-rule" aria-hidden="true"></div>
+
+  <header class="hero shell">
+    <div class="brand-row">
+      <div class="brand" aria-label="מחשבון עלויות AI">
+        <span class="brand-mark" aria-hidden="true">Σ</span>
+        <span>עדשת עלויות AI</span>
+      </div>
+      <span class="source-date">מחירים ומקורות אומתו ב־18.8.2026</span>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">אותו תהליך · אותם טוקנים · השוואה אחת</p>
+        <h1>כמה עולה תהליך AI לפי ההנחות?</h1>
+        <p class="hero-lead">מגדירים תהליך עסקי אחד, מזינים את נפח הקלט והפלט, ומשווים את עלות השימוש בין Microsoft, Anthropic, OpenAI ו־Google — להרצה ולחודש.</p>
+        <div class="hero-chips" aria-label="מאפייני המחשבון">
+          <span class="chip">קובץ עצמאי לחלוטין</span>
+          <span class="chip">חישוב חי בדפדפן</span>
+          <span class="chip">מחירי API רשמיים</span>
+          <span class="chip">ללא שליחת נתונים</span>
+        </div>
+      </div>
+
+      <aside class="hero-summary" aria-label="עקרון ההשוואה">
+        <strong>4</strong>
+        <p>ספקים נבחנים מול אותו עומס עבודה, בלי לערבב רישוי מושבים עם עלות צריכה.</p>
+        <div class="summary-rule">
+          <div><b>יחידת בסיס</b><span>טוקנים להרצה</span></div>
+          <div><b>מטבע</b><span>דולר ארה״ב</span></div>
+        </div>
+      </aside>
+    </div>
+
+    <aside id="microsoft-comparison-warning" class="critical-alert" tabindex="-1" aria-labelledby="microsoft-warning-title">
+      <span class="alert-icon" aria-hidden="true">!</span>
+      <div>
+        <h2 id="microsoft-warning-title">חשוב: נתוני Microsoft אינם שקולים למחירי ה־API האחרים</h2>
+        <p><strong>Anthropic, OpenAI ו־Google</strong> מחושבים לפי מחירוני API רשמיים לקלט ולפלט. <strong>Microsoft Copilot</strong> מתומחר בקרדיטים, והמיפוי הרשמי לטוקנים הוא חלקי ומוגבל לכלי GenAI ב־Copilot Studio בלבד: <bdi>Basic 0.1</bdi>, <bdi>Standard 1.5</bdi> ו־<bdi>Premium 10</bdi> קרדיטים לכל 1,000 טוקנים, ללא הפרדה בין קלט לפלט. פעולות שיחה אחרות מחויבות במחיר קבוע לאירוע. <span class="badge badge-partial">מיפוי רשמי חלקי</span></p>
+        <p>ערכי Cowork — <bdi>Light 125</bdi> / <bdi>Medium 500</bdi> / <bdi>Heavy 1,200</bdi> קרדיטים למשימה — מגיעים מקובץ Customer Cowork Estimator של Microsoft. הקובץ מגדיר אותם כהנחות המחשה/כיוון המבוססות על נתוני Frontier מ־27.5.2026, ומניח שימוש ב־<bdi>Anthropic Opus 4.8</bdi>. אין נוסחה ציבורית להמרת משימת Cowork לקרדיטים. <span class="badge badge-estimate">הערכה כיוונית — לא מחירון רשמי</span></p>
+      </div>
+    </aside>
+  </header>
+
+  <main id="main-content" class="shell">
+    <section class="method-strip" aria-label="מתודולוגיית ההשוואה">
+      <div class="method-step">
+        <span class="method-number">1</span>
+        <div><strong>מקבעים תהליך אחד</strong><p>אותה משימה עסקית נבחנת אצל כל הספקים.</p></div>
+      </div>
+      <div class="method-step">
+        <span class="method-number">2</span>
+        <div><strong>מזינים נפח טוקנים</strong><p>קלט ופלט נשארים זהים בכל מחירון API. במודלי Claude עם הטוקנייזר החדש, אותו טקסט עשוי לייצר כ־30% יותר טוקנים — ולכן קיבוע אותו נפח עלול להטות את אומדן Anthropic כלפי מטה.</p></div>
+      </div>
+      <div class="method-step">
+        <span class="method-number">3</span>
+        <div><strong>משווים עלות מחושבת</strong><p>עלות להרצה מוכפלת במספר ההרצות בחודש.</p></div>
+      </div>
+    </section>
+
+    <form id="calculator-form" novalidate>
+      <section class="panel" aria-labelledby="workload-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">שלב 1</p>
+            <h2 id="workload-title">התהליך והיקף השימוש</h2>
+          </div>
+          <p>ברירות המחדל מתארות סיכום מסמך בן 10 עמודים וניסוח תשובת דוא״ל. אפשר לערוך כל הנחה.</p>
+        </div>
+
+        <div class="form-grid">
+          <div class="field process-field">
+            <label for="process-description">תיאור התהליך העסקי</label>
+            <textarea id="process-description" rows="4" aria-describedby="process-description-help">סיכום מסמך בן 10 עמודים וניסוח טיוטת תשובה בדוא״ל</textarea>
+            <p id="process-description-help" class="field-help">התיאור נשמר בדפדפן בלבד ואינו נשלח לשום שירות.</p>
+          </div>
+
+          <div class="field">
+            <label for="input-tokens">טוקני קלט לכל הרצה</label>
+            <div class="input-wrap">
+              <input id="input-tokens" type="number" inputmode="numeric" min="0" max="1000000000" step="1" value="8000" aria-describedby="input-tokens-help input-tokens-error">
+              <span class="input-suffix">טוקנים</span>
+            </div>
+            <p id="input-tokens-help" class="field-help">הפרומפט, המסמך וההקשר.</p>
+            <p id="input-tokens-error" class="field-error" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <label for="output-tokens">טוקני פלט לכל הרצה</label>
+            <div class="input-wrap">
+              <input id="output-tokens" type="number" inputmode="numeric" min="0" max="1000000000" step="1" value="1500" aria-describedby="output-tokens-help output-tokens-error">
+              <span class="input-suffix">טוקנים</span>
+            </div>
+            <p id="output-tokens-help" class="field-help">הסיכום והטיוטה שנוצרים.</p>
+            <p id="output-tokens-error" class="field-error" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <label for="runs-month">הרצות בחודש</label>
+            <div class="input-wrap">
+              <input id="runs-month" type="number" inputmode="numeric" min="0" max="1000000" step="1" value="100" aria-describedby="runs-month-help runs-month-error">
+              <span class="input-suffix">הרצות</span>
+            </div>
+            <p id="runs-month-help" class="field-help">המכפיל החודשי לכל התוצאות.</p>
+            <p id="runs-month-error" class="field-error" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel providers-panel" aria-labelledby="providers-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">שלב 2</p>
+            <h2 id="providers-title">בחירת מודל ומסלול</h2>
+          </div>
+          <p>נבחר מודל אחד מכל ספק. ב־Microsoft מוצגים בנפרד מיפוי Copilot Studio ואומדן Cowork.</p>
+        </div>
+
+        <div class="provider-grid">
+          <fieldset class="provider-card microsoft">
+            <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">Microsoft</span></legend>
+            <p class="provider-subtitle">עלות הקרדיט בחישוב: <bdi>$0.01</bdi> במסלול Pay‑as‑you‑go. חבילת <bdi>$200 / 25,000</bdi> קרדיטים מוצגת כהקשר בלבד.</p>
+
+            <div class="microsoft-split">
+              <section class="pricing-track" aria-labelledby="studio-track-title">
+                <div class="track-heading">
+                  <h3 id="studio-track-title">Copilot Studio · מיפוי GenAI</h3>
+                  <span class="badge badge-partial">מיפוי רשמי חלקי</span>
+                </div>
+                <div class="field">
+                  <label for="microsoft-studio">רמת עיבוד</label>
+                  <select id="microsoft-studio" aria-describedby="studio-selected-rate">
+                    <option value="basic" lang="en" dir="ltr">Basic</option>
+                    <option value="standard" lang="en" dir="ltr" selected>Standard</option>
+                    <option value="premium" lang="en" dir="ltr">Premium</option>
+                  </select>
+                </div>
+                <div id="studio-selected-rate" class="selected-rate"></div>
+
+                <details class="advanced">
+                  <summary>הוספת אירועים קבועים להרצה (אופציונלי)</summary>
+                  <p class="micro-note">אירועים אלה מתומחרים בקרדיטים קבועים ואינם תלויים בטוקנים. ברירת המחדל היא אפס.</p>
+                  <div class="event-grid">
+                    <div class="field">
+                      <label for="classic-events">תשובה קלאסית (Classic)</label>
+                      <div class="input-wrap"><input id="classic-events" type="number" min="0" max="100000" step="1" value="0" aria-label="מספר תשובות קלאסיות; קרדיט אחד לאירוע" aria-describedby="classic-events-error"><span class="input-suffix">× 1</span></div>
+                      <p id="classic-events-error" class="field-error"></p>
+                    </div>
+                    <div class="field">
+                      <label for="generative-events">תשובה גנרטיבית</label>
+                      <div class="input-wrap"><input id="generative-events" type="number" min="0" max="100000" step="1" value="0" aria-label="מספר תשובות גנרטיביות; שני קרדיטים לאירוע" aria-describedby="generative-events-error"><span class="input-suffix">× 2</span></div>
+                      <p id="generative-events-error" class="field-error"></p>
+                    </div>
+                    <div class="field">
+                      <label for="agent-events">פעולת סוכן</label>
+                      <div class="input-wrap"><input id="agent-events" type="number" min="0" max="100000" step="1" value="0" aria-label="מספר פעולות סוכן; חמישה קרדיטים לאירוע" aria-describedby="agent-events-error"><span class="input-suffix">× 5</span></div>
+                      <p id="agent-events-error" class="field-error"></p>
+                    </div>
+                    <div class="field">
+                      <label for="graph-events">עיגון ב־Graph</label>
+                      <div class="input-wrap"><input id="graph-events" type="number" min="0" max="100000" step="1" value="0" aria-label="מספר אירועי עיגון בגרף; עשרה קרדיטים לאירוע" aria-describedby="graph-events-error"><span class="input-suffix">× 10</span></div>
+                      <p id="graph-events-error" class="field-error"></p>
+                    </div>
+                  </div>
+                </details>
+              </section>
+
+              <section class="pricing-track estimate" aria-labelledby="cowork-track-title">
+                <div class="track-heading">
+                  <h3 id="cowork-track-title">Copilot Cowork · אומדן משימה</h3>
+                  <span class="badge badge-estimate">הערכה כיוונית — לא מחירון רשמי</span>
+                </div>
+                <div class="field">
+                  <label for="microsoft-cowork">רמת משימה באומדן</label>
+                  <select id="microsoft-cowork" aria-describedby="cowork-selected-rate">
+                    <option value="light" lang="en" dir="ltr">Light</option>
+                    <option value="medium" lang="en" dir="ltr" selected>Medium</option>
+                    <option value="heavy" lang="en" dir="ltr">Heavy</option>
+                  </select>
+                </div>
+                <div id="cowork-selected-rate" class="selected-rate"></div>
+                <p class="micro-note">הטוקנים שהוזנו אינם משנים את אומדן Cowork; אין מיפוי ציבורי. החישוב מניח שמשימה אחת שווה להרצה אחת ואינו כולל רישיון Microsoft 365 Copilot.</p>
+              </section>
+            </div>
+          </fieldset>
+
+          <fieldset class="provider-card anthropic">
+            <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">Anthropic</span></legend>
+            <p class="provider-subtitle">מחירון API רשמי לקלט ולפלט, בדולר למיליון טוקנים.</p>
+            <div class="field">
+              <label for="anthropic-model">מודל Anthropic</label>
+              <select id="anthropic-model" aria-describedby="anthropic-rate-note"></select>
+            </div>
+            <div id="anthropic-rate-note" class="selected-rate"></div>
+            <fieldset class="toggle-list">
+              <legend class="field-label">תרחיש הנחה ל־Anthropic</legend>
+              <p id="anthropic-discount-help" class="micro-note">אפשר להפעיל אפשרות אחת בלבד; הפעלת אפשרות חדשה מבטלת את הקודמת.</p>
+              <label class="toggle">
+                <input id="anthropic-batch" type="checkbox" data-exclusive-group="anthropic-discount" aria-describedby="anthropic-discount-help">
+                <span>עיבוד אצווה (Batch API) — הנחה של 50%<small>חל על קלט ופלט; זמן עיבוד אצווה.</small></span>
+              </label>
+              <label class="toggle">
+                <input id="anthropic-cache" type="checkbox" data-exclusive-group="anthropic-discount" aria-describedby="anthropic-discount-help">
+                <span>קריאת מטמון פרומפט — מחיר 0.1× לקלט<small>חל על שיעור הקלט מהמטמון. עלות כתיבה 1.25×–2× אינה נכללת.</small></span>
+              </label>
+            </fieldset>
+          </fieldset>
+
+          <fieldset class="provider-card openai">
+            <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">OpenAI</span></legend>
+            <p class="provider-subtitle">מחירון API רשמי לקלט, קלט במטמון ופלט.</p>
+            <div class="field">
+              <label for="openai-model">מודל OpenAI</label>
+              <select id="openai-model" aria-describedby="openai-rate-note"></select>
+            </div>
+            <div id="openai-rate-note" class="selected-rate"></div>
+            <fieldset class="toggle-list">
+              <legend class="field-label">תרחיש הנחה ל־OpenAI</legend>
+              <p id="openai-discount-help" class="micro-note">אפשר להפעיל אפשרות אחת בלבד; הפעלת אפשרות חדשה מבטלת את הקודמת.</p>
+              <label class="toggle">
+                <input id="openai-batch" type="checkbox" data-exclusive-group="openai-discount" aria-describedby="openai-discount-help">
+                <span>עיבוד אצווה (Batch API) — הנחה של 50%<small>חל על קלט ופלט.</small></span>
+              </label>
+              <label id="openai-cache-toggle" class="toggle">
+                <input id="openai-cache" type="checkbox" data-exclusive-group="openai-discount" aria-describedby="openai-discount-help">
+                <span>קלט במטמון — לפי מחיר המודל<small>חל על שיעור הקלט מהמטמון בלבד.</small></span>
+              </label>
+            </fieldset>
+          </fieldset>
+
+          <fieldset class="provider-card google">
+            <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">Google</span></legend>
+            <p class="provider-subtitle">מחירון Gemini API רשמי. עיבוד אצווה מוזיל את עלות הקלט והפלט ב־50%; תעריף מטמון אינו נכלל משום שלא סופק לו נתון בר־חישוב.</p>
+            <div class="field">
+              <label for="google-model">מודל Google</label>
+              <select id="google-model" aria-describedby="google-rate-note"></select>
+            </div>
+            <div id="google-rate-note" class="selected-rate"></div>
+            <fieldset class="toggle-list">
+              <legend class="field-label">תרחישי תמחור ל־Google</legend>
+              <label class="toggle">
+                <input id="google-batch" type="checkbox" aria-describedby="google-rate-note">
+                <span>עיבוד אצווה (Batch API) — הנחה של 50%<small>חל על עלות הקלט והפלט לפי מחירון Gemini API.</small></span>
+              </label>
+              <label id="google-promo-toggle" class="toggle">
+                <input id="google-post-promo" type="checkbox">
+                <span>תרחיש לאחר סיום המבצע<small>ל־Gemini 3.7/3.6 Flash: החל מ־1.1.2027.</small></span>
+              </label>
+            </fieldset>
+          </fieldset>
+        </div>
+
+        <section class="cache-assumption" aria-labelledby="cache-share-title">
+          <div>
+            <h3 id="cache-share-title">הנחת שיעור קלט מהמטמון</h3>
+            <p>השדה פעיל רק כשנבחר מטמון ב־Anthropic או OpenAI. בכל ספק אפשר לבחור עיבוד אצווה או מטמון — לא שניהם יחד.</p>
+          </div>
+          <div class="field">
+            <label for="cache-share">אחוז מטוקני הקלט</label>
+            <div class="input-wrap">
+              <input id="cache-share" type="number" min="0" max="100" step="1" value="50" disabled aria-describedby="cache-share-error">
+              <span class="input-suffix">%</span>
+            </div>
+            <p id="cache-share-error" class="field-error"></p>
+          </div>
+        </section>
+
+        <div class="form-actions">
+          <button id="reset-calculator" class="button-secondary" type="button">איפוס לברירות המחדל</button>
+        </div>
+      </section>
+    </form>
+
+    <section id="results-panel" class="results-panel" aria-labelledby="results-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">שלב 3</p>
+          <h2 id="results-title">תוצאות ההשוואה</h2>
+        </div>
+        <p>המיון הוא מהעלות החודשית הנמוכה לגבוהה. עלות Cowork מוצגת אך נשארת מסומנת כאומדן ברמת ודאות שונה.</p>
+      </div>
+
+      <div id="validation-banner" class="validation-banner" role="alert">יש לתקן את השדות המסומנים לפני חישוב התוצאות.</div>
+
+      <div class="result-content">
+        <div class="result-cards">
+          <article class="result-card primary">
+            <span class="result-label">הזול ביותר מבין מודלי ה־API שנבחרו</span>
+            <strong id="cheapest-model" class="result-value" lang="en" dir="ltr">—</strong>
+            <span id="cheapest-cost" class="result-meta">—</span>
+          </article>
+          <article class="result-card">
+            <span class="result-label">נפח חודשי להשוואה</span>
+            <strong id="monthly-tokens" class="result-value ltr">—</strong>
+            <span class="result-meta">טוקני קלט + פלט</span>
+          </article>
+          <article class="result-card">
+            <span class="result-label">טווח עלויות API בחודש</span>
+            <strong id="official-range" class="result-value ltr">—</strong>
+            <span class="result-meta">בין המודלים שנבחרו</span>
+          </article>
+        </div>
+
+        <section class="chart-card" aria-labelledby="chart-title">
+          <div class="card-heading">
+            <div>
+              <h3 id="chart-title">עלות חודשית לפי בחירה</h3>
+              <p id="chart-scale-note">סקאלה לוגריתמית עוזרת לראות פערים של כמה סדרי גודל; המספרים המדויקים מופיעים לצד כל עמודה.</p>
+            </div>
+            <div class="scale-control" role="group" aria-label="בחירת סקאלת תרשים">
+              <button class="scale-button" type="button" data-chart-scale="log" aria-pressed="true">לוגריתמית</button>
+              <button class="scale-button" type="button" data-chart-scale="linear" aria-pressed="false">ליניארית</button>
+            </div>
+          </div>
+          <div id="cost-chart" class="chart" role="img" aria-label="תרשים עלות חודשית"></div>
+        </section>
+
+        <section class="table-card" aria-labelledby="table-title">
+          <div class="card-heading">
+            <div>
+              <h3 id="table-title">טבלת חישוב מפורטת</h3>
+              <p>כל החישובים משתמשים בערכים המלאים; העיגול מיועד לתצוגה בלבד.</p>
+            </div>
+          </div>
+          <p class="scroll-hint" id="table-scroll-hint">במסך צר אפשר לגלול את הטבלה אופקית.</p>
+          <div class="table-scroll" tabindex="0" aria-describedby="table-scroll-hint">
+            <table>
+              <caption>השוואת עלות להרצה ולחודש בין המודלים והמסלולים שנבחרו</caption>
+              <thead>
+                <tr>
+                  <th scope="col">דירוג</th>
+                  <th scope="col">ספק / מודל</th>
+                  <th scope="col">בסיס הנתונים</th>
+                  <th scope="col">תמחור פעיל</th>
+                  <th scope="col">עלות להרצה</th>
+                  <th scope="col">עלות לחודש</th>
+                </tr>
+              </thead>
+              <tbody id="results-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="info-section" aria-labelledby="caveats-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">הנחות שחייבים לראות</p>
+          <h2 id="caveats-title">מגבלות, טוקנייזרים והנחות</h2>
+        </div>
+        <p>המחשבון נותן בסיס עקבי להחלטה, אך אינו הצעת מחיר ואינו מחליף בדיקת חוזה או מדידת שימוש בפועל.</p>
+      </div>
+
+      <div class="caveat-grid">
+        <article class="caveat-card">
+          <h3>טוקנים מול קרדיטים</h3>
+          <p>מחירי Anthropic, OpenAI ו־Google מפצלים קלט ופלט. Copilot Studio משתמש באותו תעריף קרדיטים לכל הטוקנים, והמיפוי חל רק על GenAI tools. Cowork נשאר אומדן קבוע למשימה ללא המרה פומבית.</p>
+        </article>
+        <article class="caveat-card">
+          <h3>טוקנייזרים שונים</h3>
+          <p>לפי Anthropic, מודלי Opus 4.7 ומעלה, Fable 5, Mythos 5 ו־Sonnet 5 משתמשים בטוקנייזר שמפיק בערך 30% יותר טוקנים לאותו טקסט. המחשבון אינו מוסיף 30% אוטומטית; לכן השוואת "אותם טוקנים" עלולה להציג את עלות Anthropic כנמוכה מדי ביחס להשוואת אותו טקסט.</p>
+        </article>
+        <article class="caveat-card">
+          <h3>מבצעים וספי הקשר</h3>
+          <p>מחירי Gemini 3.7/3.6 Flash הם מבצע עד 31.12.2026; ניתן להפעיל תרחיש לאחר המבצע. ב־Gemini 3.1 Pro Preview וב־2.5 Pro, קלט מעל 200,000 טוקנים מפעיל את מדרגת המחיר הגבוהה לקלט ולפלט.</p>
+        </article>
+        <article class="caveat-card">
+          <h3>עיבוד אצווה ומטמון</h3>
+          <p>המתגים הם תרחישי מה־אם ורק לספקים עם נתון בר־חישוב. מטמון Anthropic מדמה קריאות בשיעור שנבחר ואינו כולל כתיבה במחיר 1.25×–2×. Google Batch הוא עיבוד אסינכרוני ב־50% מעלות הקלט והפלט, ויכול לחול על מחיר המבצע או על המחיר שאחריו. הנחות אצווה ומטמון אינן נצברות באותו ספק.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="info-section" aria-labelledby="licenses-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">מחירי מושבים — מחוץ לחישוב</p>
+          <h2 id="licenses-title">רישיונות ומנויים להשוואת הקשר</h2>
+        </div>
+        <p>מחירים קבועים אינם מתווספים לעלות הטוקנים, כדי לא לערבב מודלי תמחור שונים.</p>
+      </div>
+
+      <div class="license-grid">
+        <article class="license-card">
+          <h3>Microsoft</h3>
+          <ul>
+            <li>Microsoft 365 Copilot: <bdi>$30</bdi> למשתמש לחודש, בחיוב שנתי.</li>
+            <li>Microsoft 365 Copilot Business: <bdi>$18</bdi> מבצע / <bdi>$21</bdi> מחיר רגיל.</li>
+            <li>Copilot Credits: חבילה של <bdi>25,000</bdi> ב־<bdi>$200</bdi> לחודש; העלות האפקטיבית <bdi>$0.008</bdi> לקרדיט רק בניצול מלא.</li>
+          </ul>
+        </article>
+        <article class="license-card">
+          <h3>Anthropic</h3>
+          <ul>
+            <li>Team Standard: <bdi>$20</bdi> למשתמש/חודש בחיוב שנתי או <bdi>$25</bdi> בחיוב חודשי.</li>
+            <li>Team Premium: <bdi>$100</bdi> למשתמש/חודש בחיוב שנתי או <bdi>$125</bdi> בחיוב חודשי.</li>
+            <li>Enterprise: <bdi>$20</bdi> למושב ועוד שימוש בתעריפי API; המחיר הכולל אינו מפורסם במלואו.</li>
+          </ul>
+        </article>
+        <article class="license-card">
+          <h3>OpenAI</h3>
+          <ul>
+            <li>ChatGPT Business: <bdi>$25</bdi> למשתמש/חודש בחיוב שנתי או <bdi>$30</bdi> בחיוב חודשי.</li>
+            <li>ChatGPT Enterprise: המחיר אינו מפורסם; נדרשת פנייה למכירות.</li>
+          </ul>
+        </article>
+        <article class="license-card">
+          <h3>Google</h3>
+          <ul>
+            <li>Workspace Business Starter / Standard / Plus: <bdi>$7 / $14 / $22</bdi> למשתמש/חודש בחיוב שנתי.</li>
+            <li>Gemini כלול במלואו מ־Business Standard; Enterprise אינו מפורסם.</li>
+            <li>Google AI Plus: <bdi>$4.99</bdi>, Google AI Pro: <bdi>$19.99</bdi>, ו־Google AI Ultra: <bdi>$99.99–$199.99</bdi> לחודש, לפי מסלול ובמחירי ארה״ב.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="info-section" aria-labelledby="sources-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">אודות ומקורות</p>
+          <h2 id="sources-title">מחירונים ותיעוד רשמי</h2>
+        </div>
+        <p>תאריך גישה ואימות לכל המקורות: <strong>18.8.2026</strong> (<bdi>2026-08-18</bdi>).</p>
+      </div>
+
+      <div class="source-grid">
+        <article class="source-card">
+          <h3>Microsoft</h3>
+          <ul>
+            <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/pay-as-you-go-meters" target="_blank" rel="noopener noreferrer">מונה תשלום לפי שימוש של Power Platform</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management" target="_blank" rel="noopener noreferrer">תעריפי צריכת Copilot Credits</a></li>
+            <li><a href="https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio" target="_blank" rel="noopener noreferrer">Microsoft Copilot Studio</a></li>
+            <li><a href="https://www.microsoft.com/en-us/microsoft-365-copilot/pricing" target="_blank" rel="noopener noreferrer">תמחור Microsoft 365 Copilot</a></li>
+            <li><a href="https://adoption.microsoft.com/files/cowork/CustomerCoworkEstimator.xlsx" target="_blank" rel="noopener noreferrer">קובץ Customer Cowork Estimator.xlsx</a></li>
+          </ul>
+        </article>
+        <article class="source-card">
+          <h3>Anthropic</h3>
+          <ul>
+            <li><a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener noreferrer">תמחור Claude API</a></li>
+            <li><a href="https://platform.claude.com/docs/en/build-with-claude/token-counting" target="_blank" rel="noopener noreferrer">ספירת טוקנים וטוקנייזר חדש</a></li>
+            <li><a href="https://platform.claude.com/docs/en/about-claude/models/whats-new-sonnet-5" target="_blank" rel="noopener noreferrer">הערות מודל Sonnet 5</a></li>
+            <li><a href="https://claude.com/pricing" target="_blank" rel="noopener noreferrer">תוכניות ורישיונות Claude</a></li>
+          </ul>
+        </article>
+        <article class="source-card">
+          <h3>OpenAI</h3>
+          <ul>
+            <li><a href="https://openai.com/api/pricing/" target="_blank" rel="noopener noreferrer">תמחור OpenAI API</a></li>
+            <li><a href="https://platform.openai.com/docs/pricing" target="_blank" rel="noopener noreferrer">תיעוד תמחור פלטפורמת OpenAI</a></li>
+            <li><a href="https://openai.com/chatgpt/pricing/" target="_blank" rel="noopener noreferrer">תוכניות ChatGPT</a></li>
+          </ul>
+        </article>
+        <article class="source-card">
+          <h3>Google</h3>
+          <ul>
+            <li><a href="https://ai.google.dev/gemini-api/docs/pricing" target="_blank" rel="noopener noreferrer">תמחור Gemini API</a></li>
+            <li><a href="https://ai.google.dev/gemini-api/docs/batch-api" target="_blank" rel="noopener noreferrer">תיעוד Batch API של Gemini</a></li>
+            <li><a href="https://workspace.google.com/pricing" target="_blank" rel="noopener noreferrer">תמחור Google Workspace</a></li>
+            <li><a href="https://one.google.com/intl/en_us/about/google-ai-plans/" target="_blank" rel="noopener noreferrer">תוכניות Google AI של Google One בארה״ב</a></li>
+            <li><a href="https://one.google.com/intl/ALL_us/about/feeds/pricing_2026_07_28.json" target="_blank" rel="noopener noreferrer">הזנת המחירים הרשמית של Google One בארה״ב</a></li>
+          </ul>
+        </article>
+      </div>
+
+      <p class="about-note"><strong>סיווג הנתונים:</strong> מחירי Anthropic, OpenAI ו־Google מבוססים על מחירונים רשמיים לקלט ולפלט עבור המודלים המוצגים. מיפוי Copilot Studio הוא רשמי אך חלקי ומוגבל ל־GenAI tools. משקלי Cowork אומתו בקובץ האומדן שמפרסמת Microsoft, אך הקובץ עצמו מגדיר אותם ככיווניים ולהמחשה בלבד — ולכן הם אינם מוצגים באותה רמת ודאות.</p>
+    </section>
+
+    <div id="calculation-announcement" class="live-region" aria-live="polite" aria-atomic="true"></div>
+  </main>
+
+  <footer class="footer shell">
+    <p>כל החישובים מתבצעים מקומית בדפדפן. המחירים בדולר ארה״ב, לפני מס, התחייבויות חוזיות, מינימום רכישה ועלויות תשתית נלוות.</p>
+  </footer>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const DATA = Object.freeze({
+        microsoft: {
+          studio: [
+            { id: "basic", name: "Basic", creditsPer1k: 0.1 },
+            { id: "standard", name: "Standard", creditsPer1k: 1.5 },
+            { id: "premium", name: "Premium", creditsPer1k: 10 }
+          ],
+          cowork: [
+            { id: "light", name: "Light", credits: 125 },
+            { id: "medium", name: "Medium", credits: 500 },
+            { id: "heavy", name: "Heavy", credits: 1200 }
+          ],
+          creditPrice: 0.01,
+          events: { classic: 1, generative: 2, agent: 5, graph: 10 }
+        },
+        anthropic: [
+          { id: "fable-5", name: "Fable 5", input: 10, output: 50, newTokenizer: true },
+          { id: "mythos-5", name: "Mythos 5", input: 10, output: 50, newTokenizer: true },
+          { id: "opus-5", name: "Opus 5", input: 5, output: 25, newTokenizer: true },
+          { id: "opus-4-8", name: "Opus 4.8", input: 5, output: 25, newTokenizer: true },
+          { id: "opus-4-7", name: "Opus 4.7", input: 5, output: 25, newTokenizer: true },
+          { id: "opus-4-6", name: "Opus 4.6", input: 5, output: 25, newTokenizer: false },
+          { id: "opus-4-5", name: "Opus 4.5", input: 5, output: 25, newTokenizer: false },
+          { id: "sonnet-5", name: "Sonnet 5", input: 2, output: 10, newTokenizer: true, stablePrice: true },
+          { id: "sonnet-4-6", name: "Sonnet 4.6", input: 3, output: 15, newTokenizer: false },
+          { id: "sonnet-4-5", name: "Sonnet 4.5", input: 3, output: 15, newTokenizer: false },
+          { id: "haiku-4-5", name: "Haiku 4.5", input: 1, output: 5, newTokenizer: false }
+        ],
+        openai: [
+          { id: "gpt-5-2", name: "GPT-5.2", input: 1.75, cached: 0.175, output: 14 },
+          { id: "gpt-5-2-codex", name: "GPT-5.2-Codex", input: 1.75, cached: 0.175, output: 14 },
+          { id: "gpt-5-2-pro", name: "GPT-5.2 pro", input: 21, cached: null, output: 168 },
+          { id: "gpt-5-1", name: "GPT-5.1", input: 1.25, cached: 0.125, output: 10 },
+          { id: "gpt-5", name: "GPT-5", input: 1.25, cached: 0.125, output: 10 },
+          { id: "gpt-5-pro", name: "GPT-5 pro", input: 15, cached: null, output: 120 },
+          { id: "gpt-5-mini", name: "GPT-5 mini", input: 0.25, cached: 0.025, output: 2 },
+          { id: "gpt-5-nano", name: "GPT-5 nano", input: 0.05, cached: 0.005, output: 0.4 },
+          { id: "gpt-4-1", name: "GPT-4.1", input: 2, cached: 0.5, output: 8 },
+          { id: "gpt-4o", name: "GPT-4o", input: 2.5, cached: 1.25, output: 10 },
+          { id: "o3", name: "o3", input: 2, cached: 0.5, output: 8 }
+        ],
+        google: [
+          { id: "gemini-3-7-flash", name: "Gemini 3.7 Flash", input: 0.75, output: 3.75, promo: { input: 0.75, output: 3.75, afterInput: 1.5, afterOutput: 7.5 } },
+          { id: "gemini-3-6-flash", name: "Gemini 3.6 Flash", input: 0.75, output: 3.75, promo: { input: 0.75, output: 3.75, afterInput: 1.5, afterOutput: 7.5 } },
+          { id: "gemini-3-5-flash", name: "Gemini 3.5 Flash", input: 1.5, output: 9 },
+          { id: "gemini-3-5-flash-lite", name: "Gemini 3.5 Flash-Lite", input: 0.3, output: 2.5 },
+          { id: "gemini-3-1-pro-preview", name: "Gemini 3.1 Pro Preview", tiers: { low: { input: 2, output: 12 }, high: { input: 4, output: 18 } } },
+          { id: "gemini-2-5-pro", name: "Gemini 2.5 Pro", tiers: { low: { input: 1.25, output: 10 }, high: { input: 2.5, output: 15 } } }
+        ]
+      });
+
+      const providerColors = {
+        microsoft: "#397aa7",
+        anthropic: "#a6543a",
+        openai: "#176b4d",
+        google: "#6a58a6"
+      };
+
+      const pick = (items, id) => items.find((item) => item.id === id) || items[0];
+
+      function apiRunCost(inputTokens, outputTokens, inputRate, outputRate, options = {}) {
+        const cacheShare = options.cache ? Math.min(1, Math.max(0, options.cacheShare || 0)) : 0;
+        const cachedRate = Number.isFinite(options.cachedRate) ? options.cachedRate : inputRate;
+        const uncachedInput = inputTokens * (1 - cacheShare) * inputRate;
+        const cachedInput = inputTokens * cacheShare * cachedRate;
+        const output = outputTokens * outputRate;
+        const subtotal = (uncachedInput + cachedInput + output) / 1_000_000;
+        return options.batch && !options.cache ? subtotal * 0.5 : subtotal;
+      }
+
+      function calculateRows(state) {
+        const totalTokens = state.inputTokens + state.outputTokens;
+        const studio = pick(DATA.microsoft.studio, state.microsoftStudio);
+        const cowork = pick(DATA.microsoft.cowork, state.microsoftCowork);
+        const anthropic = pick(DATA.anthropic, state.anthropicModel);
+        const openai = pick(DATA.openai, state.openaiModel);
+        const google = pick(DATA.google, state.googleModel);
+        const eventCredits =
+          state.events.classic * DATA.microsoft.events.classic +
+          state.events.generative * DATA.microsoft.events.generative +
+          state.events.agent * DATA.microsoft.events.agent +
+          state.events.graph * DATA.microsoft.events.graph;
+
+        const studioTokenCredits = (totalTokens / 1_000) * studio.creditsPer1k;
+        const studioCredits = studioTokenCredits + eventCredits;
+        const studioRun = studioCredits * DATA.microsoft.creditPrice;
+        const coworkRun = cowork.credits * DATA.microsoft.creditPrice;
+        const cacheShare = state.cacheShare / 100;
+        const anthropicRun = apiRunCost(state.inputTokens, state.outputTokens, anthropic.input, anthropic.output, {
+          batch: state.anthropicBatch,
+          cache: state.anthropicCache,
+          cacheShare,
+          cachedRate: anthropic.input * 0.1
+        });
+        const openaiRun = apiRunCost(state.inputTokens, state.outputTokens, openai.input, openai.output, {
+          batch: state.openaiBatch,
+          cache: state.openaiCache && openai.cached !== null,
+          cacheShare,
+          cachedRate: openai.cached
+        });
+
+        let googleInput = google.input;
+        let googleOutput = google.output;
+        let googleTier = null;
+        let googlePromoState = null;
+
+        if (google.tiers) {
+          googleTier = state.inputTokens > 200_000 ? "high" : "low";
+          googleInput = google.tiers[googleTier].input;
+          googleOutput = google.tiers[googleTier].output;
+        }
+
+        if (google.promo) {
+          googlePromoState = state.googlePostPromo ? "after" : "promo";
+          googleInput = state.googlePostPromo ? google.promo.afterInput : google.promo.input;
+          googleOutput = state.googlePostPromo ? google.promo.afterOutput : google.promo.output;
+        }
+
+        const googleRun = apiRunCost(state.inputTokens, state.outputTokens, googleInput, googleOutput, {
+          batch: state.googleBatch
+        });
+        const googlePricePhase = googlePromoState === "promo"
+          ? "מחיר מבצע עד 31.12.2026"
+          : googlePromoState === "after"
+            ? "תרחיש מ־1.1.2027"
+            : "מחיר בסיס";
+        const googleRateLabel = [
+          googlePricePhase,
+          state.googleBatch ? "עיבוד אצווה · 50% הנחה" : "ללא הנחת אצווה"
+        ].join(" · ");
+
+        const rows = [
+          {
+            id: "microsoft-studio",
+            providerKey: "microsoft",
+            provider: "Microsoft",
+            model: `Copilot Studio · ${studio.name}`,
+            quality: "partial",
+            runCost: studioRun,
+            monthCost: studioRun * state.runsMonth,
+            basis: `${formatNumber(studioCredits, 4)} קרדיטים להרצה`,
+            basisDetail: `${formatNumber(studioTokenCredits, 4)} מטוקנים${eventCredits ? ` + ${formatNumber(eventCredits, 2)} מאירועים` : ""}`,
+            rate: `${formatNumber(studio.creditsPer1k, 2)} קרדיטים / 1K טוקנים`,
+            rateDetail: `$0.01 לקרדיט PAYG`,
+            credits: studioCredits
+          },
+          {
+            id: "microsoft-cowork",
+            providerKey: "microsoft",
+            provider: "Microsoft",
+            model: `Copilot Cowork · ${cowork.name}`,
+            quality: "estimate",
+            runCost: coworkRun,
+            monthCost: coworkRun * state.runsMonth,
+            basis: `${formatNumber(cowork.credits, 0)} קרדיטים למשימה`,
+            basisDetail: "משימה אחת = הרצה אחת; ללא קשר לטוקנים",
+            rate: `$0.01 לקרדיט PAYG`,
+            rateDetail: "משקל כיווני מקובץ האומדן",
+            credits: cowork.credits
+          },
+          {
+            id: "anthropic",
+            providerKey: "anthropic",
+            provider: "Anthropic",
+            model: anthropic.name,
+            quality: "official",
+            runCost: anthropicRun,
+            monthCost: anthropicRun * state.runsMonth,
+            basis: `${formatRate(anthropic.input)} קלט / ${formatRate(anthropic.output)} פלט`,
+            basisDetail: "דולר למיליון טוקנים",
+            rate: discountLabel(state.anthropicBatch, state.anthropicCache, state.cacheShare),
+            rateDetail: anthropic.newTokenizer ? "טוקנייזר חדש; ללא התאמת 30% אוטומטית" : "מחירון API רשמי"
+          },
+          {
+            id: "openai",
+            providerKey: "openai",
+            provider: "OpenAI",
+            model: openai.name,
+            quality: "official",
+            runCost: openaiRun,
+            monthCost: openaiRun * state.runsMonth,
+            basis: `${formatRate(openai.input)} קלט / ${formatRate(openai.output)} פלט`,
+            basisDetail: openai.cached === null ? "אין מחיר קלט במטמון שפורסם" : `${formatRate(openai.cached)} קלט במטמון`,
+            rate: discountLabel(state.openaiBatch, state.openaiCache && openai.cached !== null, state.cacheShare),
+            rateDetail: "מחירון API רשמי"
+          },
+          {
+            id: "google",
+            providerKey: "google",
+            provider: "Google",
+            model: google.name,
+            quality: "official",
+            runCost: googleRun,
+            monthCost: googleRun * state.runsMonth,
+            basis: `${formatRate(googleInput)} קלט / ${formatRate(googleOutput)} פלט`,
+            basisDetail: "דולר למיליון טוקנים",
+            rate: googleRateLabel,
+            rateDetail: googleTier ? `מדרגת הקשר ${googleTier === "high" ? "מעל 200K" : "עד 200K"}` : "מחירון API רשמי"
+          }
+        ];
+
+        return rows.sort((a, b) => a.monthCost - b.monthCost || a.runCost - b.runCost || a.model.localeCompare(b.model));
+      }
+
+      function discountLabel(batch, cache, share) {
+        if (cache) return `קריאת מטמון · ${formatNumber(share, 0)}% מהקלט`;
+        if (batch) return "עיבוד אצווה · 50% הנחה";
+        return "ללא הנחה";
+      }
+
+      function formatRate(value) {
+        return `$${formatNumber(value, 3)}`;
+      }
+
+      function formatNumber(value, maxDigits = 2) {
+        return new Intl.NumberFormat("he-IL", {
+          maximumFractionDigits: maxDigits,
+          minimumFractionDigits: 0
+        }).format(value);
+      }
+
+      function formatUsd(value) {
+        const absolute = Math.abs(value);
+        let maximumFractionDigits = 2;
+        let minimumFractionDigits = 2;
+        if (absolute > 0 && absolute < 0.01) {
+          maximumFractionDigits = 8;
+          minimumFractionDigits = 4;
+        } else if (absolute < 1) {
+          maximumFractionDigits = 6;
+        } else if (absolute < 100) {
+          maximumFractionDigits = 4;
+        }
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+          minimumFractionDigits,
+          maximumFractionDigits
+        }).format(value);
+      }
+
+      window.__costCalculator = { DATA, calculateRows, apiRunCost, formatUsd };
+
+      if (typeof document === "undefined") return;
+
+      const form = document.getElementById("calculator-form");
+      const resultsPanel = document.getElementById("results-panel");
+      const resultContent = resultsPanel.querySelector(".result-content");
+      const resultsBody = document.getElementById("results-body");
+      const chart = document.getElementById("cost-chart");
+      const announcement = document.getElementById("calculation-announcement");
+      const cacheShareInput = document.getElementById("cache-share");
+      const numericFields = [
+        ["input-tokens", "טוקני הקלט"],
+        ["output-tokens", "טוקני הפלט"],
+        ["runs-month", "מספר ההרצות"],
+        ["classic-events", "מספר התשובות הקלאסיות"],
+        ["generative-events", "מספר התשובות הגנרטיביות"],
+        ["agent-events", "מספר פעולות הסוכן"],
+        ["graph-events", "מספר אירועי העיגון בגרף"],
+        ["cache-share", "שיעור הקלט מהמטמון"]
+      ];
+      let chartScale = "log";
+      let lastRows = [];
+      let renderTimer = null;
+
+      populateSelect("anthropic-model", DATA.anthropic, "sonnet-5");
+      populateSelect("openai-model", DATA.openai, "gpt-5-2");
+      populateSelect("google-model", DATA.google, "gemini-3-7-flash");
+
+      function populateSelect(id, items, selectedId) {
+        const select = document.getElementById(id);
+        items.forEach((item) => {
+          const option = document.createElement("option");
+          option.value = item.id;
+          option.textContent = item.name;
+          option.lang = "en";
+          option.dir = "ltr";
+          option.selected = item.id === selectedId;
+          select.appendChild(option);
+        });
+      }
+
+      function readValidatedNumber(id, label) {
+        const input = document.getElementById(id);
+        const error = document.getElementById(`${id}-error`);
+        if (input.disabled) {
+          input.removeAttribute("aria-invalid");
+          input.removeAttribute("aria-errormessage");
+          if (error) error.textContent = "";
+          return Number(input.value) || 0;
+        }
+
+        const value = input.valueAsNumber;
+        const min = input.min === "" ? -Infinity : Number(input.min);
+        const max = input.max === "" ? Infinity : Number(input.max);
+        let message = "";
+
+        if (!Number.isFinite(value)) message = `${label} חייב להיות מספר.`;
+        else if (value < min) message = `${label} לא יכול להיות שלילי.`;
+        else if (value > max) message = `${label} חורג מהטווח הנתמך.`;
+        else if (!Number.isInteger(value)) message = `${label} חייב להיות מספר שלם.`;
+
+        if (message) {
+          input.setAttribute("aria-invalid", "true");
+          const containingDetails = input.closest("details");
+          if (containingDetails) containingDetails.open = true;
+          if (error) {
+            error.textContent = message;
+            input.setAttribute("aria-errormessage", error.id);
+          }
+          return null;
+        }
+
+        input.removeAttribute("aria-invalid");
+        input.removeAttribute("aria-errormessage");
+        if (error) error.textContent = "";
+        return value;
+      }
+
+      function getState() {
+        const values = {};
+        let valid = true;
+        numericFields.forEach(([id, label]) => {
+          const value = readValidatedNumber(id, label);
+          values[id] = value;
+          if (value === null) valid = false;
+        });
+
+        if (!valid) return null;
+
+        return {
+          inputTokens: values["input-tokens"],
+          outputTokens: values["output-tokens"],
+          runsMonth: values["runs-month"],
+          microsoftStudio: document.getElementById("microsoft-studio").value,
+          microsoftCowork: document.getElementById("microsoft-cowork").value,
+          anthropicModel: document.getElementById("anthropic-model").value,
+          openaiModel: document.getElementById("openai-model").value,
+          googleModel: document.getElementById("google-model").value,
+          anthropicBatch: document.getElementById("anthropic-batch").checked,
+          anthropicCache: document.getElementById("anthropic-cache").checked,
+          openaiBatch: document.getElementById("openai-batch").checked,
+          openaiCache: document.getElementById("openai-cache").checked,
+          googleBatch: document.getElementById("google-batch").checked,
+          googlePostPromo: document.getElementById("google-post-promo").checked,
+          cacheShare: values["cache-share"],
+          events: {
+            classic: values["classic-events"],
+            generative: values["generative-events"],
+            agent: values["agent-events"],
+            graph: values["graph-events"]
+          }
+        };
+      }
+
+      function qualityBadge(quality) {
+        if (quality === "official") return '<span class="badge badge-official">מחירון API רשמי</span>';
+        if (quality === "partial") return '<span class="badge badge-partial">מיפוי רשמי חלקי</span>';
+        return '<span class="badge badge-estimate">הערכה כיוונית — לא מחירון רשמי</span>';
+      }
+
+      function renderTable(rows) {
+        resultsBody.innerHTML = rows.map((row, index) => `
+          <tr class="${row.quality === "estimate" ? "estimate-row" : ""}">
+            <td class="rank-cell">${index + 1}</td>
+            <th scope="row" class="model-cell"><strong><bdi lang="en">${row.provider}</bdi></strong><span><bdi lang="en">${row.model}</bdi></span></th>
+            <td>${qualityBadge(row.quality)}</td>
+            <td class="basis-cell"><strong>${row.basis}</strong><small>${row.basisDetail}</small></td>
+            <td class="money-cell"><bdi>${formatUsd(row.runCost)}</bdi><small>${row.rate}</small></td>
+            <td class="money-cell"><bdi>${formatUsd(row.monthCost)}</bdi><small>${row.rateDetail}</small></td>
+          </tr>
+        `).join("");
+      }
+
+      function renderChart(rows) {
+        const values = rows.map((row) => row.monthCost);
+        const max = Math.max(...values, 0);
+        const positives = values.filter((value) => value > 0);
+        const minPositive = positives.length ? Math.min(...positives) : 0;
+
+        chart.innerHTML = rows.map((row) => {
+          let width = 0;
+          if (max > 0 && row.monthCost > 0) {
+            if (chartScale === "linear") width = (row.monthCost / max) * 100;
+            else {
+              const denominator = Math.log10(1 + max / minPositive);
+              width = denominator ? (Math.log10(1 + row.monthCost / minPositive) / denominator) * 100 : 100;
+            }
+          }
+          const qualityText = row.quality === "estimate" ? "הערכה כיוונית — לא מחירון רשמי" : row.quality === "partial" ? "מיפוי רשמי חלקי" : "מחירון API רשמי";
+          return `
+            <div class="chart-row ${row.quality === "estimate" ? "is-estimate" : ""}">
+              <div class="chart-label"><bdi lang="en">${row.provider} · ${row.model}</bdi><small>${qualityText}</small></div>
+              <div class="chart-track" aria-hidden="true"><div class="chart-bar" style="width:${width.toFixed(3)}%;--bar-color:${providerColors[row.providerKey]}"></div></div>
+              <div class="chart-value"><bdi>${formatUsd(row.monthCost)}</bdi></div>
+            </div>`;
+        }).join("");
+
+        chart.setAttribute("aria-label", `עלות חודשית בסדר עולה: ${rows.map((row) => {
+          const qualityText = row.quality === "estimate" ? "הערכה כיוונית — לא מחירון רשמי" : row.quality === "partial" ? "מיפוי רשמי חלקי" : "מחירון API רשמי";
+          return `${row.provider} ${row.model}, ${formatUsd(row.monthCost)}, ${qualityText}`;
+        }).join("; ")}`);
+      }
+
+      function renderSummary(rows, state) {
+        const officialRows = rows.filter((row) => row.quality === "official");
+        const cheapest = officialRows[0];
+        const highest = officialRows[officialRows.length - 1];
+        document.getElementById("cheapest-model").textContent = `${cheapest.provider} · ${cheapest.model}`;
+        document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · ${formatUsd(cheapest.runCost)} להרצה`;
+        document.getElementById("monthly-tokens").textContent = formatNumber((state.inputTokens + state.outputTokens) * state.runsMonth, 0);
+        document.getElementById("official-range").textContent = `${formatUsd(cheapest.monthCost)}–${formatUsd(highest.monthCost)}`;
+      }
+
+      function updateControlNotes() {
+        const studio = pick(DATA.microsoft.studio, document.getElementById("microsoft-studio").value);
+        const cowork = pick(DATA.microsoft.cowork, document.getElementById("microsoft-cowork").value);
+        const anthropic = pick(DATA.anthropic, document.getElementById("anthropic-model").value);
+        const openai = pick(DATA.openai, document.getElementById("openai-model").value);
+        const google = pick(DATA.google, document.getElementById("google-model").value);
+
+        document.getElementById("studio-selected-rate").innerHTML = `<span class="credit-number">${formatNumber(studio.creditsPer1k, 2)} קרדיטים לכל 1,000 טוקנים</span> · ללא פיצול קלט/פלט. <span class="badge badge-partial">Copilot Studio בלבד</span>`;
+        document.getElementById("cowork-selected-rate").innerHTML = `<span class="credit-number">${formatNumber(cowork.credits, 0)} קרדיטים למשימה</span> <span class="badge badge-estimate">הערכה כיוונית — לא מחירון רשמי</span>`;
+
+        let anthropicNote = `קלט <bdi>${formatRate(anthropic.input)}</bdi> · פלט <bdi>${formatRate(anthropic.output)}</bdi> למיליון טוקנים.`;
+        if (anthropic.newTokenizer) anthropicNote += " טוקנייזר חדש עשוי להפיק כ־30% יותר טוקנים לאותו טקסט; לא הוחלה התאמה אוטומטית.";
+        if (anthropic.stablePrice) anthropicNote += " העלאת המחיר שתוכננה ל־1.9.2026 בוטלה.";
+        document.getElementById("anthropic-rate-note").innerHTML = anthropicNote;
+
+        document.getElementById("openai-rate-note").innerHTML = `קלט <bdi>${formatRate(openai.input)}</bdi> · ${openai.cached === null ? "קלט במטמון לא פורסם" : `קלט במטמון <bdi>${formatRate(openai.cached)}</bdi>`} · פלט <bdi>${formatRate(openai.output)}</bdi> למיליון.`;
+        const openaiCache = document.getElementById("openai-cache");
+        if (openai.cached === null) {
+          openaiCache.checked = false;
+          openaiCache.disabled = true;
+        } else {
+          openaiCache.disabled = false;
+        }
+
+        const postPromo = document.getElementById("google-post-promo");
+        const googleBatch = document.getElementById("google-batch").checked;
+        let googleRateNote = "";
+        if (google.promo) {
+          postPromo.disabled = false;
+          const rates = postPromo.checked ? { input: google.promo.afterInput, output: google.promo.afterOutput } : { input: google.promo.input, output: google.promo.output };
+          googleRateNote = `קלט <bdi>${formatRate(rates.input)}</bdi> · פלט <bdi>${formatRate(rates.output)}</bdi> למיליון. ${postPromo.checked ? "תרחיש לאחר המבצע." : "מבצע עד 31.12.2026."}`;
+        } else {
+          postPromo.checked = false;
+          postPromo.disabled = true;
+          if (google.tiers) {
+            const inputTokens = document.getElementById("input-tokens").valueAsNumber || 0;
+            const tier = inputTokens > 200_000 ? google.tiers.high : google.tiers.low;
+            googleRateNote = `קלט <bdi>${formatRate(tier.input)}</bdi> · פלט <bdi>${formatRate(tier.output)}</bdi> למיליון. מדרגה ${inputTokens > 200_000 ? "מעל" : "עד"} 200K טוקני קלט.`;
+          } else {
+            googleRateNote = `קלט <bdi>${formatRate(google.input)}</bdi> · פלט <bdi>${formatRate(google.output)}</bdi> למיליון טוקנים.`;
+          }
+        }
+        googleRateNote += googleBatch
+          ? " <strong>עיבוד אצווה פעיל: העלות המחושבת כוללת הנחה של 50%.</strong>"
+          : " עיבוד אצווה אינו פעיל.";
+        document.getElementById("google-rate-note").innerHTML = googleRateNote;
+
+        const anyCache = document.getElementById("anthropic-cache").checked || openaiCache.checked;
+        cacheShareInput.disabled = !anyCache;
+        if (!anyCache) {
+          cacheShareInput.removeAttribute("aria-invalid");
+          cacheShareInput.removeAttribute("aria-errormessage");
+          document.getElementById("cache-share-error").textContent = "";
+        }
+      }
+
+      function render() {
+        updateControlNotes();
+        const state = getState();
+        if (!state) {
+          resultsPanel.classList.add("is-invalid");
+          resultContent.hidden = true;
+          announcement.textContent = "יש שגיאה באחד משדות הקלט.";
+          return;
+        }
+
+        resultsPanel.classList.remove("is-invalid");
+        resultContent.hidden = false;
+        lastRows = calculateRows(state);
+        renderSummary(lastRows, state);
+        renderChart(lastRows);
+        renderTable(lastRows);
+
+        const cheapest = lastRows.find((row) => row.quality === "official");
+        announcement.textContent = `החישוב עודכן. המודל הזול ביותר מבין מודלי ה־API שנבחרו הוא ${cheapest.provider} ${cheapest.model}, בעלות ${formatUsd(cheapest.monthCost)} לחודש.`;
+      }
+
+      function scheduleRender() {
+        clearTimeout(renderTimer);
+        renderTimer = setTimeout(render, 90);
+      }
+
+      form.addEventListener("input", (event) => {
+        if (event.target.id === "process-description" || event.target.matches("select, input[type='checkbox']")) return;
+        scheduleRender();
+      });
+      form.addEventListener("change", (event) => {
+        clearTimeout(renderTimer);
+        const input = event.target;
+        let discountMessage = "";
+        if (input.matches("input[type='checkbox'][data-exclusive-group]") && input.checked) {
+          const group = input.dataset.exclusiveGroup;
+          form.querySelectorAll(`input[data-exclusive-group="${group}"]`).forEach((other) => {
+            if (other !== input && other.checked) {
+              other.checked = false;
+              discountMessage = "אפשר להפעיל הנחה אחת בכל ספק; האפשרות הקודמת בוטלה.";
+            }
+          });
+        }
+        render();
+        if (discountMessage) announcement.textContent = `${discountMessage} ${announcement.textContent}`;
+      });
+
+      document.querySelectorAll("[data-chart-scale]").forEach((button) => {
+        button.addEventListener("click", () => {
+          chartScale = button.dataset.chartScale;
+          document.querySelectorAll("[data-chart-scale]").forEach((candidate) => {
+            candidate.setAttribute("aria-pressed", String(candidate === button));
+          });
+          document.getElementById("chart-scale-note").textContent = chartScale === "log"
+            ? "סקאלה לוגריתמית עוזרת לראות פערים של כמה סדרי גודל; המספרים המדויקים מופיעים לצד כל עמודה."
+            : "סקאלה ליניארית מציגה יחס ישיר לעלות הגבוהה ביותר; תוצאות קטנות מאוד עשויות להיראות כקו דק.";
+          renderChart(lastRows);
+        });
+      });
+
+      document.getElementById("reset-calculator").addEventListener("click", () => {
+        form.reset();
+        document.getElementById("anthropic-model").value = "sonnet-5";
+        document.getElementById("openai-model").value = "gpt-5-2";
+        document.getElementById("google-model").value = "gemini-3-7-flash";
+        render();
+        document.getElementById("process-description").focus();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
