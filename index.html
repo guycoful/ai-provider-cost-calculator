@@ -438,6 +438,41 @@
       box-shadow: var(--shadow-soft);
     }
 
+    .mode-tabs {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      background: #edf2ed;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+    }
+
+    .mode-tab {
+      min-height: 44px;
+      padding: 8px 16px;
+      color: var(--ink-soft);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .mode-tab[aria-selected="true"] {
+      color: white;
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .mode-state-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
     .developer-toggle {
       display: flex;
       gap: 13px;
@@ -507,7 +542,61 @@
     }
 
     .mode-help {
-      margin: 5px 65px 0 0;
+      margin: 8px 0 0;
+    }
+
+    .how-to-use {
+      margin: 0 0 18px;
+      padding: 14px 16px;
+      border: 1px solid #cfe0d2;
+      border-radius: 14px;
+      background: #f5faf5;
+    }
+
+    .how-to-use h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .how-to-use ol {
+      margin: 0;
+      padding-inline-start: 1.35rem;
+      display: grid;
+      gap: 5px;
+    }
+
+    .how-to-use li::marker {
+      color: var(--green-dark);
+      font-weight: 900;
+    }
+
+    .how-to-use strong {
+      color: var(--ink);
+    }
+
+    .advanced-how-to-use {
+      margin: 0;
+      padding: 14px 16px;
+      border: 1px solid #cbd8ea;
+      border-radius: 14px;
+      background: #f4f7fc;
+    }
+
+    .advanced-how-to-use h2 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .advanced-how-to-use ol {
+      margin: 0;
+      padding-inline-start: 1.35rem;
+      display: grid;
+      gap: 5px;
+    }
+
+    .advanced-how-to-use li::marker {
+      color: #245b8f;
+      font-weight: 900;
     }
 
     .developer-workspace {
@@ -1353,6 +1442,13 @@
       font-weight: 700;
     }
 
+    .human-result-coffee {
+      margin: 8px 0 0;
+      color: #f7e8b3;
+      font-size: 0.82rem;
+      font-weight: 800;
+    }
+
     .results-disclosure {
       margin-block-start: 18px;
     }
@@ -1934,6 +2030,11 @@
         white-space: normal;
       }
 
+      .result-dock .human-result-coffee {
+        margin-block-start: 4px;
+        font-size: 0.75rem;
+      }
+
       .result-dock .advanced-status {
         grid-column: 1 / -1;
         margin: 0;
@@ -1947,8 +2048,7 @@
       }
 
       .mode-help {
-        margin-inline-start: 65px;
-        margin-inline-end: 0;
+        margin-inline: 0;
       }
 
       .developer-workspace,
@@ -2208,7 +2308,7 @@
   <main id="main-content" class="shell" tabindex="-1">
     <div class="calculator-layout">
     <form id="calculator-form" novalidate>
-      <section class="panel quick-start" aria-labelledby="workload-title">
+      <section id="simple-workload-view" class="panel quick-start" aria-labelledby="workload-title">
         <div class="section-heading">
           <div>
             <p class="section-kicker">מתחילים כאן</p>
@@ -2216,6 +2316,15 @@
           </div>
           <p>הדוגמאות הן נקודת פתיחה בלבד. אפשר לשנות את הכמות עכשיו ולדייק את הנתונים בהמשך.</p>
         </div>
+
+        <aside class="how-to-use" aria-labelledby="how-to-use-title">
+          <h3 id="how-to-use-title">איך משתמשים במחשבון?</h3>
+          <ol>
+            <li><strong>בוחרים תבנית</strong> שהכי דומה למשימה שלכם.</li>
+            <li><strong>מזיזים את הסליידר</strong> לפי מספר השיחות או המשימות ביום.</li>
+            <li><strong>קוראים את האומדן החודשי</strong> בשקלים ובכוסות קפה. אפשר לפתוח את <strong>המצב המתקדם</strong> אם רוצים לדייק.</li>
+          </ol>
+        </aside>
 
         <fieldset class="preset-picker" aria-describedby="preset-status">
           <legend>1. בוחרים תבנית</legend>
@@ -2251,14 +2360,11 @@
       </section>
 
       <div class="mode-gate">
-        <label class="developer-toggle" for="developer-mode">
-          <input id="developer-mode" type="checkbox" aria-controls="developer-workspace results-details developer-reference" aria-describedby="developer-mode-help">
-          <span class="toggle-track" aria-hidden="true"></span>
-          <span class="developer-toggle-copy">
-            <strong>התאמה אישית למפתחים</strong>
-            <small>טוקנים, מודלים, הנחות, שער דולר, Microsoft ומקורות</small>
-          </span>
-        </label>
+        <div class="mode-tabs" role="tablist" aria-label="בחירת מצב המחשבון">
+          <button id="simple-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="true" aria-controls="simple-workload-view results-panel">מצב פשוט</button>
+          <button id="developer-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="developer-workspace results-details developer-reference" tabindex="-1">מצב מתקדם</button>
+        </div>
+        <input id="developer-mode" class="mode-state-input" type="checkbox" tabindex="-1" aria-hidden="true" aria-controls="developer-workspace results-details developer-reference" aria-describedby="developer-mode-help">
         <p id="developer-mode-help" class="mode-help">כבוי כברירת מחדל. פתיחה אינה משנה את החישוב; הגדרות מותאמות שנשמרו יסומנו בכרטיס התוצאה.</p>
       </div>
 
@@ -2271,6 +2377,16 @@
             <p><strong>Anthropic, OpenAI ו־Google</strong> מחושבים לפי מחירוני API רשמיים לקלט ולפלט. <strong>Microsoft Copilot</strong> מתומחר בקרדיטים, והמיפוי הרשמי לטוקנים הוא חלקי ומוגבל לכלי GenAI ב־Copilot Studio בלבד: <bdi>Basic 0.1</bdi>, <bdi>Standard 1.5</bdi> ו־<bdi>Premium 10</bdi> קרדיטים לכל 1,000 טוקנים, ללא הפרדה בין קלט לפלט. פעולות שיחה אחרות מחויבות במחיר קבוע לאירוע. <span class="badge badge-partial">מיפוי רשמי חלקי</span></p>
             <p>ערכי Cowork — <bdi>Light 125</bdi> / <bdi>Medium 500</bdi> / <bdi>Heavy 1,200</bdi> קרדיטים למשימה — מגיעים מקובץ Customer Cowork Estimator של Microsoft. הקובץ מגדיר אותם כהנחות המחשה/כיוון המבוססות על נתוני Frontier מ־27.5.2026, ומניח שימוש ב־<bdi>Anthropic Opus 4.8</bdi>. אין נוסחה ציבורית להמרת משימת Cowork לקרדיטים. <span class="badge badge-estimate">הערכה כיוונית — לא מחירון רשמי</span></p>
           </div>
+        </aside>
+
+        <aside class="advanced-how-to-use" aria-labelledby="advanced-how-to-use-title">
+          <h2 id="advanced-how-to-use-title">מדריך למצב מתקדם</h2>
+          <ol>
+            <li><strong>מגדירים את התרחיש:</strong> מזינים טוקני קלט ופלט ומספר הרצות בחודש, או מפעילים הזנה חודשית מדויקת.</li>
+            <li><strong>בוחרים מודל וספק:</strong> בוחרים מודל אחד מכל ספק שרוצים להשוות. השאירו ספקים לא רלוונטיים ללא בחירה.</li>
+            <li><strong>מפעילים הנחות רק כשמתאימות:</strong> Batch מתאים להרצות אצווה; Cache מתאים רק לחלק הקלט שחוזר על עצמו. אפשר לשלב Batch עם תרחיש המבצע של Google.</li>
+            <li><strong>קוראים את התוצאה:</strong> הדירוג והחישוב המקורי מוצגים בדולר. Microsoft ו־Cowork מסומנים בנפרד כי הם אומדנים או מיפוי חלקי, לא מחירון API שקול.</li>
+          </ol>
         </aside>
 
         <section class="panel precision-settings" aria-labelledby="precision-title">
@@ -2533,6 +2649,7 @@
             <span class="human-result-kicker">הערכה חודשית לפי השימוש שבחרת</span>
             <strong id="human-result-title" class="human-result-value">—</strong>
             <p id="human-result-simple-context" class="human-result-trust">אומדן לפי 3 מודלי API · לפני מס ועמלות</p>
+            <p class="human-result-coffee">☕ <span id="coffee-comparison">—</span></p>
             <div id="advanced-settings-status" class="advanced-status" hidden>
               <span>הגדרות מקצועיות מותאמות פעילות.</span>
               <button id="open-advanced-settings" type="button">בדיקת הגדרות</button>
@@ -2559,7 +2676,7 @@
           <p id="human-result-rate" class="human-result-rate">—</p>
         </div>
         <div class="human-result-aside">
-          <span id="coffee-comparison" class="coffee-comparison">—</span>
+          <span id="coffee-comparison-detail" class="coffee-comparison">—</span>
           <p>השוואה להמחשה בלבד לפי 15 ₪ לכוס קפה; המחיר בפועל עשוי לכלול מס, עמלות המרה ועלויות נוספות.</p>
         </div>
       </div>
@@ -3122,6 +3239,9 @@
       const developerContents = Array.from(document.querySelectorAll("[data-developer-content]"));
       const advancedSettingsStatus = document.getElementById("advanced-settings-status");
       const humanResultCard = document.querySelector(".human-result-card");
+      const simpleWorkloadView = document.getElementById("simple-workload-view");
+      const simpleModeTab = document.getElementById("simple-mode-tab");
+      const developerModeTab = document.getElementById("developer-mode-tab");
       const numericFields = [
         ["input-tokens", "טוקני הקלט"],
         ["output-tokens", "טוקני הפלט"],
@@ -3348,15 +3468,25 @@
 
       function updateMobileResultInset() {
         const isMobile = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 740px)").matches;
-        const height = isMobile && !resultContent.hidden && typeof humanResultCard.getBoundingClientRect === "function"
+        const height = isMobile && !resultsPanel.hidden && !resultContent.hidden && typeof humanResultCard.getBoundingClientRect === "function"
           ? Math.ceil(humanResultCard.getBoundingClientRect().height)
           : 0;
         document.documentElement.style.setProperty("--mobile-result-height", `${height}px`);
       }
 
+      function syncModePresentation(enabled) {
+        simpleWorkloadView.hidden = enabled;
+        resultsPanel.hidden = enabled;
+        simpleModeTab.setAttribute("aria-selected", String(!enabled));
+        developerModeTab.setAttribute("aria-selected", String(enabled));
+        simpleModeTab.tabIndex = enabled ? -1 : 0;
+        developerModeTab.tabIndex = enabled ? 0 : -1;
+      }
+
       function setDeveloperMode(enabled, { force = false, announce = true } = {}) {
         if (!enabled && !force && monthlyOverrideInput.checked) {
           developerModeInput.checked = true;
+          syncModePresentation(true);
           developerContents.forEach((element) => { element.hidden = false; });
           document.body.classList.add("developer-mode");
           announcement.textContent = "כדי לחזור לתצוגה הפשוטה, יש לבטל תחילה את ההזנה החודשית המדויקת.";
@@ -3366,18 +3496,20 @@
 
         if (!enabled && !force && !getState()) {
           developerModeInput.checked = true;
+          syncModePresentation(true);
           developerContents.forEach((element) => { element.hidden = false; });
           resultsDetails.hidden = true;
           document.body.classList.add("developer-mode");
           resultsPanel.classList.add("is-invalid");
           resultContent.hidden = true;
           afterPaint(updateMobileResultInset);
-          announcement.textContent = "אי אפשר לסגור את ההתאמה למפתחים לפני תיקון השדה המסומן.";
+          announcement.textContent = "אי אפשר לסגור את המצב המתקדם לפני תיקון השדה המסומן.";
           afterPaint(() => form.querySelector('[aria-invalid="true"]')?.focus());
           return { changed: false, normalized: false };
         }
 
         developerModeInput.checked = enabled;
+        syncModePresentation(enabled);
         developerContents.forEach((element) => { element.hidden = !enabled; });
         document.body.classList.toggle("developer-mode", enabled);
         updateAdvancedSettingsStatus();
@@ -3386,10 +3518,10 @@
 
         if (announce) {
           announcement.textContent = enabled
-            ? "התאמה אישית למפתחים נפתחה. ערכי החישוב לא השתנו."
+            ? "המצב המתקדם נפתח. ערכי החישוב לא השתנו."
             : hasCustomSettings
-              ? "ההתאמה למפתחים נסגרה. ההגדרות המותאמות נשמרו ומסומנות בכרטיס התוצאה."
-              : "ההתאמה למפתחים נסגרה. חזרת לתצוגה הפשוטה.";
+              ? "המצב המתקדם נסגר. ההגדרות המותאמות נשמרו ומסומנות בכרטיס התוצאה."
+              : "המצב המתקדם נסגר. חזרת לתצוגה הפשוטה.";
         }
         return { changed: true, normalized: false };
       }
@@ -3509,7 +3641,9 @@
           setLocalizedResultText("cheapest-model", `${cheapest.provider} · ${cheapest.model}`, "en");
           document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · ${formatUsd(cheapest.runCost)} להרצה`;
         }
-        document.getElementById("coffee-comparison").textContent = coffeeComparison(monthlyIls);
+        const coffeeText = coffeeComparison(monthlyIls);
+        document.getElementById("coffee-comparison").textContent = coffeeText;
+        document.getElementById("coffee-comparison-detail").textContent = coffeeText;
         document.getElementById("monthly-tokens").textContent = formatNumber((state.inputTokens + state.outputTokens) * state.runsMonth, 0);
         document.getElementById("official-range").textContent = `${formatUsd(cheapest.monthCost)}–${formatUsd(highest.monthCost)}`;
         return outcome;
@@ -3627,22 +3761,36 @@
             : `ההזנה החודשית המדויקת בוטלה: ${formatNumber(previousRuns, 0)} שיחות הותאמו ל־${formatNumber(runsMonthInput.valueAsNumber, 0)} לפי הסליידר.`;
         }
       });
+      function activateMode(enabled, focusTarget) {
+        developerModeInput.checked = enabled;
+        const modeChange = setDeveloperMode(enabled);
+        if (modeChange.changed) {
+          render(false);
+          afterPaint(() => focusTarget?.focus());
+        }
+      }
+
+      simpleModeTab.addEventListener("click", () => activateMode(false, simpleModeTab));
+      developerModeTab.addEventListener("click", () => activateMode(true, developerModeTab));
+      [simpleModeTab, developerModeTab].forEach((tab) => {
+        tab.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            event.preventDefault();
+            const next = tab === simpleModeTab ? developerModeTab : simpleModeTab;
+            next.focus();
+            next.click();
+          }
+        });
+      });
       developerModeInput.addEventListener("change", () => {
         const modeChange = setDeveloperMode(developerModeInput.checked);
         if (modeChange.changed) render(false);
       });
       document.getElementById("open-advanced-settings").addEventListener("click", () => {
-        developerModeInput.checked = true;
-        setDeveloperMode(true);
-        developerModeInput.focus();
+        activateMode(true, developerModeTab);
       });
       document.getElementById("close-advanced-settings").addEventListener("click", () => {
-        developerModeInput.checked = false;
-        const modeChange = setDeveloperMode(false);
-        if (modeChange.changed) {
-          render(false);
-          afterPaint(() => developerModeInput.focus());
-        }
+        activateMode(false, simpleModeTab);
       });
       ["process-description", "input-tokens", "output-tokens"].forEach((id) => {
         document.getElementById(id).addEventListener("input", () => setActivePreset(null));
