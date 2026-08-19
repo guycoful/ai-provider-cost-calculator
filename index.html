@@ -605,6 +605,28 @@
       margin-block-start: 24px;
     }
 
+    /* במצב הארגוני כרטיס הסיכום האישי אינו חלק מהפריסה. */
+    body.developer-mode #results-panel {
+      display: none !important;
+    }
+
+    /* במצב הארגוני הטופס תופס את כל הרוחב בכל גודל מסך שבו הפריסה
+       כבר אינה עמודה אחת (מעל 740px), לא רק מ־1101px ומעלה. */
+    @media (min-width: 741px) {
+      body.developer-mode .calculator-layout {
+        display: block;
+      }
+
+      body.developer-mode #calculator-form {
+        width: 100%;
+      }
+    }
+
+    body.developer-mode .org-optional-field,
+    body.developer-mode .org-optional-section {
+      display: none !important;
+    }
+
     .developer-workspace > .panel,
     .developer-workspace > .critical-alert {
       margin: 0;
@@ -1123,6 +1145,37 @@
 
     .provider-card.google {
       --provider-color: #6a58a6;
+    }
+
+    @media (min-width: 1101px) {
+      body.developer-mode .developer-workspace {
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 20px 24px;
+        align-items: start;
+      }
+
+      body.developer-mode .developer-workspace > .critical-alert,
+      body.developer-mode .developer-workspace > .precision-settings {
+        grid-column: 1;
+      }
+
+      body.developer-mode .developer-workspace > .advanced-how-to-use,
+      body.developer-mode .developer-workspace > .provider-disclosure {
+        grid-column: 2;
+      }
+
+      body.developer-mode .advanced-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      body.developer-mode .advanced-grid .process-field {
+        grid-column: 1 / -1;
+      }
+
+      body.developer-mode .provider-card {
+        padding: 18px;
+      }
     }
 
     .provider-legend {
@@ -2552,20 +2605,20 @@
           <fieldset class="provider-card anthropic">
             <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">Anthropic</span></legend>
             <p class="provider-subtitle">מחירון API רשמי לקלט ולפלט, בדולר למיליון טוקנים.</p>
-            <div class="field org-optional-field">
+            <div class="field">
               <label for="anthropic-model">מודל Anthropic</label>
               <select id="anthropic-model" aria-describedby="anthropic-rate-note"></select>
             </div>
             <div id="anthropic-rate-note" class="selected-rate"></div>
-            <fieldset class="toggle-list org-optional-section">
+            <fieldset class="toggle-list">
               <legend class="field-label">תרחיש הנחה ל־Anthropic</legend>
               <p id="anthropic-discount-help" class="micro-note">אפשר להפעיל אפשרות אחת בלבד; הפעלת אפשרות חדשה מבטלת את הקודמת.</p>
-              <label class="toggle org-optional-field">
-                <input id="anthropic-batch" class="org-optional-field" type="checkbox" data-exclusive-group="anthropic-discount" aria-describedby="anthropic-discount-help">
+              <label class="toggle">
+                <input id="anthropic-batch" type="checkbox" data-exclusive-group="anthropic-discount" aria-describedby="anthropic-discount-help">
                 <span>עיבוד אצווה (Batch API) — הנחה של 50%<small>חל על קלט ופלט; זמן עיבוד אצווה.</small></span>
               </label>
-              <label class="toggle org-optional-field">
-                <input id="anthropic-cache" class="org-optional-field" type="checkbox" data-exclusive-group="anthropic-discount" aria-describedby="anthropic-discount-help">
+              <label class="toggle">
+                <input id="anthropic-cache" type="checkbox" data-exclusive-group="anthropic-discount" aria-describedby="anthropic-discount-help">
                 <span>קריאת מטמון פרומפט — מחיר 0.1× לקלט<small>חל על שיעור הקלט מהמטמון. עלות כתיבה 1.25×–2× אינה נכללת.</small></span>
               </label>
             </fieldset>
@@ -2574,20 +2627,20 @@
           <fieldset class="provider-card openai">
             <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">OpenAI</span></legend>
             <p class="provider-subtitle">מחירון API רשמי לקלט, קלט במטמון ופלט.</p>
-            <div class="field org-optional-field">
+            <div class="field">
               <label for="openai-model">מודל OpenAI</label>
               <select id="openai-model" aria-describedby="openai-rate-note"></select>
             </div>
             <div id="openai-rate-note" class="selected-rate"></div>
-            <fieldset class="toggle-list org-optional-section">
+            <fieldset class="toggle-list">
               <legend class="field-label">תרחיש הנחה ל־OpenAI</legend>
               <p id="openai-discount-help" class="micro-note">אפשר להפעיל אפשרות אחת בלבד; הפעלת אפשרות חדשה מבטלת את הקודמת.</p>
-              <label class="toggle org-optional-field">
-                <input id="openai-batch" class="org-optional-field" type="checkbox" data-exclusive-group="openai-discount" aria-describedby="openai-discount-help">
+              <label class="toggle">
+                <input id="openai-batch" type="checkbox" data-exclusive-group="openai-discount" aria-describedby="openai-discount-help">
                 <span>עיבוד אצווה (Batch API) — הנחה של 50%<small>חל על קלט ופלט.</small></span>
               </label>
-              <label id="openai-cache-toggle" class="toggle org-optional-field">
-                <input id="openai-cache" class="org-optional-field" type="checkbox" data-exclusive-group="openai-discount" aria-describedby="openai-discount-help">
+              <label id="openai-cache-toggle" class="toggle">
+                <input id="openai-cache" type="checkbox" data-exclusive-group="openai-discount" aria-describedby="openai-discount-help">
                 <span>קלט במטמון — לפי מחיר המודל<small>חל על שיעור הקלט מהמטמון בלבד.</small></span>
               </label>
             </fieldset>
@@ -2596,19 +2649,19 @@
           <fieldset class="provider-card google">
             <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">Google</span></legend>
             <p class="provider-subtitle">מחירון Gemini API רשמי. עיבוד אצווה מוזיל את עלות הקלט והפלט ב־50%; תעריף מטמון אינו נכלל משום שלא סופק לו נתון בר־חישוב.</p>
-            <div class="field org-optional-field">
+            <div class="field">
               <label for="google-model">מודל Google</label>
               <select id="google-model" aria-describedby="google-rate-note"></select>
             </div>
             <div id="google-rate-note" class="selected-rate"></div>
-            <fieldset class="toggle-list org-optional-section">
+            <fieldset class="toggle-list">
               <legend class="field-label">תרחישי תמחור ל־Google</legend>
-              <label class="toggle org-optional-field">
-                <input id="google-batch" class="org-optional-field" type="checkbox" aria-describedby="google-rate-note">
+              <label class="toggle">
+                <input id="google-batch" type="checkbox" aria-describedby="google-rate-note">
                 <span>עיבוד אצווה (Batch API) — הנחה של 50%<small>חל על עלות הקלט והפלט לפי מחירון Gemini API.</small></span>
               </label>
-              <label id="google-promo-toggle" class="toggle org-optional-field">
-                <input id="google-post-promo" class="org-optional-field" type="checkbox">
+              <label id="google-promo-toggle" class="toggle">
+                <input id="google-post-promo" type="checkbox">
                 <span>תרחיש לאחר סיום המבצע<small>ל־Gemini 3.7/3.6 Flash: החל מ־1.1.2027.</small></span>
               </label>
             </fieldset>
@@ -3483,8 +3536,7 @@
 
       function syncModePresentation(enabled) {
         simpleWorkloadView.hidden = enabled;
-        /* כרטיס התוצאה נשאר גלוי גם במצב הארגוני כדי לסגור את לולאת המשוב. */
-        resultsPanel.hidden = false;
+        resultsPanel.hidden = enabled;
         simpleModeTab.setAttribute("aria-selected", String(!enabled));
         developerModeTab.setAttribute("aria-selected", String(enabled));
         simpleModeTab.tabIndex = enabled ? -1 : 0;
