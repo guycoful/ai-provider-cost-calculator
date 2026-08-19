@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <meta name="description" content="מחשבון עצמאי להשוואת עלויות AI בין Microsoft, Anthropic, OpenAI ו-Google על בסיס תהליך וטוקנים זהים.">
-  <title>מחשבון השוואת עלויות AI</title>
+  <meta name="description" content="מחשבון עברי ופשוט להשוואת עלויות AI: בוחרים שימוש, מזיזים סליידר ורואים עלות חודשית בשקלים ובדולרים.">
+  <title>כמה יעלה לי AI? מחשבון פשוט להשוואת עלויות</title>
   <style>
     :root {
       --ink: #15241f;
@@ -51,10 +51,7 @@
       margin: 0;
       min-width: 280px;
       color: var(--ink);
-      background:
-        radial-gradient(circle at 9% 2%, rgba(185, 232, 210, 0.48), transparent 24rem),
-        radial-gradient(circle at 96% 14%, rgba(255, 225, 159, 0.34), transparent 25rem),
-        var(--paper);
+      background: var(--paper);
       font-family: Arial, "Noto Sans Hebrew", "Segoe UI", sans-serif;
       font-size: 16px;
       line-height: 1.6;
@@ -113,7 +110,7 @@
 
     .top-rule {
       height: 7px;
-      background: linear-gradient(90deg, var(--green-dark), var(--mint) 47%, #f2b761 75%, var(--red));
+      background: var(--green-dark);
     }
 
     .hero {
@@ -189,7 +186,7 @@
     h1 {
       max-width: 830px;
       margin-block-end: 20px;
-      font-size: clamp(2.6rem, 6vw, 5.5rem);
+      font-size: clamp(2.35rem, 5vw, 4.6rem);
       line-height: 0.98;
       letter-spacing: -0.065em;
     }
@@ -384,6 +381,269 @@
       font-size: 0.9rem;
     }
 
+    .quick-start {
+      position: relative;
+      overflow: hidden;
+      border-color: #a9cdbb;
+    }
+
+    .plain-language-note {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: start;
+      margin-block-end: 24px;
+      padding: 14px 16px;
+      color: var(--green-dark);
+      background: var(--green-soft);
+      border: 1px solid #b7d9c8;
+      border-radius: 14px;
+    }
+
+    .plain-language-note strong {
+      display: block;
+      margin-block-end: 2px;
+    }
+
+    .plain-language-note p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+    }
+
+    .plain-language-icon {
+      font-size: 1.45rem;
+      line-height: 1;
+    }
+
+    .preset-picker {
+      margin-block-end: 22px;
+    }
+
+    .preset-picker legend {
+      margin-block-end: 10px;
+      padding: 0;
+      font-weight: 900;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .preset-button {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      min-height: 92px;
+      padding: 15px;
+      color: var(--ink);
+      text-align: start;
+      background: var(--surface-strong);
+      border: 1px solid var(--line-strong);
+      border-radius: 15px;
+    }
+
+    .preset-button:hover {
+      border-color: var(--green);
+      box-shadow: 0 5px 16px rgba(23, 107, 77, 0.09);
+    }
+
+    .preset-button[aria-pressed="true"] {
+      background: var(--green-soft);
+      border-color: var(--green);
+      box-shadow: 0 0 0 2px rgba(23, 107, 77, 0.12);
+    }
+
+    .preset-emoji {
+      font-size: 1.7rem;
+      line-height: 1;
+    }
+
+    .preset-title {
+      display: block;
+      font-weight: 900;
+    }
+
+    .preset-description {
+      display: block;
+      margin-block-start: 3px;
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+      font-weight: 400;
+      line-height: 1.45;
+    }
+
+    .usage-card {
+      padding: clamp(18px, 3vw, 26px);
+      background: #f7faf7;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .usage-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-block-end: 14px;
+    }
+
+    .usage-heading label {
+      font-weight: 900;
+    }
+
+    .usage-value {
+      color: var(--green-dark);
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-weight: 900;
+    }
+
+    .usage-slider {
+      width: 100%;
+      min-height: 44px;
+      margin: 0;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .usage-slider:disabled {
+      opacity: 0.48;
+      cursor: not-allowed;
+    }
+
+    .slider-scale {
+      display: flex;
+      justify-content: space-between;
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+    }
+
+    .override-note {
+      padding: 9px 11px;
+      color: var(--amber-dark);
+      background: var(--amber-soft);
+      border: 1px solid #e0bb68;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .compact-check {
+      display: flex !important;
+      gap: 8px;
+      align-items: center;
+      min-height: 44px;
+      margin-block: 7px 0 !important;
+      color: var(--green-dark);
+      font-size: 0.78rem !important;
+      cursor: pointer;
+    }
+
+    .compact-check input {
+      width: 20px !important;
+      min-height: 20px !important;
+      flex: 0 0 20px;
+      padding: 0 !important;
+      accent-color: var(--green);
+    }
+
+    .usage-explanation {
+      margin: 12px 0 0;
+      color: var(--ink-soft);
+      font-size: 0.84rem;
+    }
+
+    .human-translation {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-block-start: 16px;
+    }
+
+    .translation-item {
+      padding: 13px 14px;
+      background: var(--surface-strong);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+    }
+
+    .translation-item span {
+      display: block;
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .translation-item strong {
+      display: block;
+      margin-block-start: 3px;
+      font-size: 0.96rem;
+      line-height: 1.35;
+    }
+
+    .translation-caveat {
+      grid-column: 1 / -1;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+    }
+
+    .precision-settings,
+    .provider-disclosure,
+    .results-disclosure {
+      margin-block-start: 20px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+    }
+
+    .precision-settings > summary,
+    .provider-disclosure > summary,
+    .results-disclosure > summary {
+      min-height: 52px;
+      padding: 13px 16px;
+      color: var(--green-dark);
+      background: #f8faf8;
+      border-radius: 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .precision-settings[open] > summary,
+    .provider-disclosure[open] > summary,
+    .results-disclosure[open] > summary {
+      border-block-end: 1px solid var(--line);
+      border-end-start-radius: 0;
+      border-end-end-radius: 0;
+    }
+
+    .precision-body,
+    .disclosure-body,
+    .results-detail-body {
+      padding: 20px;
+    }
+
+    .advanced-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+
+    .advanced-grid .process-field {
+      grid-column: 1 / -1;
+    }
+
+    .disclosure-summary-copy {
+      display: grid;
+      gap: 2px;
+    }
+
+    .disclosure-summary-copy small {
+      color: var(--ink-soft);
+      font-weight: 400;
+    }
+
     main {
       padding-block-end: 60px;
     }
@@ -524,6 +784,20 @@
 
     .providers-panel {
       padding-block-end: 28px;
+    }
+
+    details.providers-panel {
+      padding: 0;
+    }
+
+    details.providers-panel > summary {
+      min-height: 78px;
+      padding: clamp(20px, 3vw, 28px);
+      list-style-position: inside;
+    }
+
+    details.providers-panel .disclosure-body {
+      padding: clamp(20px, 4vw, 36px);
     }
 
     .provider-grid {
@@ -817,6 +1091,79 @@
       margin-block-end: 20px;
     }
 
+    .human-result-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(220px, 0.8fr);
+      gap: clamp(20px, 4vw, 42px);
+      align-items: center;
+      padding: clamp(22px, 4vw, 34px);
+      color: white;
+      background: var(--green-dark);
+      border: 1px solid var(--green-dark);
+      border-radius: 20px;
+    }
+
+    .human-result-kicker {
+      display: block;
+      margin-block-end: 7px;
+      color: #cde3d8;
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
+
+    .human-result-value {
+      display: block;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      letter-spacing: -0.045em;
+    }
+
+    .human-result-card > div {
+      min-width: 0;
+    }
+
+    .human-result-copy {
+      margin: 10px 0 0;
+      color: #e4eee9;
+    }
+
+    .human-result-aside {
+      padding: 16px;
+      color: var(--ink);
+      background: white;
+      border-radius: 15px;
+    }
+
+    .coffee-comparison {
+      display: block;
+      font-size: 1.15rem;
+      font-weight: 900;
+    }
+
+    .human-result-aside p {
+      margin: 5px 0 0;
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+    }
+
+    .human-result-rate {
+      margin: 12px 0 0;
+      color: #cde3d8;
+      font-size: 0.75rem;
+    }
+
+    .results-disclosure {
+      margin-block-start: 18px;
+    }
+
+    .results-disclosure > summary {
+      list-style-position: inside;
+    }
+
     .result-card {
       min-width: 0;
       padding: 18px;
@@ -952,12 +1299,13 @@
     }
 
     .chart-row.is-estimate .chart-track {
-      background: repeating-linear-gradient(135deg, #fff3d8, #fff3d8 8px, #f7e5bd 8px, #f7e5bd 16px);
+      background: #fff3d8;
       border: 1px dashed #c48626;
     }
 
     .chart-row.is-estimate .chart-bar {
-      background: repeating-linear-gradient(135deg, #bc7420, #bc7420 8px, #d79646 8px, #d79646 16px);
+      background: #bc7420;
+      border: 2px dashed #fff3d8;
     }
 
     .chart-value {
@@ -1117,6 +1465,36 @@
       padding-inline-start: 18px;
     }
 
+    .simple-plan-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 14px 0 0;
+    }
+
+    .simple-plan-grid div {
+      padding: 10px;
+      background: #f7f8f5;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+    }
+
+    .simple-plan-grid dt {
+      font-weight: 900;
+    }
+
+    .simple-plan-grid dd {
+      margin: 3px 0 0;
+      color: var(--ink-soft);
+      font-size: 0.75rem;
+    }
+
+    .plan-note {
+      margin-block-start: 12px;
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+    }
+
     .source-card li {
       overflow-wrap: anywhere;
     }
@@ -1162,11 +1540,16 @@
         max-width: 620px;
       }
 
-      .form-grid {
+      .form-grid,
+      .advanced-grid {
         grid-template-columns: repeat(3, 1fr);
       }
 
       .form-grid .process-field {
+        grid-column: 1 / -1;
+      }
+
+      .advanced-grid .process-field {
         grid-column: 1 / -1;
       }
 
@@ -1185,6 +1568,14 @@
 
       .result-card.primary {
         grid-column: 1 / -1;
+      }
+
+      .preset-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .simple-plan-grid {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -1210,7 +1601,7 @@
       }
 
       h1 {
-        font-size: clamp(2.5rem, 14vw, 4.2rem);
+        font-size: clamp(2.35rem, 11vw, 3.4rem);
       }
 
       .critical-alert {
@@ -1228,17 +1619,31 @@
       }
 
       .form-grid,
+      .advanced-grid,
       .result-cards,
       .caveat-grid,
       .license-grid,
       .source-grid,
-      .cache-assumption {
+      .cache-assumption,
+      .human-translation,
+      .human-result-card {
         grid-template-columns: 1fr;
       }
 
       .form-grid .process-field,
+      .advanced-grid .process-field,
       .result-card.primary {
         grid-column: auto;
+      }
+
+      .translation-caveat {
+        grid-column: auto;
+      }
+
+      .usage-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
       }
 
       .chart-row {
@@ -1283,6 +1688,12 @@
       .chart-card,
       .table-card {
         padding: 16px;
+      }
+
+      .precision-body,
+      .disclosure-body,
+      .results-detail-body {
+        padding: 14px;
       }
 
       .summary-rule {
@@ -1363,6 +1774,39 @@
         print-color-adjust: exact;
       }
 
+      .hero-summary,
+      .human-result-card,
+      .result-card.primary,
+      thead th {
+        color: black !important;
+        background: white !important;
+        border-color: #777 !important;
+      }
+
+      .hero-summary *,
+      .human-result-card *,
+      .result-card.primary * {
+        color: black !important;
+      }
+
+      .human-result-aside {
+        border: 1px solid #777;
+      }
+
+      .chart-bar {
+        border: 1px solid #444;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      details:not([open]) > :not(summary) {
+        display: block !important;
+      }
+
+      details > summary {
+        display: none !important;
+      }
+
       .table-scroll {
         overflow: visible;
       }
@@ -1384,28 +1828,28 @@
         <span class="brand-mark" aria-hidden="true">Σ</span>
         <span>עדשת עלויות AI</span>
       </div>
-      <span class="source-date">מחירים ומקורות אומתו ב־18.8.2026</span>
+      <span class="source-date">מחירים אומתו ב־18.8.2026 · שער מט״ח מ־18.8.2026</span>
     </div>
 
     <div class="hero-grid">
       <div>
-        <p class="eyebrow">אותו תהליך · אותם טוקנים · השוואה אחת</p>
-        <h1>כמה עולה תהליך AI לפי ההנחות?</h1>
-        <p class="hero-lead">מגדירים תהליך עסקי אחד, מזינים את נפח הקלט והפלט, ומשווים את עלות השימוש בין Microsoft, Anthropic, OpenAI ו־Google — להרצה ולחודש.</p>
+        <p class="eyebrow">בוחרים שימוש · מזיזים סליידר · רואים מחיר</p>
+        <h1>כמה יעלה לי AI בחודש?</h1>
+        <p class="hero-lead">לא צריך להבין בטוקנים או במחירוני ענן. בוחרים דוגמה שדומה למה שעושים, מסמנים כמה פעמים ביום — ורואים מיד הערכת מחיר בשקלים. למי שרוצה לדייק, כל הנתונים המקצועיים עדיין כאן.</p>
         <div class="hero-chips" aria-label="מאפייני המחשבון">
           <span class="chip">קובץ עצמאי לחלוטין</span>
           <span class="chip">חישוב חי בדפדפן</span>
-          <span class="chip">מחירי API רשמיים</span>
+          <span class="chip">תוצאה ברורה בשקלים</span>
           <span class="chip">ללא שליחת נתונים</span>
         </div>
       </div>
 
       <aside class="hero-summary" aria-label="עקרון ההשוואה">
         <strong>4</strong>
-        <p>ספקים נבחנים מול אותו עומס עבודה, בלי לערבב רישוי מושבים עם עלות צריכה.</p>
+        <p>ספקים נבחנים מול אותו שימוש, כדי שתהיה נקודת השוואה אחת וברורה.</p>
         <div class="summary-rule">
-          <div><b>יחידת בסיס</b><span>טוקנים להרצה</span></div>
-          <div><b>מטבע</b><span>דולר ארה״ב</span></div>
+          <div><b>מה בוחרים</b><span>שיחות ביום</span></div>
+          <div><b>מה מקבלים</b><span>שקלים + דולר</span></div>
         </div>
       </aside>
     </div>
@@ -1414,6 +1858,7 @@
       <span class="alert-icon" aria-hidden="true">!</span>
       <div>
         <h2 id="microsoft-warning-title">חשוב: נתוני Microsoft אינם שקולים למחירי ה־API האחרים</h2>
+        <p><strong>במילים פשוטות:</strong> אפשר להשוות כאן את כל האפשרויות, אבל המספר של Microsoft מחושב בשיטה אחרת ולכן אינו השוואת מחיר מדויקת אחד־לאחד. אין צורך לשנות דבר כדי להתחיל.</p>
         <p><strong>Anthropic, OpenAI ו־Google</strong> מחושבים לפי מחירוני API רשמיים לקלט ולפלט. <strong>Microsoft Copilot</strong> מתומחר בקרדיטים, והמיפוי הרשמי לטוקנים הוא חלקי ומוגבל לכלי GenAI ב־Copilot Studio בלבד: <bdi>Basic 0.1</bdi>, <bdi>Standard 1.5</bdi> ו־<bdi>Premium 10</bdi> קרדיטים לכל 1,000 טוקנים, ללא הפרדה בין קלט לפלט. פעולות שיחה אחרות מחויבות במחיר קבוע לאירוע. <span class="badge badge-partial">מיפוי רשמי חלקי</span></p>
         <p>ערכי Cowork — <bdi>Light 125</bdi> / <bdi>Medium 500</bdi> / <bdi>Heavy 1,200</bdi> קרדיטים למשימה — מגיעים מקובץ Customer Cowork Estimator של Microsoft. הקובץ מגדיר אותם כהנחות המחשה/כיוון המבוססות על נתוני Frontier מ־27.5.2026, ומניח שימוש ב־<bdi>Anthropic Opus 4.8</bdi>. אין נוסחה ציבורית להמרת משימת Cowork לקרדיטים. <span class="badge badge-estimate">הערכה כיוונית — לא מחירון רשמי</span></p>
       </div>
@@ -1421,78 +1866,143 @@
   </header>
 
   <main id="main-content" class="shell">
-    <section class="method-strip" aria-label="מתודולוגיית ההשוואה">
+    <section class="method-strip" aria-label="איך משתמשים במחשבון">
       <div class="method-step">
         <span class="method-number">1</span>
-        <div><strong>מקבעים תהליך אחד</strong><p>אותה משימה עסקית נבחנת אצל כל הספקים.</p></div>
+        <div><strong>בוחרים דוגמה מהחיים</strong><p>סטודנט, יוצר תוכן או מפתח מתחיל.</p></div>
       </div>
       <div class="method-step">
         <span class="method-number">2</span>
-        <div><strong>מזינים נפח טוקנים</strong><p>קלט ופלט נשארים זהים בכל מחירון API. במודלי Claude עם הטוקנייזר החדש, אותו טקסט עשוי לייצר כ־30% יותר טוקנים — ולכן קיבוע אותו נפח עלול להטות את אומדן Anthropic כלפי מטה.</p></div>
+        <div><strong>בוחרים כמה פעמים ביום</strong><p>הסליידר מתרגם שיחות ביום לשימוש חודשי.</p></div>
       </div>
       <div class="method-step">
         <span class="method-number">3</span>
-        <div><strong>משווים עלות מחושבת</strong><p>עלות להרצה מוכפלת במספר ההרצות בחודש.</p></div>
+        <div><strong>רואים את השורה התחתונה</strong><p>הערכה חודשית בשקלים, עם פירוט מדויק למי שרוצה.</p></div>
       </div>
     </section>
 
     <form id="calculator-form" novalidate>
-      <section class="panel" aria-labelledby="workload-title">
+      <section class="panel quick-start" aria-labelledby="workload-title">
         <div class="section-heading">
           <div>
-            <p class="section-kicker">שלב 1</p>
-            <h2 id="workload-title">התהליך והיקף השימוש</h2>
+            <p class="section-kicker">מתחילים כאן</p>
+            <h2 id="workload-title">מה הכי דומה לשימוש שלך?</h2>
           </div>
-          <p>ברירות המחדל מתארות סיכום מסמך בן 10 עמודים וניסוח תשובת דוא״ל. אפשר לערוך כל הנחה.</p>
+          <p>הדוגמאות הן נקודת פתיחה בלבד. אפשר לשנות את הכמות עכשיו ולדייק את הנתונים בהמשך.</p>
         </div>
 
-        <div class="form-grid">
-          <div class="field process-field">
-            <label for="process-description">תיאור התהליך העסקי</label>
-            <textarea id="process-description" rows="4" aria-describedby="process-description-help">סיכום מסמך בן 10 עמודים וניסוח טיוטת תשובה בדוא״ל</textarea>
-            <p id="process-description-help" class="field-help">התיאור נשמר בדפדפן בלבד ואינו נשלח לשום שירות.</p>
+        <div class="plain-language-note">
+          <span class="plain-language-icon" aria-hidden="true">💬</span>
+          <div>
+            <strong>מה זה בכלל טוקן?</strong>
+            <p>טוקן הוא פשוט חתיכת טקסט שהמערכת סופרת. אין צורך לחשב אותו לבד: התבניות כבר כוללות אומדן, ולמטה אפשר לראות אותו גם במילים ובעמודים.</p>
           </div>
+        </div>
 
-          <div class="field">
-            <label for="input-tokens">טוקני קלט לכל הרצה</label>
-            <div class="input-wrap">
-              <input id="input-tokens" type="number" inputmode="numeric" min="0" max="1000000000" step="1" value="8000" aria-describedby="input-tokens-help input-tokens-error">
-              <span class="input-suffix">טוקנים</span>
-            </div>
-            <p id="input-tokens-help" class="field-help">הפרומפט, המסמך וההקשר.</p>
-            <p id="input-tokens-error" class="field-error" aria-live="polite"></p>
+        <fieldset class="preset-picker" aria-describedby="preset-status">
+          <legend>1. בוחרים תבנית</legend>
+          <div class="preset-grid">
+            <button class="preset-button" type="button" data-preset="student" aria-pressed="true">
+              <span class="preset-emoji" aria-hidden="true">🎓</span>
+              <span><span class="preset-title">סטודנט</span><span class="preset-description">סיכום חומר לימוד, מאמר או טיוטה לעבודה.</span></span>
+            </button>
+            <button class="preset-button" type="button" data-preset="creator" aria-pressed="false">
+              <span class="preset-emoji" aria-hidden="true">🎨</span>
+              <span><span class="preset-title">יוצר תוכן</span><span class="preset-description">פוסטים, כותרות וטקסט לקמפיין. יצירת תמונות אינה כלולה.</span></span>
+            </button>
+            <button class="preset-button" type="button" data-preset="developer" aria-pressed="false">
+              <span class="preset-emoji" aria-hidden="true">💻</span>
+              <span><span class="preset-title">מפתח מתחיל</span><span class="preset-description">בוט קטן, הסבר קוד ותיקון תקלות.</span></span>
+            </button>
           </div>
+          <p id="preset-status" class="micro-note">נבחרה תבנית סטודנט. אפשר לשנות את כמות השיחות בנפרד בלי להחליף תבנית.</p>
+        </fieldset>
 
-          <div class="field">
-            <label for="output-tokens">טוקני פלט לכל הרצה</label>
-            <div class="input-wrap">
-              <input id="output-tokens" type="number" inputmode="numeric" min="0" max="1000000000" step="1" value="1500" aria-describedby="output-tokens-help output-tokens-error">
-              <span class="input-suffix">טוקנים</span>
-            </div>
-            <p id="output-tokens-help" class="field-help">הסיכום והטיוטה שנוצרים.</p>
-            <p id="output-tokens-error" class="field-error" aria-live="polite"></p>
+        <div class="usage-card">
+          <div class="usage-heading">
+            <label for="daily-runs">2. כמה שיחות כאלה יהיו ביום?</label>
+            <output id="daily-runs-output" class="usage-value" for="daily-runs">כ־2 שיחות ביום</output>
           </div>
+          <input id="daily-runs" class="usage-slider" type="range" min="0" max="30" step="1" value="2" dir="ltr" aria-describedby="daily-runs-help daily-runs-monthly daily-override-note">
+          <div class="slider-scale" dir="ltr" aria-hidden="true"><span>0</span><span>15</span><span>30</span></div>
+          <p id="daily-runs-help" class="usage-explanation">במחשבון, שיחה אחת היא הפעלה אחת של המשימה. חודש מחושב כ־30 יום.</p>
+          <p id="daily-runs-monthly" class="usage-explanation"><strong>כ־60 שיחות בחודש</strong></p>
+          <p id="daily-override-note" class="usage-explanation override-note" hidden>מצב הזנה חודשית מדויקת פעיל; הסליידר היומי מושבת עד לביטול המצב בהגדרות הדיוק.</p>
 
-          <div class="field">
-            <label for="runs-month">הרצות בחודש</label>
-            <div class="input-wrap">
-              <input id="runs-month" type="number" inputmode="numeric" min="0" max="1000000" step="1" value="100" aria-describedby="runs-month-help runs-month-error">
-              <span class="input-suffix">הרצות</span>
-            </div>
-            <p id="runs-month-help" class="field-help">המכפיל החודשי לכל התוצאות.</p>
-            <p id="runs-month-error" class="field-error" aria-live="polite"></p>
+          <div class="human-translation" aria-label="תרגום משוער של הטוקנים לשפה יומיומית">
+            <div class="translation-item"><span>מה שולחים בכל שיחה</span><strong id="input-human-equivalent">—</strong></div>
+            <div class="translation-item"><span>מה מקבלים בחזרה</span><strong id="output-human-equivalent">—</strong></div>
+            <p class="translation-caveat">כלל אצבע: 1,000 טוקנים ≈ 750 מילים ≈ 1.5 עמודי Word. זו הערכה גסה שמשתנה לפי שפה, עיצוב והמודל.</p>
           </div>
+        </div>
+
+        <details class="precision-settings">
+          <summary>רוצה לדייק? טקסט, טוקנים, כמות חודשית ושער הדולר</summary>
+          <div class="precision-body">
+            <div class="advanced-grid">
+              <div class="field process-field">
+                <label for="process-description">מה בדיוק עושים?</label>
+                <textarea id="process-description" rows="4" aria-describedby="process-description-help">סיכום מאמר או חומר לימוד וכתיבת טיוטה לעבודה</textarea>
+                <p id="process-description-help" class="field-help">התיאור נשמר בדפדפן בלבד ואינו נשלח לשום שירות.</p>
+              </div>
+
+              <div class="field">
+                <label for="input-tokens">מה שולחים למודל (קלט)</label>
+                <div class="input-wrap">
+                  <input id="input-tokens" type="number" inputmode="numeric" min="0" max="1000000000" step="1" value="8000" aria-describedby="input-tokens-help input-tokens-error">
+                  <span class="input-suffix">טוקנים</span>
+                </div>
+                <p id="input-tokens-help" class="field-help">השאלה, המסמך וההקשר.</p>
+                <p id="input-tokens-error" class="field-error" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <label for="output-tokens">מה מקבלים בחזרה (פלט)</label>
+                <div class="input-wrap">
+                  <input id="output-tokens" type="number" inputmode="numeric" min="0" max="1000000000" step="1" value="1500" aria-describedby="output-tokens-help output-tokens-error">
+                  <span class="input-suffix">טוקנים</span>
+                </div>
+                <p id="output-tokens-help" class="field-help">התשובה, הסיכום או הטיוטה.</p>
+                <p id="output-tokens-error" class="field-error" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <label for="runs-month">שיחות בחודש</label>
+                <label class="compact-check" for="monthly-override"><input id="monthly-override" type="checkbox" aria-describedby="runs-month-help"> הזנה חודשית מדויקת במקום הסליידר</label>
+                <div class="input-wrap">
+                  <input id="runs-month" type="number" inputmode="numeric" min="0" max="1000000" step="1" value="60" readonly aria-describedby="runs-month-help runs-month-error">
+                  <span class="input-suffix">שיחות</span>
+                </div>
+                <p id="runs-month-help" class="field-help">כשהאפשרות פעילה אפשר להזין כל מספר חודשי; הסליידר היומי יושבת כדי למנוע סתירה.</p>
+                <p id="runs-month-error" class="field-error" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <label for="usd-ils-rate">שער דולר–שקל להמחשה</label>
+                <div class="input-wrap">
+                  <input id="usd-ils-rate" type="number" inputmode="decimal" min="0.1" max="20" step="0.0001" value="2.9860" aria-describedby="usd-ils-rate-help usd-ils-rate-error">
+                  <span class="input-suffix">₪ / $</span>
+                </div>
+                <p id="usd-ils-rate-help" class="field-help">השער היציג האחרון של <a href="https://www.boi.org.il/roles/markets/exchangerates/" target="_blank" rel="noopener noreferrer">בנק ישראל</a> ל־18.8.2026; הקובץ אינו מתעדכן אוטומטית.</p>
+                <p id="usd-ils-rate-error" class="field-error" aria-live="polite"></p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <div class="form-actions">
+          <button id="reset-calculator" class="button-secondary" type="button">איפוס הכל לתבנית סטודנט</button>
         </div>
       </section>
 
-      <section class="panel providers-panel" aria-labelledby="providers-title">
-        <div class="section-heading">
-          <div>
-            <p class="section-kicker">שלב 2</p>
-            <h2 id="providers-title">בחירת מודל ומסלול</h2>
-          </div>
-          <p>נבחר מודל אחד מכל ספק. ב־Microsoft מוצגים בנפרד מיפוי Copilot Studio ואומדן Cowork.</p>
-        </div>
+      <details class="panel providers-panel provider-disclosure" aria-labelledby="providers-title">
+        <summary>
+          <span class="disclosure-summary-copy">
+            <strong id="providers-title">אפשרויות מתקדמות: מודלים, הנחות ומסלולי Microsoft</strong>
+            <small>לא חייבים לגעת — כבר נבחרה ברירת מחדל מכל ספק.</small>
+          </span>
+        </summary>
+        <div class="disclosure-body">
 
         <div class="provider-grid">
           <fieldset class="provider-card microsoft">
@@ -1643,28 +2153,42 @@
           </div>
         </section>
 
-        <div class="form-actions">
-          <button id="reset-calculator" class="button-secondary" type="button">איפוס לברירות המחדל</button>
         </div>
-      </section>
+      </details>
     </form>
 
     <section id="results-panel" class="results-panel" aria-labelledby="results-title">
       <div class="section-heading">
         <div>
-          <p class="section-kicker">שלב 3</p>
-          <h2 id="results-title">תוצאות ההשוואה</h2>
+          <p class="section-kicker">השורה התחתונה</p>
+          <h2 id="results-title">כמה זה יוצא בחודש?</h2>
         </div>
-        <p>המיון הוא מהעלות החודשית הנמוכה לגבוהה. עלות Cowork מוצגת אך נשארת מסומנת כאומדן ברמת ודאות שונה.</p>
+        <p>הסכום הראשי הוא המחיר הנמוך ביותר מבין שלושת מודלי ה־API שנבחרו. אפשר לפתוח את הפירוט כדי לראות את כל הספקים וההנחות.</p>
       </div>
 
       <div id="validation-banner" class="validation-banner" role="alert">יש לתקן את השדות המסומנים לפני חישוב התוצאות.</div>
 
       <div class="result-content">
+        <article class="human-result-card" aria-labelledby="human-result-title">
+          <div>
+            <span class="human-result-kicker">הערכה חודשית לפי השימוש שבחרת</span>
+            <strong id="human-result-title" class="human-result-value">—</strong>
+            <p class="human-result-copy"><span id="human-result-model" dir="auto">—</span><span id="human-result-context"> — הזול מבין מודלי ה־API שנבחרו</span> · <span id="human-result-per-run">—</span></p>
+            <p id="human-result-rate" class="human-result-rate">—</p>
+          </div>
+          <div class="human-result-aside">
+            <span id="coffee-comparison" class="coffee-comparison">—</span>
+            <p>השוואה להמחשה בלבד לפי 15 ₪ לכוס קפה; המחיר בפועל עשוי לכלול מס, עמלות המרה ועלויות נוספות.</p>
+          </div>
+        </article>
+
+        <details class="results-disclosure">
+          <summary>לראות מחירים מדויקים בדולרים, גרף וטבלת השוואה</summary>
+          <div class="results-detail-body">
         <div class="result-cards">
           <article class="result-card primary">
-            <span class="result-label">הזול ביותר מבין מודלי ה־API שנבחרו</span>
-            <strong id="cheapest-model" class="result-value" lang="en" dir="ltr">—</strong>
+            <span id="cheapest-label" class="result-label">הזול ביותר מבין מודלי ה־API שנבחרו</span>
+            <strong id="cheapest-model" class="result-value" dir="auto">—</strong>
             <span id="cheapest-cost" class="result-meta">—</span>
           </article>
           <article class="result-card">
@@ -1682,7 +2206,7 @@
         <section class="chart-card" aria-labelledby="chart-title">
           <div class="card-heading">
             <div>
-              <h3 id="chart-title">עלות חודשית לפי בחירה</h3>
+              <h3 id="chart-title">עלות חודשית בדולר לפי בחירה</h3>
               <p id="chart-scale-note">סקאלה לוגריתמית עוזרת לראות פערים של כמה סדרי גודל; המספרים המדויקים מופיעים לצד כל עמודה.</p>
             </div>
             <div class="scale-control" role="group" aria-label="בחירת סקאלת תרשים">
@@ -1690,18 +2214,18 @@
               <button class="scale-button" type="button" data-chart-scale="linear" aria-pressed="false">ליניארית</button>
             </div>
           </div>
-          <div id="cost-chart" class="chart" role="img" aria-label="תרשים עלות חודשית"></div>
+          <div id="cost-chart" class="chart" role="img" aria-label="תרשים עלות חודשית בדולר"></div>
         </section>
 
         <section class="table-card" aria-labelledby="table-title">
           <div class="card-heading">
             <div>
-              <h3 id="table-title">טבלת חישוב מפורטת</h3>
-              <p>כל החישובים משתמשים בערכים המלאים; העיגול מיועד לתצוגה בלבד.</p>
+              <h3 id="table-title">פירוט החישוב בדולר</h3>
+              <p>מחירי המקור והדירוג מחושבים בדולר; ההמרה לשקלים אינה משנה את הדירוג. העיגול מיועד לתצוגה בלבד.</p>
             </div>
           </div>
           <p class="scroll-hint" id="table-scroll-hint">במסך צר אפשר לגלול את הטבלה אופקית.</p>
-          <div class="table-scroll" tabindex="0" aria-describedby="table-scroll-hint">
+          <div class="table-scroll" role="region" aria-label="פירוט מחירים בדולר — אפשר לגלול אופקית" tabindex="0" aria-describedby="table-scroll-hint">
             <table>
               <caption>השוואת עלות להרצה ולחודש בין המודלים והמסלולים שנבחרו</caption>
               <thead>
@@ -1718,6 +2242,8 @@
             </table>
           </div>
         </section>
+          </div>
+        </details>
       </div>
     </section>
 
@@ -1788,8 +2314,13 @@
           <ul>
             <li>Workspace Business Starter / Standard / Plus: <bdi>$7 / $14 / $22</bdi> למשתמש/חודש בחיוב שנתי.</li>
             <li>Gemini כלול במלואו מ־Business Standard; Enterprise אינו מפורסם.</li>
-            <li>Google AI Plus: <bdi>$4.99</bdi>, Google AI Pro: <bdi>$19.99</bdi>, ו־Google AI Ultra: <bdi>$99.99–$199.99</bdi> לחודש, לפי מסלול ובמחירי ארה״ב.</li>
           </ul>
+          <dl class="simple-plan-grid" aria-label="השוואה פשוטה בין תוכניות Google AI בארצות הברית">
+            <div><dt><bdi lang="en">Plus · $4.99</bdi></dt><dd>רמת הכניסה הזולה ביותר.</dd></div>
+            <div><dt><bdi lang="en">Pro · $19.99</bdi></dt><dd>רמת ביניים עם מגבלות שימוש גבוהות יותר.</dd></div>
+            <div><dt><bdi lang="en">Ultra · $99.99–$199.99</bdi></dt><dd>הרמה הגבוהה ביותר והיקרה ביותר.</dd></div>
+          </dl>
+          <p class="plan-note">אלה מנויים חודשיים לשימוש באפליקציות Google, לא תעריפי API לבוט או למוצר. ההטבות והמגבלות המדויקות משתנות לפי מסלול ומדינה.</p>
         </article>
       </div>
     </section>
@@ -1800,7 +2331,7 @@
           <p class="section-kicker">אודות ומקורות</p>
           <h2 id="sources-title">מחירונים ותיעוד רשמי</h2>
         </div>
-        <p>תאריך גישה ואימות לכל המקורות: <strong>18.8.2026</strong> (<bdi>2026-08-18</bdi>).</p>
+        <p>מחירי הספקים אומתו ב־<strong>18.8.2026</strong>; שער המט״ח נבדק ב־<strong>18.8.2026</strong>.</p>
       </div>
 
       <div class="source-grid">
@@ -1841,6 +2372,15 @@
             <li><a href="https://one.google.com/intl/ALL_us/about/feeds/pricing_2026_07_28.json" target="_blank" rel="noopener noreferrer">הזנת המחירים הרשמית של Google One בארה״ב</a></li>
           </ul>
         </article>
+        <article class="source-card">
+          <h3>המרה לשקלים</h3>
+          <ul>
+            <li><a href="https://www.boi.org.il/roles/markets/exchangerates/" target="_blank" rel="noopener noreferrer">שערי החליפין היציגים של בנק ישראל</a></li>
+            <li><a href="https://www.boi.org.il/PublicApi/GetExchangeRate?key=USD" target="_blank" rel="noopener noreferrer">API רשמי לשער דולר–שקל</a></li>
+            <li><a href="https://edge.boi.gov.il/FusionEdgeServer/sdmx/v2/data/dataflow/BOI.STATISTICS/EXR/1.0/RER_USD_ILS?startperiod=2026-08-18&amp;endperiod=2026-08-18&amp;format=csv" target="_blank" rel="noopener noreferrer">נתון CSV מתוארך ל־18.8.2026</a></li>
+          </ul>
+          <p>ברירת המחדל: <bdi>1 USD = 2.9860 ILS</bdi>, שער יציג ל־18.8.2026. השער היציג הוא אינדיקטור ואינו שער חיוב מחייב.</p>
+        </article>
       </div>
 
       <p class="about-note"><strong>סיווג הנתונים:</strong> מחירי Anthropic, OpenAI ו־Google מבוססים על מחירונים רשמיים לקלט ולפלט עבור המודלים המוצגים. מיפוי Copilot Studio הוא רשמי אך חלקי ומוגבל ל־GenAI tools. משקלי Cowork אומתו בקובץ האומדן שמפרסמת Microsoft, אך הקובץ עצמו מגדיר אותם ככיווניים ולהמחשה בלבד — ולכן הם אינם מוצגים באותה רמת ודאות.</p>
@@ -1850,7 +2390,7 @@
   </main>
 
   <footer class="footer shell">
-    <p>כל החישובים מתבצעים מקומית בדפדפן. המחירים בדולר ארה״ב, לפני מס, התחייבויות חוזיות, מינימום רכישה ועלויות תשתית נלוות.</p>
+    <p>כל החישובים מתבצעים מקומית בדפדפן. מחירי המקור בדולר ארה״ב; ההמרה לשקלים היא המחשה בלבד ולפני מס, עמלות המרה, התחייבויות חוזיות, מינימום רכישה ועלויות תשתית נלוות.</p>
   </footer>
 
   <script>
@@ -1906,6 +2446,33 @@
           { id: "gemini-3-1-pro-preview", name: "Gemini 3.1 Pro Preview", tiers: { low: { input: 2, output: 12 }, high: { input: 4, output: 18 } } },
           { id: "gemini-2-5-pro", name: "Gemini 2.5 Pro", tiers: { low: { input: 1.25, output: 10 }, high: { input: 2.5, output: 15 } } }
         ]
+      });
+
+      const DAYS_PER_MONTH = 30;
+      const COFFEE_PRICE_ILS = 15;
+      const DEFAULT_USD_ILS_RATE = 2.986;
+      const PRESETS = Object.freeze({
+        student: Object.freeze({
+          label: "סטודנט",
+          process: "סיכום מאמר או חומר לימוד וכתיבת טיוטה לעבודה",
+          inputTokens: 8000,
+          outputTokens: 1500,
+          dailyRuns: 2
+        }),
+        creator: Object.freeze({
+          label: "יוצר תוכן",
+          process: "כתיבת פוסטים, כותרות וטקסט לקמפיין; ללא יצירת תמונות",
+          inputTokens: 3000,
+          outputTokens: 1200,
+          dailyRuns: 5
+        }),
+        developer: Object.freeze({
+          label: "מפתח מתחיל",
+          process: "בניית בוט קטן, הסבר קוד, איתור תקלה וטיוטת פתרון",
+          inputTokens: 12000,
+          outputTokens: 3000,
+          dailyRuns: 3
+        })
       });
 
       const providerColors = {
@@ -2098,7 +2665,61 @@
         }).format(value);
       }
 
-      window.__costCalculator = { DATA, calculateRows, apiRunCost, formatUsd };
+      function tokenEquivalent(tokens) {
+        const safeTokens = Number.isFinite(tokens) && tokens > 0 ? tokens : 0;
+        const words = safeTokens * 0.75;
+        return { words, pages: words / 500 };
+      }
+
+      function monthlyRunsFromDaily(dailyRuns) {
+        return Math.max(0, dailyRuns) * DAYS_PER_MONTH;
+      }
+
+      function formatIls(value) {
+        const absolute = Math.abs(value);
+        let minimumFractionDigits = 2;
+        let maximumFractionDigits = 2;
+        if (absolute > 0 && absolute < 0.01) maximumFractionDigits = 4;
+        return new Intl.NumberFormat("he-IL", {
+          style: "currency",
+          currency: "ILS",
+          minimumFractionDigits,
+          maximumFractionDigits
+        }).format(value);
+      }
+
+      function formatExchangeRate(value) {
+        return new Intl.NumberFormat("he-IL", {
+          minimumFractionDigits: 4,
+          maximumFractionDigits: 4
+        }).format(value);
+      }
+
+      function coffeeComparison(value, coffeePrice = COFFEE_PRICE_ILS) {
+        if (value <= 0) return "ללא עלות בתרחיש הזה";
+        const cups = value / coffeePrice;
+        if (cups < 0.5) return "פחות מחצי כוס קפה";
+        if (cups < 1) return "פחות מכוס קפה אחת";
+        if (cups < 1.5) return "בערך כמו כוס קפה אחת";
+        return `בערך כמו ${formatNumber(cups, 1)} כוסות קפה`;
+      }
+
+      window.__costCalculator = {
+        DATA,
+        PRESETS,
+        DAYS_PER_MONTH,
+        COFFEE_PRICE_ILS,
+        DEFAULT_USD_ILS_RATE,
+        calculateRows,
+        apiRunCost,
+        formatUsd,
+        formatIls,
+        formatExchangeRate,
+        tokenEquivalent,
+        monthlyRunsFromDaily,
+        coffeeComparison,
+        officialOutcome
+      };
 
       if (typeof document === "undefined") return;
 
@@ -2109,10 +2730,15 @@
       const chart = document.getElementById("cost-chart");
       const announcement = document.getElementById("calculation-announcement");
       const cacheShareInput = document.getElementById("cache-share");
+      const dailyRunsInput = document.getElementById("daily-runs");
+      const runsMonthInput = document.getElementById("runs-month");
+      const monthlyOverrideInput = document.getElementById("monthly-override");
+      const dailyOverrideNote = document.getElementById("daily-override-note");
       const numericFields = [
         ["input-tokens", "טוקני הקלט"],
         ["output-tokens", "טוקני הפלט"],
-        ["runs-month", "מספר ההרצות"],
+        ["runs-month", "מספר השיחות"],
+        ["usd-ils-rate", "שער הדולר", false],
         ["classic-events", "מספר התשובות הקלאסיות"],
         ["generative-events", "מספר התשובות הגנרטיביות"],
         ["agent-events", "מספר פעולות הסוכן"],
@@ -2140,7 +2766,7 @@
         });
       }
 
-      function readValidatedNumber(id, label) {
+      function readValidatedNumber(id, label, integer = true) {
         const input = document.getElementById(id);
         const error = document.getElementById(`${id}-error`);
         if (input.disabled) {
@@ -2156,14 +2782,19 @@
         let message = "";
 
         if (!Number.isFinite(value)) message = `${label} חייב להיות מספר.`;
-        else if (value < min) message = `${label} לא יכול להיות שלילי.`;
+        else if (value < min) message = min === 0
+          ? `${label} לא יכול להיות שלילי.`
+          : `${label} חייב להיות לפחות ${formatNumber(min, 4)}.`;
         else if (value > max) message = `${label} חורג מהטווח הנתמך.`;
-        else if (!Number.isInteger(value)) message = `${label} חייב להיות מספר שלם.`;
+        else if (integer && !Number.isInteger(value)) message = `${label} חייב להיות מספר שלם.`;
 
         if (message) {
           input.setAttribute("aria-invalid", "true");
-          const containingDetails = input.closest("details");
-          if (containingDetails) containingDetails.open = true;
+          let containingDetails = input.closest("details");
+          while (containingDetails) {
+            containingDetails.open = true;
+            containingDetails = containingDetails.parentElement?.closest("details") || null;
+          }
           if (error) {
             error.textContent = message;
             input.setAttribute("aria-errormessage", error.id);
@@ -2180,8 +2811,8 @@
       function getState() {
         const values = {};
         let valid = true;
-        numericFields.forEach(([id, label]) => {
-          const value = readValidatedNumber(id, label);
+        numericFields.forEach(([id, label, integer = true]) => {
+          const value = readValidatedNumber(id, label, integer);
           values[id] = value;
           if (value === null) valid = false;
         });
@@ -2192,6 +2823,7 @@
           inputTokens: values["input-tokens"],
           outputTokens: values["output-tokens"],
           runsMonth: values["runs-month"],
+          usdIlsRate: values["usd-ils-rate"],
           microsoftStudio: document.getElementById("microsoft-studio").value,
           microsoftCowork: document.getElementById("microsoft-cowork").value,
           anthropicModel: document.getElementById("anthropic-model").value,
@@ -2213,6 +2845,81 @@
         };
       }
 
+      function humanEquivalentText(tokens) {
+        if (!Number.isFinite(tokens) || tokens < 0) return "—";
+        const equivalent = tokenEquivalent(tokens);
+        return `כ־${formatNumber(equivalent.words, 0)} מילים · כ־${formatNumber(equivalent.pages, 1)} עמודים`;
+      }
+
+      function updateHumanInputSummary() {
+        const inputTokens = document.getElementById("input-tokens").valueAsNumber;
+        const outputTokens = document.getElementById("output-tokens").valueAsNumber;
+        const rawRunsMonth = runsMonthInput.valueAsNumber;
+        const runsMonth = Number.isFinite(rawRunsMonth) && rawRunsMonth >= 0 ? rawRunsMonth : null;
+        const dailyAverage = runsMonth === null ? null : runsMonth / DAYS_PER_MONTH;
+
+        document.getElementById("input-human-equivalent").textContent = humanEquivalentText(inputTokens);
+        document.getElementById("output-human-equivalent").textContent = humanEquivalentText(outputTokens);
+        document.getElementById("daily-runs-output").textContent = dailyAverage === null ? "—" : `כ־${formatNumber(dailyAverage, 1)} שיחות ביום`;
+        document.getElementById("daily-runs-monthly").innerHTML = `<strong>${runsMonth === null ? "—" : formatNumber(runsMonth, 0)} שיחות בחודש</strong>`;
+        dailyRunsInput.setAttribute("aria-valuetext", monthlyOverrideInput.checked
+          ? "הסליידר מושבת; מצב הזנה חודשית מדויקת פעיל"
+          : dailyAverage === null
+            ? "ערך חודשי לא תקין"
+            : `${formatNumber(dailyAverage, 1)} שיחות ביום, ${formatNumber(runsMonth, 0)} בחודש`);
+      }
+
+      function setActivePreset(key) {
+        document.querySelectorAll("[data-preset]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.preset === key));
+        });
+        const status = document.getElementById("preset-status");
+        status.textContent = key && PRESETS[key]
+          ? `נבחרה תבנית ${PRESETS[key].label}. אפשר לשנות את כמות השיחות בנפרד בלי להחליף תבנית.`
+          : "הערכים נערכו ידנית — זהו עכשיו תרחיש מותאם אישית.";
+      }
+
+      function applyPreset(key) {
+        const preset = PRESETS[key];
+        if (!preset) return;
+        document.getElementById("process-description").value = preset.process;
+        document.getElementById("input-tokens").value = preset.inputTokens;
+        document.getElementById("output-tokens").value = preset.outputTokens;
+        dailyRunsInput.value = preset.dailyRuns;
+        runsMonthInput.value = monthlyRunsFromDaily(preset.dailyRuns);
+        setMonthlyOverride(false, false);
+        setActivePreset(key);
+        render();
+        announcement.textContent = `נבחרה תבנית ${preset.label}. ${announcement.textContent}`;
+      }
+
+      function syncRunsFromDaily() {
+        if (monthlyOverrideInput.checked) return;
+        const dailyRuns = dailyRunsInput.valueAsNumber;
+        runsMonthInput.value = monthlyRunsFromDaily(Number.isFinite(dailyRuns) ? dailyRuns : 0);
+        updateHumanInputSummary();
+      }
+
+      function syncDailyFromRuns() {
+        if (!monthlyOverrideInput.checked) return;
+        updateHumanInputSummary();
+      }
+
+      function setMonthlyOverride(enabled, normalizeOnExit = true) {
+        monthlyOverrideInput.checked = enabled;
+        dailyRunsInput.disabled = enabled;
+        runsMonthInput.readOnly = !enabled;
+        dailyOverrideNote.hidden = !enabled;
+
+        if (!enabled && normalizeOnExit) {
+          const runsMonth = runsMonthInput.valueAsNumber;
+          const approximateDaily = Number.isFinite(runsMonth) ? Math.round(runsMonth / DAYS_PER_MONTH) : 0;
+          dailyRunsInput.value = Math.min(Number(dailyRunsInput.max), Math.max(Number(dailyRunsInput.min), approximateDaily));
+          runsMonthInput.value = monthlyRunsFromDaily(dailyRunsInput.valueAsNumber);
+        }
+        updateHumanInputSummary();
+      }
+
       function qualityBadge(quality) {
         if (quality === "official") return '<span class="badge badge-official">מחירון API רשמי</span>';
         if (quality === "partial") return '<span class="badge badge-partial">מיפוי רשמי חלקי</span>';
@@ -2220,16 +2927,25 @@
       }
 
       function renderTable(rows) {
-        resultsBody.innerHTML = rows.map((row, index) => `
+        let displayRank = 1;
+        let previousCost = null;
+        resultsBody.innerHTML = rows.map((row, index) => {
+          if (previousCost !== null) {
+            const tolerance = Math.max(1, Math.abs(previousCost)) * 1e-12;
+            if (Math.abs(row.monthCost - previousCost) > tolerance) displayRank = index + 1;
+          }
+          previousCost = row.monthCost;
+          return `
           <tr class="${row.quality === "estimate" ? "estimate-row" : ""}">
-            <td class="rank-cell">${index + 1}</td>
+            <td class="rank-cell">${displayRank}</td>
             <th scope="row" class="model-cell"><strong><bdi lang="en">${row.provider}</bdi></strong><span><bdi lang="en">${row.model}</bdi></span></th>
             <td>${qualityBadge(row.quality)}</td>
             <td class="basis-cell"><strong>${row.basis}</strong><small>${row.basisDetail}</small></td>
             <td class="money-cell"><bdi>${formatUsd(row.runCost)}</bdi><small>${row.rate}</small></td>
             <td class="money-cell"><bdi>${formatUsd(row.monthCost)}</bdi><small>${row.rateDetail}</small></td>
           </tr>
-        `).join("");
+        `;
+        }).join("");
       }
 
       function renderChart(rows) {
@@ -2256,20 +2972,70 @@
             </div>`;
         }).join("");
 
-        chart.setAttribute("aria-label", `עלות חודשית בסדר עולה: ${rows.map((row) => {
+        chart.setAttribute("aria-label", `עלות חודשית בדולר, בסדר עולה: ${rows.map((row) => {
           const qualityText = row.quality === "estimate" ? "הערכה כיוונית — לא מחירון רשמי" : row.quality === "partial" ? "מיפוי רשמי חלקי" : "מחירון API רשמי";
           return `${row.provider} ${row.model}, ${formatUsd(row.monthCost)}, ${qualityText}`;
         }).join("; ")}`);
       }
 
-      function renderSummary(rows, state) {
+      function officialOutcome(rows, state) {
         const officialRows = rows.filter((row) => row.quality === "official");
         const cheapest = officialRows[0];
+        const tolerance = Math.max(1, Math.abs(cheapest.monthCost)) * 1e-12;
+        const tiedRows = officialRows.filter((row) => Math.abs(row.monthCost - cheapest.monthCost) <= tolerance);
+        return {
+          officialRows,
+          cheapest,
+          tiedRows,
+          noMonthlyUsage: state.runsMonth === 0,
+          isTie: state.runsMonth !== 0 && tiedRows.length > 1
+        };
+      }
+
+      function setLocalizedResultText(id, text, language) {
+        const element = document.getElementById(id);
+        element.textContent = text;
+        element.lang = language;
+        element.dir = language === "en" ? "ltr" : "rtl";
+      }
+
+      function renderSummary(rows, state) {
+        const outcome = officialOutcome(rows, state);
+        const { officialRows, cheapest, tiedRows, noMonthlyUsage, isTie } = outcome;
         const highest = officialRows[officialRows.length - 1];
-        document.getElementById("cheapest-model").textContent = `${cheapest.provider} · ${cheapest.model}`;
-        document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · ${formatUsd(cheapest.runCost)} להרצה`;
+        const monthlyIls = cheapest.monthCost * state.usdIlsRate;
+        const runIls = cheapest.runCost * state.usdIlsRate;
+        document.getElementById("human-result-title").textContent = `כ־${formatIls(monthlyIls)} לחודש`;
+        if (noMonthlyUsage) {
+          setLocalizedResultText("human-result-model", "לא הוגדר שימוש חודשי", "he");
+          document.getElementById("human-result-context").textContent = " — לכן אין דירוג עלות לחודש";
+          document.getElementById("human-result-per-run").textContent = "המחיר להרצה מופיע בפירוט";
+          document.getElementById("human-result-rate").textContent = "הזיזו את הסליידר מעל אפס כדי לקבל אומדן חודשי בשקלים.";
+          document.getElementById("cheapest-label").textContent = "אין שימוש חודשי — כל מודלי ה־API בתיקו";
+          setLocalizedResultText("cheapest-model", "כל המודלים שנבחרו", "he");
+          document.getElementById("cheapest-cost").textContent = `${formatUsd(0)} לחודש`;
+        } else if (isTie) {
+          const tiedNames = tiedRows.map((row) => `${row.provider} · ${row.model}`).join(" / ");
+          setLocalizedResultText("human-result-model", tiedNames, "en");
+          document.getElementById("human-result-context").textContent = " — תיקו בעלות החודשית הנמוכה";
+          document.getElementById("human-result-per-run").textContent = `${formatIls(runIls)} לשיחה`;
+          document.getElementById("human-result-rate").textContent = `כל המודלים המוצגים בתיקו עולים ${formatUsd(cheapest.monthCost)} לחודש. ההמרה לפי ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר היא להמחשה בלבד.`;
+          document.getElementById("cheapest-label").textContent = "תיקו בעלות החודשית הנמוכה";
+          setLocalizedResultText("cheapest-model", tiedNames, "en");
+          document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · אותו מחיר ב־${tiedRows.length} מודלים`;
+        } else {
+          setLocalizedResultText("human-result-model", `${cheapest.provider} · ${cheapest.model}`, "en");
+          document.getElementById("human-result-context").textContent = " — הזול מבין מודלי ה־API שנבחרו";
+          document.getElementById("human-result-per-run").textContent = `${formatIls(runIls)} לשיחה`;
+          document.getElementById("human-result-rate").textContent = `שווה ל־${formatUsd(cheapest.monthCost)} לפי שער של ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר. ההמרה משוערת בלבד; מחירי המקור בדולר ומטבע החיוב בפועל תלוי בספק ובאזור.`;
+          document.getElementById("cheapest-label").textContent = "הזול ביותר מבין מודלי ה־API שנבחרו";
+          setLocalizedResultText("cheapest-model", `${cheapest.provider} · ${cheapest.model}`, "en");
+          document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · ${formatUsd(cheapest.runCost)} להרצה`;
+        }
+        document.getElementById("coffee-comparison").textContent = coffeeComparison(monthlyIls);
         document.getElementById("monthly-tokens").textContent = formatNumber((state.inputTokens + state.outputTokens) * state.runsMonth, 0);
         document.getElementById("official-range").textContent = `${formatUsd(cheapest.monthCost)}–${formatUsd(highest.monthCost)}`;
+        return outcome;
       }
 
       function updateControlNotes() {
@@ -2328,31 +3094,54 @@
         }
       }
 
-      function render() {
+      function render(announceUpdate = true) {
+        updateHumanInputSummary();
         updateControlNotes();
         const state = getState();
         if (!state) {
           resultsPanel.classList.add("is-invalid");
           resultContent.hidden = true;
-          announcement.textContent = "יש שגיאה באחד משדות הקלט.";
+          if (announceUpdate) announcement.textContent = "יש שגיאה באחד משדות הקלט.";
           return;
         }
 
         resultsPanel.classList.remove("is-invalid");
         resultContent.hidden = false;
         lastRows = calculateRows(state);
-        renderSummary(lastRows, state);
+        const outcome = renderSummary(lastRows, state);
         renderChart(lastRows);
         renderTable(lastRows);
 
-        const cheapest = lastRows.find((row) => row.quality === "official");
-        announcement.textContent = `החישוב עודכן. המודל הזול ביותר מבין מודלי ה־API שנבחרו הוא ${cheapest.provider} ${cheapest.model}, בעלות ${formatUsd(cheapest.monthCost)} לחודש.`;
+        if (announceUpdate) {
+          const { cheapest, tiedRows, noMonthlyUsage, isTie } = outcome;
+          if (noMonthlyUsage) {
+            announcement.textContent = "החישוב עודכן. לא הוגדר שימוש חודשי, ולכן כל מודלי ה־API מוצגים בעלות חודשית אפס וללא זוכה.";
+          } else if (isTie) {
+            const tiedNames = tiedRows.map((row) => `${row.provider} ${row.model}`).join(", ");
+            announcement.textContent = `החישוב עודכן. יש תיקו בין ${tiedNames}, בעלות משוערת של ${formatIls(cheapest.monthCost * state.usdIlsRate)} לחודש.`;
+          } else {
+            announcement.textContent = `החישוב עודכן. ${cheapest.provider} ${cheapest.model} הוא הזול מבין מודלי ה־API שנבחרו, בעלות משוערת של ${formatIls(cheapest.monthCost * state.usdIlsRate)} לחודש, שהם ${formatUsd(cheapest.monthCost)}.`;
+          }
+        }
       }
 
       function scheduleRender() {
         clearTimeout(renderTimer);
-        renderTimer = setTimeout(render, 90);
+        renderTimer = setTimeout(() => render(false), 90);
       }
+
+      document.querySelectorAll("[data-preset]").forEach((button) => {
+        button.addEventListener("click", () => applyPreset(button.dataset.preset));
+      });
+
+      dailyRunsInput.addEventListener("input", syncRunsFromDaily);
+      runsMonthInput.addEventListener("input", syncDailyFromRuns);
+      monthlyOverrideInput.addEventListener("change", () => {
+        setMonthlyOverride(monthlyOverrideInput.checked, true);
+      });
+      ["process-description", "input-tokens", "output-tokens"].forEach((id) => {
+        document.getElementById(id).addEventListener("input", () => setActivePreset(null));
+      });
 
       form.addEventListener("input", (event) => {
         if (event.target.id === "process-description" || event.target.matches("select, input[type='checkbox']")) return;
@@ -2361,18 +3150,23 @@
       form.addEventListener("change", (event) => {
         clearTimeout(renderTimer);
         const input = event.target;
-        let discountMessage = "";
+        let interactionMessage = "";
+        if (input.id === "monthly-override") {
+          interactionMessage = input.checked
+            ? "מצב הזנה חודשית מדויקת הופעל והסליידר הושבת."
+            : "מצב הסליידר חזר לפעול והכמות החודשית הותאמה למספר יומי שלם.";
+        }
         if (input.matches("input[type='checkbox'][data-exclusive-group]") && input.checked) {
           const group = input.dataset.exclusiveGroup;
           form.querySelectorAll(`input[data-exclusive-group="${group}"]`).forEach((other) => {
             if (other !== input && other.checked) {
               other.checked = false;
-              discountMessage = "אפשר להפעיל הנחה אחת בכל ספק; האפשרות הקודמת בוטלה.";
+              interactionMessage = "אפשר להפעיל הנחה אחת בכל ספק; האפשרות הקודמת בוטלה.";
             }
           });
         }
         render();
-        if (discountMessage) announcement.textContent = `${discountMessage} ${announcement.textContent}`;
+        if (interactionMessage) announcement.textContent = `${interactionMessage} ${announcement.textContent}`;
       });
 
       document.querySelectorAll("[data-chart-scale]").forEach((button) => {
@@ -2393,10 +3187,19 @@
         document.getElementById("anthropic-model").value = "sonnet-5";
         document.getElementById("openai-model").value = "gpt-5-2";
         document.getElementById("google-model").value = "gemini-3-7-flash";
+        document.getElementById("usd-ils-rate").value = DEFAULT_USD_ILS_RATE.toFixed(4);
+        dailyRunsInput.value = PRESETS.student.dailyRuns;
+        runsMonthInput.value = monthlyRunsFromDaily(PRESETS.student.dailyRuns);
+        setMonthlyOverride(false, false);
+        setActivePreset("student");
+        document.querySelector(".precision-settings").open = false;
+        document.querySelector(".provider-disclosure").open = false;
         render();
-        document.getElementById("process-description").focus();
+        document.querySelector('[data-preset="student"]').focus();
       });
 
+      setMonthlyOverride(false, false);
+      setActivePreset("student");
       render();
     })();
   </script>
