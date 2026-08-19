@@ -2362,9 +2362,9 @@
       <div class="mode-gate">
         <div class="mode-tabs" role="tablist" aria-label="בחירת מצב המחשבון">
           <button id="simple-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="true" aria-controls="simple-workload-view results-panel">מצב אישי</button>
-          <button id="developer-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="developer-workspace results-details developer-reference" tabindex="-1">מצב ארגוני</button>
+          <button id="developer-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="developer-workspace results-panel results-details developer-reference" tabindex="-1">מצב ארגוני</button>
         </div>
-        <input id="developer-mode" class="mode-state-input" type="checkbox" tabindex="-1" aria-hidden="true" aria-controls="developer-workspace results-details developer-reference" aria-describedby="developer-mode-help">
+        <input id="developer-mode" class="mode-state-input" type="checkbox" tabindex="-1" aria-hidden="true" aria-controls="developer-workspace results-panel results-details developer-reference" aria-describedby="developer-mode-help">
         <p id="developer-mode-help" class="mode-help">מצב אישי פתוח כברירת מחדל. מצב ארגוני מציג תהליך, מחלקה, הרצות חודשיות ופירוט מקצועי; ההגדרות נשמרות במעבר בין המצבים.</p>
       </div>
 
@@ -3483,7 +3483,8 @@
 
       function syncModePresentation(enabled) {
         simpleWorkloadView.hidden = enabled;
-        resultsPanel.hidden = enabled;
+        /* כרטיס התוצאה נשאר גלוי גם במצב הארגוני כדי לסגור את לולאת המשוב. */
+        resultsPanel.hidden = false;
         simpleModeTab.setAttribute("aria-selected", String(!enabled));
         developerModeTab.setAttribute("aria-selected", String(enabled));
         simpleModeTab.tabIndex = enabled ? -1 : 0;
