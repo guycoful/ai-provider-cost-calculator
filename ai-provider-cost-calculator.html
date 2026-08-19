@@ -42,9 +42,14 @@
       box-sizing: border-box;
     }
 
+    [hidden] {
+      display: none !important;
+    }
+
     html {
       scroll-behavior: smooth;
       background: var(--paper);
+      --mobile-result-height: 0px;
     }
 
     body {
@@ -55,7 +60,7 @@
       font-family: Arial, "Noto Sans Hebrew", "Segoe UI", sans-serif;
       font-size: 16px;
       line-height: 1.6;
-      overflow-x: hidden;
+      overflow-x: clip;
     }
 
     button,
@@ -114,7 +119,7 @@
     }
 
     .hero {
-      padding-block: 28px 30px;
+      padding-block: 18px 22px;
     }
 
     .brand-row {
@@ -122,7 +127,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      margin-block-end: 52px;
+      margin-block-end: 18px;
     }
 
     .brand {
@@ -161,8 +166,8 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.7fr);
-      gap: clamp(28px, 6vw, 82px);
+      grid-template-columns: 1fr;
+      gap: 20px;
       align-items: end;
     }
 
@@ -185,15 +190,15 @@
 
     h1 {
       max-width: 830px;
-      margin-block-end: 20px;
-      font-size: clamp(2.35rem, 5vw, 4.6rem);
-      line-height: 0.98;
+      margin-block-end: 12px;
+      font-size: clamp(2.15rem, 4vw, 3.65rem);
+      line-height: 1.02;
       letter-spacing: -0.065em;
     }
 
     .hero-lead {
       max-width: 760px;
-      margin-block-end: 26px;
+      margin-block-end: 0;
       color: var(--ink-soft);
       font-size: clamp(1.04rem, 1.8vw, 1.25rem);
     }
@@ -385,6 +390,191 @@
       position: relative;
       overflow: hidden;
       border-color: #a9cdbb;
+    }
+
+    .calculator-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    #calculator-form,
+    .calculator-layout > .results-panel {
+      min-width: 0;
+    }
+
+    .calculator-layout .quick-start,
+    .calculator-layout > .results-panel {
+      margin-block: 0;
+    }
+
+    .calculator-layout > .results-panel {
+      position: sticky;
+      inset-block-start: 18px;
+      align-self: start;
+    }
+
+    .result-dock .section-heading {
+      align-items: flex-start;
+      margin-block-end: 18px;
+    }
+
+    .result-dock .section-heading > p {
+      max-width: 420px;
+    }
+
+    .result-dock .human-result-card {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .mode-gate {
+      margin-block-start: 18px;
+      padding: 16px 18px;
+      background: rgba(255, 253, 247, 0.92);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .developer-toggle {
+      display: flex;
+      gap: 13px;
+      align-items: center;
+      min-height: 48px;
+      cursor: pointer;
+    }
+
+    .developer-toggle input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    .toggle-track {
+      position: relative;
+      width: 52px;
+      height: 30px;
+      flex: 0 0 52px;
+      background: #c9d0ca;
+      border: 2px solid #aab5ad;
+      border-radius: 999px;
+      transition: background 150ms ease, border-color 150ms ease;
+    }
+
+    .toggle-track::after {
+      content: "";
+      position: absolute;
+      inset-block-start: 3px;
+      inset-inline-start: 3px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(21, 36, 31, 0.24);
+      transition: transform 150ms ease;
+    }
+
+    .developer-toggle input:checked + .toggle-track {
+      background: var(--green);
+      border-color: var(--green-dark);
+    }
+
+    .developer-toggle input:checked + .toggle-track::after {
+      transform: translateX(-22px);
+    }
+
+    .developer-toggle input:focus-visible + .toggle-track {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .developer-toggle-copy {
+      display: grid;
+      min-width: 0;
+    }
+
+    .developer-toggle-copy strong {
+      font-size: 1rem;
+    }
+
+    .developer-toggle-copy small,
+    .mode-help {
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+    }
+
+    .mode-help {
+      margin: 5px 65px 0 0;
+    }
+
+    .developer-workspace {
+      display: grid;
+      gap: 24px;
+      margin-block-start: 24px;
+    }
+
+    .developer-workspace > .panel,
+    .developer-workspace > .critical-alert {
+      margin: 0;
+    }
+
+    .developer-workspace .precision-body,
+    .developer-workspace .disclosure-body {
+      padding: 0;
+    }
+
+    .developer-reference {
+      display: grid;
+      gap: 24px;
+      margin-block-start: 24px;
+    }
+
+    .developer-reference > .info-section {
+      margin: 0;
+    }
+
+    .developer-end-actions {
+      display: flex;
+      justify-content: center;
+      padding-block: 4px 12px;
+    }
+
+    .developer-end-actions button {
+      min-height: 48px;
+      padding: 10px 18px;
+      color: white;
+      background: var(--green-dark);
+      border: 1px solid var(--green-dark);
+      border-radius: 12px;
+      font-weight: 900;
+    }
+
+    .advanced-status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-block-start: 14px;
+      padding: 9px 11px;
+      color: var(--amber-dark);
+      background: var(--amber-soft);
+      border: 1px solid #e0bb68;
+      border-radius: 11px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .advanced-status button {
+      min-height: 36px;
+      padding: 5px 10px;
+      color: var(--amber-dark);
+      background: white;
+      border: 1px solid #c99336;
+      border-radius: 9px;
+      font-weight: 800;
     }
 
     .plain-language-note {
@@ -1156,8 +1346,53 @@
       font-size: 0.75rem;
     }
 
+    .human-result-trust {
+      margin: 7px 0 0;
+      color: #cde3d8;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
     .results-disclosure {
       margin-block-start: 18px;
+    }
+
+    .results-disclosure > .section-heading {
+      margin: 0;
+      padding: 18px 20px 0;
+    }
+
+    .results-wide {
+      margin-block-start: 24px;
+      padding: clamp(22px, 4vw, 38px);
+      background: rgba(255, 253, 247, 0.96);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .results-wide > .section-heading {
+      padding: 0;
+    }
+
+    .results-wide .results-detail-body {
+      padding: 0;
+    }
+
+    .professional-context {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
+      gap: 18px;
+      align-items: center;
+      margin-block-end: 20px;
+      padding: 18px;
+      background: #f6f8f4;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+    }
+
+    .professional-context .human-result-copy,
+    .professional-context .human-result-rate {
+      color: var(--ink-soft);
     }
 
     .results-disclosure > summary {
@@ -1532,6 +1767,14 @@
     }
 
     @media (max-width: 980px) {
+      .calculator-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .calculator-layout > .results-panel {
+        position: static;
+      }
+
       .hero-grid {
         grid-template-columns: 1fr;
       }
@@ -1579,6 +1822,18 @@
       }
     }
 
+    @media (min-width: 741px) and (max-width: 980px) {
+      .calculator-layout {
+        grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      }
+
+      .calculator-layout > .results-panel {
+        position: sticky;
+        inset-block-start: 14px;
+      }
+
+    }
+
     @media (max-width: 1100px) {
       .scroll-hint {
         display: block;
@@ -1586,13 +1841,21 @@
     }
 
     @media (max-width: 740px) {
+      html {
+        scroll-padding-block-end: calc(var(--mobile-result-height) + 28px + env(safe-area-inset-bottom));
+      }
+
+      body {
+        padding-block-end: calc(var(--mobile-result-height) + 20px + env(safe-area-inset-bottom));
+      }
+
       .shell {
         width: min(100% - 24px, var(--max-width));
       }
 
       .brand-row {
         align-items: flex-start;
-        margin-block-end: 34px;
+        margin-block-end: 16px;
       }
 
       .source-date {
@@ -1601,7 +1864,96 @@
       }
 
       h1 {
-        font-size: clamp(2.35rem, 11vw, 3.4rem);
+        font-size: clamp(2rem, 10vw, 3rem);
+      }
+
+      .hero {
+        padding-block: 14px 18px;
+      }
+
+      .hero .eyebrow {
+        margin-block-end: 6px;
+      }
+
+      .hero-lead {
+        font-size: 0.96rem;
+      }
+
+      .result-dock.results-panel {
+        min-height: 0;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+      }
+
+      .result-dock > .section-heading {
+        display: none;
+      }
+
+      .result-dock .validation-banner {
+        margin: 0;
+      }
+
+      .result-dock .human-result-card {
+        position: fixed;
+        z-index: 900;
+        inset-inline: 10px;
+        inset-block-end: calc(10px + env(safe-area-inset-bottom));
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+        padding: 12px 15px;
+        border-radius: 16px;
+        box-shadow: 0 12px 34px rgba(14, 79, 56, 0.3);
+      }
+
+      .result-dock .human-result-kicker {
+        margin-block-end: 2px;
+        font-size: 0.65rem;
+      }
+
+      .result-dock .human-result-value {
+        font-size: clamp(1.35rem, 6.5vw, 1.8rem);
+      }
+
+      .result-dock .human-result-copy {
+        display: none;
+      }
+
+      .result-dock .human-result-rate,
+      .result-dock .human-result-aside {
+        display: none;
+      }
+
+      .result-dock .human-result-trust {
+        margin-block-start: 3px;
+        font-size: 0.75rem;
+        line-height: 1.25;
+        white-space: normal;
+      }
+
+      .result-dock .advanced-status {
+        grid-column: 1 / -1;
+        margin: 0;
+        padding: 6px 8px;
+        font-size: 0.7rem;
+      }
+
+      .result-dock .advanced-status button {
+        min-height: 32px;
+        padding-block: 3px;
+      }
+
+      .mode-help {
+        margin-inline-start: 65px;
+        margin-inline-end: 0;
+      }
+
+      .developer-workspace,
+      .developer-reference {
+        scroll-margin-block-end: calc(var(--mobile-result-height) + 28px);
       }
 
       .critical-alert {
@@ -1626,7 +1978,8 @@
       .source-grid,
       .cache-assumption,
       .human-translation,
-      .human-result-card {
+      .human-result-card,
+      .professional-context {
         grid-template-columns: 1fr;
       }
 
@@ -1678,6 +2031,7 @@
 
       .panel,
       .results-panel,
+      .results-wide,
       .info-section {
         padding: 18px;
         border-radius: 20px;
@@ -1728,13 +2082,24 @@
       body {
         background: white;
         color: black;
+        padding-block-end: 0 !important;
       }
 
       .top-rule,
       .form-actions,
+      .mode-gate,
       .scale-control,
       .skip-link {
         display: none !important;
+      }
+
+      .calculator-layout {
+        display: block;
+      }
+
+      .calculator-layout > .results-panel,
+      .human-result-card {
+        position: static !important;
       }
 
       .shell {
@@ -1752,6 +2117,7 @@
       .panel,
       .provider-card,
       .results-panel,
+      .results-wide,
       .info-section,
       .critical-alert,
       .hero-summary {
@@ -1819,7 +2185,7 @@
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#microsoft-comparison-warning">דלג לאזהרה ולמחשבון</a>
+  <a class="skip-link" href="#main-content">דלג למחשבון</a>
   <div class="top-rule" aria-hidden="true"></div>
 
   <header class="hero shell">
@@ -1828,59 +2194,19 @@
         <span class="brand-mark" aria-hidden="true">Σ</span>
         <span>עדשת עלויות AI</span>
       </div>
-      <span class="source-date">מחירים אומתו ב־18.8.2026 · שער מט״ח מ־18.8.2026</span>
     </div>
 
     <div class="hero-grid">
       <div>
         <p class="eyebrow">בוחרים שימוש · מזיזים סליידר · רואים מחיר</p>
         <h1>כמה יעלה לי AI בחודש?</h1>
-        <p class="hero-lead">לא צריך להבין בטוקנים או במחירוני ענן. בוחרים דוגמה שדומה למה שעושים, מסמנים כמה פעמים ביום — ורואים מיד הערכת מחיר בשקלים. למי שרוצה לדייק, כל הנתונים המקצועיים עדיין כאן.</p>
-        <div class="hero-chips" aria-label="מאפייני המחשבון">
-          <span class="chip">קובץ עצמאי לחלוטין</span>
-          <span class="chip">חישוב חי בדפדפן</span>
-          <span class="chip">תוצאה ברורה בשקלים</span>
-          <span class="chip">ללא שליחת נתונים</span>
-        </div>
+        <p class="hero-lead">בוחרים שימוש, מזיזים את הסליידר ורואים מיד הערכת מחיר חודשית בשקלים.</p>
       </div>
-
-      <aside class="hero-summary" aria-label="עקרון ההשוואה">
-        <strong>4</strong>
-        <p>ספקים נבחנים מול אותו שימוש, כדי שתהיה נקודת השוואה אחת וברורה.</p>
-        <div class="summary-rule">
-          <div><b>מה בוחרים</b><span>שיחות ביום</span></div>
-          <div><b>מה מקבלים</b><span>שקלים + דולר</span></div>
-        </div>
-      </aside>
     </div>
-
-    <aside id="microsoft-comparison-warning" class="critical-alert" tabindex="-1" aria-labelledby="microsoft-warning-title">
-      <span class="alert-icon" aria-hidden="true">!</span>
-      <div>
-        <h2 id="microsoft-warning-title">חשוב: נתוני Microsoft אינם שקולים למחירי ה־API האחרים</h2>
-        <p><strong>במילים פשוטות:</strong> אפשר להשוות כאן את כל האפשרויות, אבל המספר של Microsoft מחושב בשיטה אחרת ולכן אינו השוואת מחיר מדויקת אחד־לאחד. אין צורך לשנות דבר כדי להתחיל.</p>
-        <p><strong>Anthropic, OpenAI ו־Google</strong> מחושבים לפי מחירוני API רשמיים לקלט ולפלט. <strong>Microsoft Copilot</strong> מתומחר בקרדיטים, והמיפוי הרשמי לטוקנים הוא חלקי ומוגבל לכלי GenAI ב־Copilot Studio בלבד: <bdi>Basic 0.1</bdi>, <bdi>Standard 1.5</bdi> ו־<bdi>Premium 10</bdi> קרדיטים לכל 1,000 טוקנים, ללא הפרדה בין קלט לפלט. פעולות שיחה אחרות מחויבות במחיר קבוע לאירוע. <span class="badge badge-partial">מיפוי רשמי חלקי</span></p>
-        <p>ערכי Cowork — <bdi>Light 125</bdi> / <bdi>Medium 500</bdi> / <bdi>Heavy 1,200</bdi> קרדיטים למשימה — מגיעים מקובץ Customer Cowork Estimator של Microsoft. הקובץ מגדיר אותם כהנחות המחשה/כיוון המבוססות על נתוני Frontier מ־27.5.2026, ומניח שימוש ב־<bdi>Anthropic Opus 4.8</bdi>. אין נוסחה ציבורית להמרת משימת Cowork לקרדיטים. <span class="badge badge-estimate">הערכה כיוונית — לא מחירון רשמי</span></p>
-      </div>
-    </aside>
   </header>
 
-  <main id="main-content" class="shell">
-    <section class="method-strip" aria-label="איך משתמשים במחשבון">
-      <div class="method-step">
-        <span class="method-number">1</span>
-        <div><strong>בוחרים דוגמה מהחיים</strong><p>סטודנט, יוצר תוכן או מפתח מתחיל.</p></div>
-      </div>
-      <div class="method-step">
-        <span class="method-number">2</span>
-        <div><strong>בוחרים כמה פעמים ביום</strong><p>הסליידר מתרגם שיחות ביום לשימוש חודשי.</p></div>
-      </div>
-      <div class="method-step">
-        <span class="method-number">3</span>
-        <div><strong>רואים את השורה התחתונה</strong><p>הערכה חודשית בשקלים, עם פירוט מדויק למי שרוצה.</p></div>
-      </div>
-    </section>
-
+  <main id="main-content" class="shell" tabindex="-1">
+    <div class="calculator-layout">
     <form id="calculator-form" novalidate>
       <section class="panel quick-start" aria-labelledby="workload-title">
         <div class="section-heading">
@@ -1889,14 +2215,6 @@
             <h2 id="workload-title">מה הכי דומה לשימוש שלך?</h2>
           </div>
           <p>הדוגמאות הן נקודת פתיחה בלבד. אפשר לשנות את הכמות עכשיו ולדייק את הנתונים בהמשך.</p>
-        </div>
-
-        <div class="plain-language-note">
-          <span class="plain-language-icon" aria-hidden="true">💬</span>
-          <div>
-            <strong>מה זה בכלל טוקן?</strong>
-            <p>טוקן הוא פשוט חתיכת טקסט שהמערכת סופרת. אין צורך לחשב אותו לבד: התבניות כבר כוללות אומדן, ולמטה אפשר לראות אותו גם במילים ובעמודים.</p>
-          </div>
         </div>
 
         <fieldset class="preset-picker" aria-describedby="preset-status">
@@ -1921,23 +2239,63 @@
         <div class="usage-card">
           <div class="usage-heading">
             <label for="daily-runs">2. כמה שיחות כאלה יהיו ביום?</label>
-            <output id="daily-runs-output" class="usage-value" for="daily-runs">כ־2 שיחות ביום</output>
+            <span id="daily-runs-output" class="usage-value">כ־2 שיחות ביום</span>
           </div>
-          <input id="daily-runs" class="usage-slider" type="range" min="0" max="30" step="1" value="2" dir="ltr" aria-describedby="daily-runs-help daily-runs-monthly daily-override-note">
+          <input id="daily-runs" class="usage-slider" type="range" min="0" max="30" step="1" value="2" dir="ltr" aria-describedby="daily-runs-help daily-runs-monthly">
           <div class="slider-scale" dir="ltr" aria-hidden="true"><span>0</span><span>15</span><span>30</span></div>
           <p id="daily-runs-help" class="usage-explanation">במחשבון, שיחה אחת היא הפעלה אחת של המשימה. חודש מחושב כ־30 יום.</p>
           <p id="daily-runs-monthly" class="usage-explanation"><strong>כ־60 שיחות בחודש</strong></p>
           <p id="daily-override-note" class="usage-explanation override-note" hidden>מצב הזנה חודשית מדויקת פעיל; הסליידר היומי מושבת עד לביטול המצב בהגדרות הדיוק.</p>
 
+        </div>
+      </section>
+
+      <div class="mode-gate">
+        <label class="developer-toggle" for="developer-mode">
+          <input id="developer-mode" type="checkbox" aria-controls="developer-workspace results-details developer-reference" aria-describedby="developer-mode-help">
+          <span class="toggle-track" aria-hidden="true"></span>
+          <span class="developer-toggle-copy">
+            <strong>התאמה אישית למפתחים</strong>
+            <small>טוקנים, מודלים, הנחות, שער דולר, Microsoft ומקורות</small>
+          </span>
+        </label>
+        <p id="developer-mode-help" class="mode-help">כבוי כברירת מחדל. פתיחה אינה משנה את החישוב; הגדרות מותאמות שנשמרו יסומנו בכרטיס התוצאה.</p>
+      </div>
+
+      <div id="developer-workspace" class="developer-workspace" data-developer-content hidden>
+        <aside id="microsoft-comparison-warning" class="critical-alert" tabindex="-1" aria-labelledby="microsoft-warning-title">
+          <span class="alert-icon" aria-hidden="true">!</span>
+          <div>
+            <h2 id="microsoft-warning-title">חשוב: נתוני Microsoft אינם שקולים למחירי ה־API האחרים</h2>
+            <p><strong>במילים פשוטות:</strong> אפשר להשוות כאן את כל האפשרויות, אבל המספר של Microsoft מחושב בשיטה אחרת ולכן אינו השוואת מחיר מדויקת אחד־לאחד.</p>
+            <p><strong>Anthropic, OpenAI ו־Google</strong> מחושבים לפי מחירוני API רשמיים לקלט ולפלט. <strong>Microsoft Copilot</strong> מתומחר בקרדיטים, והמיפוי הרשמי לטוקנים הוא חלקי ומוגבל לכלי GenAI ב־Copilot Studio בלבד: <bdi>Basic 0.1</bdi>, <bdi>Standard 1.5</bdi> ו־<bdi>Premium 10</bdi> קרדיטים לכל 1,000 טוקנים, ללא הפרדה בין קלט לפלט. פעולות שיחה אחרות מחויבות במחיר קבוע לאירוע. <span class="badge badge-partial">מיפוי רשמי חלקי</span></p>
+            <p>ערכי Cowork — <bdi>Light 125</bdi> / <bdi>Medium 500</bdi> / <bdi>Heavy 1,200</bdi> קרדיטים למשימה — מגיעים מקובץ Customer Cowork Estimator של Microsoft. הקובץ מגדיר אותם כהנחות המחשה/כיוון המבוססות על נתוני Frontier מ־27.5.2026, ומניח שימוש ב־<bdi>Anthropic Opus 4.8</bdi>. אין נוסחה ציבורית להמרת משימת Cowork לקרדיטים. <span class="badge badge-estimate">הערכה כיוונית — לא מחירון רשמי</span></p>
+          </div>
+        </aside>
+
+        <section class="panel precision-settings" aria-labelledby="precision-title">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">דיוק מקצועי</p>
+              <h2 id="precision-title">טקסט, טוקנים, כמות חודשית ושער הדולר</h2>
+            </div>
+            <p>התבנית ממלאת את הערכים האלה אוטומטית. שינוי ידני הופך את התרחיש למותאם אישית.</p>
+          </div>
+
+          <div class="plain-language-note">
+            <span class="plain-language-icon" aria-hidden="true">💬</span>
+            <div>
+              <strong>מה זה טוקן?</strong>
+              <p>טוקן הוא חתיכת טקסט שהמערכת סופרת. כלל אצבע בלבד: 1,000 טוקנים הם בערך 750 מילים או 1.5 עמודי Word.</p>
+            </div>
+          </div>
+
           <div class="human-translation" aria-label="תרגום משוער של הטוקנים לשפה יומיומית">
             <div class="translation-item"><span>מה שולחים בכל שיחה</span><strong id="input-human-equivalent">—</strong></div>
             <div class="translation-item"><span>מה מקבלים בחזרה</span><strong id="output-human-equivalent">—</strong></div>
-            <p class="translation-caveat">כלל אצבע: 1,000 טוקנים ≈ 750 מילים ≈ 1.5 עמודי Word. זו הערכה גסה שמשתנה לפי שפה, עיצוב והמודל.</p>
+            <p class="translation-caveat">זו הערכה גסה שמשתנה לפי שפה, עיצוב והמודל.</p>
           </div>
-        </div>
 
-        <details class="precision-settings">
-          <summary>רוצה לדייק? טקסט, טוקנים, כמות חודשית ושער הדולר</summary>
           <div class="precision-body">
             <div class="advanced-grid">
               <div class="field process-field">
@@ -1973,7 +2331,7 @@
                   <input id="runs-month" type="number" inputmode="numeric" min="0" max="1000000" step="1" value="60" readonly aria-describedby="runs-month-help runs-month-error">
                   <span class="input-suffix">שיחות</span>
                 </div>
-                <p id="runs-month-help" class="field-help">כשהאפשרות פעילה אפשר להזין כל מספר חודשי; הסליידר היומי יושבת כדי למנוע סתירה.</p>
+                <p id="runs-month-help" class="field-help">כשהאפשרות פעילה אפשר להזין כל מספר חודשי; הסליידר היומי יושבת כדי למנוע סתירה. כדי לחזור לתצוגה פשוטה יש לבטל אפשרות זו.</p>
                 <p id="runs-month-error" class="field-error" aria-live="polite"></p>
               </div>
 
@@ -1988,20 +2346,16 @@
               </div>
             </div>
           </div>
-        </details>
+        </section>
 
-        <div class="form-actions">
-          <button id="reset-calculator" class="button-secondary" type="button">איפוס הכל לתבנית סטודנט</button>
+      <section class="panel providers-panel provider-disclosure" aria-labelledby="providers-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">בחירת מודלים</p>
+            <h2 id="providers-title">מודלים, הנחות ומסלולי Microsoft</h2>
+          </div>
+          <p>כבר נבחרה ברירת מחדל מכל ספק; כאן אפשר לשנות את תרחיש ההשוואה.</p>
         </div>
-      </section>
-
-      <details class="panel providers-panel provider-disclosure" aria-labelledby="providers-title">
-        <summary>
-          <span class="disclosure-summary-copy">
-            <strong id="providers-title">אפשרויות מתקדמות: מודלים, הנחות ומסלולי Microsoft</strong>
-            <small>לא חייבים לגעת — כבר נבחרה ברירת מחדל מכל ספק.</small>
-          </span>
-        </summary>
         <div class="disclosure-body">
 
         <div class="provider-grid">
@@ -2154,37 +2508,63 @@
         </section>
 
         </div>
-      </details>
+      </section>
+
+        <div class="form-actions">
+          <button id="reset-calculator" class="button-secondary" type="button">איפוס הכל לתבנית סטודנט</button>
+        </div>
+      </div>
     </form>
 
-    <section id="results-panel" class="results-panel" aria-labelledby="results-title">
+    <section id="results-panel" class="results-panel result-dock" aria-labelledby="results-title">
       <div class="section-heading">
         <div>
           <p class="section-kicker">השורה התחתונה</p>
           <h2 id="results-title">כמה זה יוצא בחודש?</h2>
         </div>
-        <p>הסכום הראשי הוא המחיר הנמוך ביותר מבין שלושת מודלי ה־API שנבחרו. אפשר לפתוח את הפירוט כדי לראות את כל הספקים וההנחות.</p>
+        <p>המחיר מתעדכן מול העיניים בכל שינוי של תבנית או כמות שימוש.</p>
       </div>
 
       <div id="validation-banner" class="validation-banner" role="alert">יש לתקן את השדות המסומנים לפני חישוב התוצאות.</div>
 
       <div class="result-content">
-        <article class="human-result-card" aria-labelledby="human-result-title">
+        <article class="human-result-card" aria-label="עלות חודשית משוערת">
           <div>
             <span class="human-result-kicker">הערכה חודשית לפי השימוש שבחרת</span>
             <strong id="human-result-title" class="human-result-value">—</strong>
-            <p class="human-result-copy"><span id="human-result-model" dir="auto">—</span><span id="human-result-context"> — הזול מבין מודלי ה־API שנבחרו</span> · <span id="human-result-per-run">—</span></p>
-            <p id="human-result-rate" class="human-result-rate">—</p>
-          </div>
-          <div class="human-result-aside">
-            <span id="coffee-comparison" class="coffee-comparison">—</span>
-            <p>השוואה להמחשה בלבד לפי 15 ₪ לכוס קפה; המחיר בפועל עשוי לכלול מס, עמלות המרה ועלויות נוספות.</p>
+            <p id="human-result-simple-context" class="human-result-trust">אומדן לפי 3 מודלי API · לפני מס ועמלות</p>
+            <div id="advanced-settings-status" class="advanced-status" hidden>
+              <span>הגדרות מקצועיות מותאמות פעילות.</span>
+              <button id="open-advanced-settings" type="button">בדיקת הגדרות</button>
+              <button id="simple-reset-calculator" type="button">איפוס הכל</button>
+            </div>
           </div>
         </article>
+      </div>
+    </section>
+    </div>
 
-        <details class="results-disclosure">
-          <summary>לראות מחירים מדויקים בדולרים, גרף וטבלת השוואה</summary>
-          <div class="results-detail-body">
+    <section id="results-details" class="results-disclosure results-wide" data-developer-content hidden aria-labelledby="results-details-title">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">פירוט מקצועי</p>
+          <h2 id="results-details-title">דולר, גרף וטבלת השוואה</h2>
+        </div>
+        <p>כאן מופיעים מחיר המקור, המודל שנבחר וכל הנחות החישוב.</p>
+      </div>
+
+      <div class="professional-context" aria-label="הקשר מדויק לתוצאה">
+        <div>
+          <p class="human-result-copy"><span id="human-result-model" dir="auto">—</span><span id="human-result-context"> — הזול מבין מודלי ה־API שנבחרו</span> · <span id="human-result-per-run">—</span></p>
+          <p id="human-result-rate" class="human-result-rate">—</p>
+        </div>
+        <div class="human-result-aside">
+          <span id="coffee-comparison" class="coffee-comparison">—</span>
+          <p>השוואה להמחשה בלבד לפי 15 ₪ לכוס קפה; המחיר בפועל עשוי לכלול מס, עמלות המרה ועלויות נוספות.</p>
+        </div>
+      </div>
+
+      <div class="results-detail-body">
         <div class="result-cards">
           <article class="result-card primary">
             <span id="cheapest-label" class="result-label">הזול ביותר מבין מודלי ה־API שנבחרו</span>
@@ -2242,11 +2622,10 @@
             </table>
           </div>
         </section>
-          </div>
-        </details>
       </div>
     </section>
 
+    <div id="developer-reference" class="developer-reference" data-developer-content hidden>
     <section class="info-section" aria-labelledby="caveats-title">
       <div class="section-heading">
         <div>
@@ -2339,7 +2718,7 @@
           <h3>Microsoft</h3>
           <ul>
             <li><a href="https://learn.microsoft.com/en-us/power-platform/admin/pay-as-you-go-meters" target="_blank" rel="noopener noreferrer">מונה תשלום לפי שימוש של Power Platform</a></li>
-            <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management" target="_blank" rel="noopener noreferrer">תעריפי צריכת Copilot Credits</a></li>
+            <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin/requirements-messages-management" target="_blank" rel="noopener noreferrer">תעריפי צריכת Copilot Credits</a></li>
             <li><a href="https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio" target="_blank" rel="noopener noreferrer">Microsoft Copilot Studio</a></li>
             <li><a href="https://www.microsoft.com/en-us/microsoft-365-copilot/pricing" target="_blank" rel="noopener noreferrer">תמחור Microsoft 365 Copilot</a></li>
             <li><a href="https://adoption.microsoft.com/files/cowork/CustomerCoworkEstimator.xlsx" target="_blank" rel="noopener noreferrer">קובץ Customer Cowork Estimator.xlsx</a></li>
@@ -2385,6 +2764,10 @@
 
       <p class="about-note"><strong>סיווג הנתונים:</strong> מחירי Anthropic, OpenAI ו־Google מבוססים על מחירונים רשמיים לקלט ולפלט עבור המודלים המוצגים. מיפוי Copilot Studio הוא רשמי אך חלקי ומוגבל ל־GenAI tools. משקלי Cowork אומתו בקובץ האומדן שמפרסמת Microsoft, אך הקובץ עצמו מגדיר אותם ככיווניים ולהמחשה בלבד — ולכן הם אינם מוצגים באותה רמת ודאות.</p>
     </section>
+      <div class="developer-end-actions">
+        <button id="close-advanced-settings" type="button">חזרה לתצוגה פשוטה</button>
+      </div>
+    </div>
 
     <div id="calculation-announcement" class="live-region" aria-live="polite" aria-atomic="true"></div>
   </main>
@@ -2725,6 +3108,7 @@
 
       const form = document.getElementById("calculator-form");
       const resultsPanel = document.getElementById("results-panel");
+      const resultsDetails = document.getElementById("results-details");
       const resultContent = resultsPanel.querySelector(".result-content");
       const resultsBody = document.getElementById("results-body");
       const chart = document.getElementById("cost-chart");
@@ -2734,6 +3118,10 @@
       const runsMonthInput = document.getElementById("runs-month");
       const monthlyOverrideInput = document.getElementById("monthly-override");
       const dailyOverrideNote = document.getElementById("daily-override-note");
+      const developerModeInput = document.getElementById("developer-mode");
+      const developerContents = Array.from(document.querySelectorAll("[data-developer-content]"));
+      const advancedSettingsStatus = document.getElementById("advanced-settings-status");
+      const humanResultCard = document.querySelector(".human-result-card");
       const numericFields = [
         ["input-tokens", "טוקני הקלט"],
         ["output-tokens", "טוקני הפלט"],
@@ -2748,6 +3136,10 @@
       let chartScale = "log";
       let lastRows = [];
       let renderTimer = null;
+      let activePresetKey = "student";
+      const afterPaint = (callback) => typeof requestAnimationFrame === "function"
+        ? requestAnimationFrame(callback)
+        : setTimeout(callback, 0);
 
       populateSelect("anthropic-model", DATA.anthropic, "sonnet-5");
       populateSelect("openai-model", DATA.openai, "gpt-5-2");
@@ -2870,6 +3262,7 @@
       }
 
       function setActivePreset(key) {
+        activePresetKey = key && PRESETS[key] ? key : null;
         document.querySelectorAll("[data-preset]").forEach((button) => {
           button.setAttribute("aria-pressed", String(button.dataset.preset === key));
         });
@@ -2910,6 +3303,9 @@
         dailyRunsInput.disabled = enabled;
         runsMonthInput.readOnly = !enabled;
         dailyOverrideNote.hidden = !enabled;
+        dailyRunsInput.setAttribute("aria-describedby", enabled
+          ? "daily-runs-help daily-runs-monthly daily-override-note"
+          : "daily-runs-help daily-runs-monthly");
 
         if (!enabled && normalizeOnExit) {
           const runsMonth = runsMonthInput.valueAsNumber;
@@ -2918,6 +3314,84 @@
           runsMonthInput.value = monthlyRunsFromDaily(dailyRunsInput.valueAsNumber);
         }
         updateHumanInputSummary();
+      }
+
+      function hasProfessionalSettings() {
+        const eventIds = ["classic-events", "generative-events", "agent-events", "graph-events"];
+        const hasEvents = eventIds.some((id) => Number(document.getElementById(id).value) !== 0);
+        const hasDiscount = [
+          "anthropic-batch",
+          "anthropic-cache",
+          "openai-batch",
+          "openai-cache",
+          "google-batch",
+          "google-post-promo"
+        ].some((id) => document.getElementById(id).checked);
+        const rate = Number(document.getElementById("usd-ils-rate").value);
+
+        return activePresetKey === null
+          || document.getElementById("microsoft-studio").value !== "standard"
+          || document.getElementById("microsoft-cowork").value !== "medium"
+          || document.getElementById("anthropic-model").value !== "sonnet-5"
+          || document.getElementById("openai-model").value !== "gpt-5-2"
+          || document.getElementById("google-model").value !== "gemini-3-7-flash"
+          || hasEvents
+          || hasDiscount
+          || Number(document.getElementById("cache-share").value) !== 50
+          || !Number.isFinite(rate)
+          || Math.abs(rate - DEFAULT_USD_ILS_RATE) > 1e-9;
+      }
+
+      function updateAdvancedSettingsStatus() {
+        advancedSettingsStatus.hidden = developerModeInput.checked || !hasProfessionalSettings();
+      }
+
+      function updateMobileResultInset() {
+        const isMobile = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 740px)").matches;
+        const height = isMobile && !resultContent.hidden && typeof humanResultCard.getBoundingClientRect === "function"
+          ? Math.ceil(humanResultCard.getBoundingClientRect().height)
+          : 0;
+        document.documentElement.style.setProperty("--mobile-result-height", `${height}px`);
+      }
+
+      function setDeveloperMode(enabled, { force = false, announce = true } = {}) {
+        if (!enabled && !force && monthlyOverrideInput.checked) {
+          developerModeInput.checked = true;
+          developerContents.forEach((element) => { element.hidden = false; });
+          document.body.classList.add("developer-mode");
+          announcement.textContent = "כדי לחזור לתצוגה הפשוטה, יש לבטל תחילה את ההזנה החודשית המדויקת.";
+          afterPaint(() => monthlyOverrideInput.focus());
+          return { changed: false, normalized: false };
+        }
+
+        if (!enabled && !force && !getState()) {
+          developerModeInput.checked = true;
+          developerContents.forEach((element) => { element.hidden = false; });
+          resultsDetails.hidden = true;
+          document.body.classList.add("developer-mode");
+          resultsPanel.classList.add("is-invalid");
+          resultContent.hidden = true;
+          afterPaint(updateMobileResultInset);
+          announcement.textContent = "אי אפשר לסגור את ההתאמה למפתחים לפני תיקון השדה המסומן.";
+          afterPaint(() => form.querySelector('[aria-invalid="true"]')?.focus());
+          return { changed: false, normalized: false };
+        }
+
+        developerModeInput.checked = enabled;
+        developerContents.forEach((element) => { element.hidden = !enabled; });
+        document.body.classList.toggle("developer-mode", enabled);
+        updateAdvancedSettingsStatus();
+        const hasCustomSettings = hasProfessionalSettings();
+        afterPaint(updateMobileResultInset);
+
+        if (announce) {
+          announcement.textContent = enabled
+            ? "התאמה אישית למפתחים נפתחה. ערכי החישוב לא השתנו."
+            : hasCustomSettings
+              ? "ההתאמה למפתחים נסגרה. ההגדרות המותאמות נשמרו ומסומנות בכרטיס התוצאה."
+              : "ההתאמה למפתחים נסגרה. חזרת לתצוגה הפשוטה.";
+        }
+        return { changed: true, normalized: false };
       }
 
       function qualityBadge(quality) {
@@ -3007,6 +3481,7 @@
         const runIls = cheapest.runCost * state.usdIlsRate;
         document.getElementById("human-result-title").textContent = `כ־${formatIls(monthlyIls)} לחודש`;
         if (noMonthlyUsage) {
+          document.getElementById("human-result-simple-context").textContent = "אין שימוש חודשי · הזיזו את הסליידר מעל אפס";
           setLocalizedResultText("human-result-model", "לא הוגדר שימוש חודשי", "he");
           document.getElementById("human-result-context").textContent = " — לכן אין דירוג עלות לחודש";
           document.getElementById("human-result-per-run").textContent = "המחיר להרצה מופיע בפירוט";
@@ -3015,6 +3490,7 @@
           setLocalizedResultText("cheapest-model", "כל המודלים שנבחרו", "he");
           document.getElementById("cheapest-cost").textContent = `${formatUsd(0)} לחודש`;
         } else if (isTie) {
+          document.getElementById("human-result-simple-context").textContent = "תיקו בעלות הנמוכה בין מודלי ה־API שנבחרו";
           const tiedNames = tiedRows.map((row) => `${row.provider} · ${row.model}`).join(" / ");
           setLocalizedResultText("human-result-model", tiedNames, "en");
           document.getElementById("human-result-context").textContent = " — תיקו בעלות החודשית הנמוכה";
@@ -3024,6 +3500,7 @@
           setLocalizedResultText("cheapest-model", tiedNames, "en");
           document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · אותו מחיר ב־${tiedRows.length} מודלים`;
         } else {
+          document.getElementById("human-result-simple-context").textContent = "אומדן לפי 3 מודלי API · לפני מס ועמלות";
           setLocalizedResultText("human-result-model", `${cheapest.provider} · ${cheapest.model}`, "en");
           document.getElementById("human-result-context").textContent = " — הזול מבין מודלי ה־API שנבחרו";
           document.getElementById("human-result-per-run").textContent = `${formatIls(runIls)} לשיחה`;
@@ -3097,16 +3574,21 @@
       function render(announceUpdate = true) {
         updateHumanInputSummary();
         updateControlNotes();
+        updateAdvancedSettingsStatus();
         const state = getState();
         if (!state) {
           resultsPanel.classList.add("is-invalid");
           resultContent.hidden = true;
+          resultsDetails.hidden = true;
+          afterPaint(updateMobileResultInset);
           if (announceUpdate) announcement.textContent = "יש שגיאה באחד משדות הקלט.";
           return;
         }
 
         resultsPanel.classList.remove("is-invalid");
         resultContent.hidden = false;
+        resultsDetails.hidden = !developerModeInput.checked;
+        afterPaint(updateMobileResultInset);
         lastRows = calculateRows(state);
         const outcome = renderSummary(lastRows, state);
         renderChart(lastRows);
@@ -3137,7 +3619,30 @@
       dailyRunsInput.addEventListener("input", syncRunsFromDaily);
       runsMonthInput.addEventListener("input", syncDailyFromRuns);
       monthlyOverrideInput.addEventListener("change", () => {
+        const previousRuns = runsMonthInput.valueAsNumber;
         setMonthlyOverride(monthlyOverrideInput.checked, true);
+        if (!monthlyOverrideInput.checked && Number.isFinite(previousRuns)) {
+          monthlyOverrideInput.dataset.interactionMessage = previousRuns === runsMonthInput.valueAsNumber
+            ? "מצב הסליידר חזר לפעול ללא שינוי בכמות החודשית."
+            : `ההזנה החודשית המדויקת בוטלה: ${formatNumber(previousRuns, 0)} שיחות הותאמו ל־${formatNumber(runsMonthInput.valueAsNumber, 0)} לפי הסליידר.`;
+        }
+      });
+      developerModeInput.addEventListener("change", () => {
+        const modeChange = setDeveloperMode(developerModeInput.checked);
+        if (modeChange.changed) render(false);
+      });
+      document.getElementById("open-advanced-settings").addEventListener("click", () => {
+        developerModeInput.checked = true;
+        setDeveloperMode(true);
+        developerModeInput.focus();
+      });
+      document.getElementById("close-advanced-settings").addEventListener("click", () => {
+        developerModeInput.checked = false;
+        const modeChange = setDeveloperMode(false);
+        if (modeChange.changed) {
+          render(false);
+          afterPaint(() => developerModeInput.focus());
+        }
       });
       ["process-description", "input-tokens", "output-tokens"].forEach((id) => {
         document.getElementById(id).addEventListener("input", () => setActivePreset(null));
@@ -3150,11 +3655,13 @@
       form.addEventListener("change", (event) => {
         clearTimeout(renderTimer);
         const input = event.target;
+        if (input.id === "developer-mode") return;
         let interactionMessage = "";
         if (input.id === "monthly-override") {
           interactionMessage = input.checked
             ? "מצב הזנה חודשית מדויקת הופעל והסליידר הושבת."
-            : "מצב הסליידר חזר לפעול והכמות החודשית הותאמה למספר יומי שלם.";
+            : input.dataset.interactionMessage || "מצב הסליידר חזר לפעול.";
+          delete input.dataset.interactionMessage;
         }
         if (input.matches("input[type='checkbox'][data-exclusive-group]") && input.checked) {
           const group = input.dataset.exclusiveGroup;
@@ -3182,7 +3689,7 @@
         });
       });
 
-      document.getElementById("reset-calculator").addEventListener("click", () => {
+      function resetCalculator({ focusPreset = true } = {}) {
         form.reset();
         document.getElementById("anthropic-model").value = "sonnet-5";
         document.getElementById("openai-model").value = "gpt-5-2";
@@ -3192,14 +3699,28 @@
         runsMonthInput.value = monthlyRunsFromDaily(PRESETS.student.dailyRuns);
         setMonthlyOverride(false, false);
         setActivePreset("student");
-        document.querySelector(".precision-settings").open = false;
-        document.querySelector(".provider-disclosure").open = false;
+        setDeveloperMode(false, { force: true, announce: false });
+        document.querySelectorAll("details[open]").forEach((details) => { details.open = false; });
         render();
-        document.querySelector('[data-preset="student"]').focus();
+        announcement.textContent = "המחשבון אופס לתבנית סטודנט ולברירות המחדל.";
+        if (focusPreset) document.querySelector('[data-preset="student"]').focus();
+      }
+
+      document.getElementById("reset-calculator").addEventListener("click", () => resetCalculator());
+      document.getElementById("simple-reset-calculator").addEventListener("click", () => resetCalculator());
+
+      if (typeof ResizeObserver === "function") {
+        new ResizeObserver(updateMobileResultInset).observe(humanResultCard);
+      }
+      window.addEventListener("resize", updateMobileResultInset);
+      window.addEventListener("pageshow", () => {
+        setDeveloperMode(developerModeInput.checked, { announce: false });
+        updateMobileResultInset();
       });
 
       setMonthlyOverride(false, false);
       setActivePreset("student");
+      setDeveloperMode(false, { force: true, announce: false });
       render();
     })();
   </script>
