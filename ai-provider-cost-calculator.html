@@ -2322,7 +2322,7 @@
           <ol>
             <li><strong>בוחרים תבנית</strong> שהכי דומה למשימה שלכם.</li>
             <li><strong>מזיזים את הסליידר</strong> לפי מספר השיחות או המשימות ביום.</li>
-            <li><strong>קוראים את האומדן החודשי</strong> בשקלים ובכוסות קפה. אפשר לפתוח את <strong>המצב המתקדם</strong> אם רוצים לדייק.</li>
+            <li><strong>קוראים את האומדן החודשי</strong> בשקלים ובכוסות קפה. לצורך תהליך ארגוני פותחים את <strong>המצב הארגוני</strong>.</li>
           </ol>
         </aside>
 
@@ -2361,11 +2361,11 @@
 
       <div class="mode-gate">
         <div class="mode-tabs" role="tablist" aria-label="בחירת מצב המחשבון">
-          <button id="simple-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="true" aria-controls="simple-workload-view results-panel">מצב פשוט</button>
-          <button id="developer-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="developer-workspace results-details developer-reference" tabindex="-1">מצב מתקדם</button>
+          <button id="simple-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="true" aria-controls="simple-workload-view results-panel">מצב אישי</button>
+          <button id="developer-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="developer-workspace results-details developer-reference" tabindex="-1">מצב ארגוני</button>
         </div>
         <input id="developer-mode" class="mode-state-input" type="checkbox" tabindex="-1" aria-hidden="true" aria-controls="developer-workspace results-details developer-reference" aria-describedby="developer-mode-help">
-        <p id="developer-mode-help" class="mode-help">כבוי כברירת מחדל. פתיחה אינה משנה את החישוב; הגדרות מותאמות שנשמרו יסומנו בכרטיס התוצאה.</p>
+        <p id="developer-mode-help" class="mode-help">מצב אישי פתוח כברירת מחדל. מצב ארגוני מציג תהליך, מחלקה, הרצות חודשיות ופירוט מקצועי; ההגדרות נשמרות במעבר בין המצבים.</p>
       </div>
 
       <div id="developer-workspace" class="developer-workspace" data-developer-content hidden>
@@ -2380,9 +2380,10 @@
         </aside>
 
         <aside class="advanced-how-to-use" aria-labelledby="advanced-how-to-use-title">
-          <h2 id="advanced-how-to-use-title">מדריך למצב מתקדם</h2>
+          <h2 id="advanced-how-to-use-title">מדריך למצב ארגוני</h2>
           <ol>
             <li><strong>מגדירים את התרחיש:</strong> מזינים טוקני קלט ופלט ומספר הרצות בחודש, או מפעילים הזנה חודשית מדויקת.</li>
+            <li><strong>מתעדים את ההקשר:</strong> כותבים מהו התהליך, לאיזו מחלקה הוא שייך, וכמה פעמים הוא רץ בחודש.</li>
             <li><strong>בוחרים מודל וספק:</strong> בוחרים מודל אחד מכל ספק שרוצים להשוות. השאירו ספקים לא רלוונטיים ללא בחירה.</li>
             <li><strong>מפעילים הנחות רק כשמתאימות:</strong> Batch מתאים להרצות אצווה; Cache מתאים רק לחלק הקלט שחוזר על עצמו. אפשר לשלב Batch עם תרחיש המבצע של Google.</li>
             <li><strong>קוראים את התוצאה:</strong> הדירוג והחישוב המקורי מוצגים בדולר. Microsoft ו־Cowork מסומנים בנפרד כי הם אומדנים או מיפוי חלקי, לא מחירון API שקול.</li>
@@ -2395,7 +2396,7 @@
               <p class="section-kicker">דיוק מקצועי</p>
               <h2 id="precision-title">טקסט, טוקנים, כמות חודשית ושער הדולר</h2>
             </div>
-            <p>התבנית ממלאת את הערכים האלה אוטומטית. שינוי ידני הופך את התרחיש למותאם אישית.</p>
+          <p>התבנית ממלאת את הערכים האלה אוטומטית. במצב ארגוני אפשר לתעד תהליך ומחלקה ולשנות כל ערך ידנית.</p>
           </div>
 
           <div class="plain-language-note">
@@ -2418,6 +2419,12 @@
                 <label for="process-description">מה בדיוק עושים?</label>
                 <textarea id="process-description" rows="4" aria-describedby="process-description-help">סיכום מאמר או חומר לימוד וכתיבת טיוטה לעבודה</textarea>
                 <p id="process-description-help" class="field-help">התיאור נשמר בדפדפן בלבד ואינו נשלח לשום שירות.</p>
+              </div>
+
+              <div class="field">
+                <label for="department-name">לאיזו מחלקה שייך התהליך?</label>
+                <input id="department-name" type="text" maxlength="120" placeholder="למשל: שירות לקוחות, כספים או שיווק" aria-describedby="department-name-help">
+                <p id="department-name-help" class="field-help">שדה תיעוד לבדו; הוא אינו משנה את החישוב ונשמר בדפדפן בלבד.</p>
               </div>
 
               <div class="field">
@@ -3503,7 +3510,7 @@
           resultsPanel.classList.add("is-invalid");
           resultContent.hidden = true;
           afterPaint(updateMobileResultInset);
-          announcement.textContent = "אי אפשר לסגור את המצב המתקדם לפני תיקון השדה המסומן.";
+          announcement.textContent = "אי אפשר לסגור את המצב הארגוני לפני תיקון השדה המסומן.";
           afterPaint(() => form.querySelector('[aria-invalid="true"]')?.focus());
           return { changed: false, normalized: false };
         }
@@ -3518,10 +3525,10 @@
 
         if (announce) {
           announcement.textContent = enabled
-            ? "המצב המתקדם נפתח. ערכי החישוב לא השתנו."
+            ? "המצב הארגוני נפתח. אפשר לתעד תהליך, מחלקה והרצות חודשיות; ערכי החישוב לא השתנו."
             : hasCustomSettings
-              ? "המצב המתקדם נסגר. ההגדרות המותאמות נשמרו ומסומנות בכרטיס התוצאה."
-              : "המצב המתקדם נסגר. חזרת לתצוגה הפשוטה.";
+              ? "המצב הארגוני נסגר. ההגדרות המותאמות נשמרו ומסומנות בכרטיס התוצאה."
+              : "המצב הארגוני נסגר. חזרת למצב האישי.";
         }
         return { changed: true, normalized: false };
       }
