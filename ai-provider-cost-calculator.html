@@ -2458,7 +2458,7 @@
                 <p id="runs-month-error" class="field-error" aria-live="polite"></p>
               </div>
 
-              <div class="field">
+              <div class="field org-optional-field">
                 <label for="usd-ils-rate">שער דולר–שקל להמחשה</label>
                 <div class="input-wrap">
                   <input id="usd-ils-rate" type="number" inputmode="decimal" min="0.1" max="20" step="0.0001" value="2.9860" aria-describedby="usd-ils-rate-help usd-ils-rate-error">
@@ -2477,7 +2477,7 @@
             <p class="section-kicker">בחירת מודלים</p>
             <h2 id="providers-title">מודלים, הנחות ומסלולי Microsoft</h2>
           </div>
-          <p>כבר נבחרה ברירת מחדל מכל ספק; כאן אפשר לשנות את תרחיש ההשוואה.</p>
+          <p>החישוב משתמש בברירת מחדל מכל ספק. אפשר להרחיב את ההגדרות רק אם נדרש תרחיש תמחור חריג.</p>
         </div>
         <div class="disclosure-body">
 
@@ -2552,20 +2552,20 @@
           <fieldset class="provider-card anthropic">
             <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">Anthropic</span></legend>
             <p class="provider-subtitle">מחירון API רשמי לקלט ולפלט, בדולר למיליון טוקנים.</p>
-            <div class="field">
+            <div class="field org-optional-field">
               <label for="anthropic-model">מודל Anthropic</label>
               <select id="anthropic-model" aria-describedby="anthropic-rate-note"></select>
             </div>
             <div id="anthropic-rate-note" class="selected-rate"></div>
-            <fieldset class="toggle-list">
+            <fieldset class="toggle-list org-optional-section">
               <legend class="field-label">תרחיש הנחה ל־Anthropic</legend>
               <p id="anthropic-discount-help" class="micro-note">אפשר להפעיל אפשרות אחת בלבד; הפעלת אפשרות חדשה מבטלת את הקודמת.</p>
-              <label class="toggle">
-                <input id="anthropic-batch" type="checkbox" data-exclusive-group="anthropic-discount" aria-describedby="anthropic-discount-help">
+              <label class="toggle org-optional-field">
+                <input id="anthropic-batch" class="org-optional-field" type="checkbox" data-exclusive-group="anthropic-discount" aria-describedby="anthropic-discount-help">
                 <span>עיבוד אצווה (Batch API) — הנחה של 50%<small>חל על קלט ופלט; זמן עיבוד אצווה.</small></span>
               </label>
-              <label class="toggle">
-                <input id="anthropic-cache" type="checkbox" data-exclusive-group="anthropic-discount" aria-describedby="anthropic-discount-help">
+              <label class="toggle org-optional-field">
+                <input id="anthropic-cache" class="org-optional-field" type="checkbox" data-exclusive-group="anthropic-discount" aria-describedby="anthropic-discount-help">
                 <span>קריאת מטמון פרומפט — מחיר 0.1× לקלט<small>חל על שיעור הקלט מהמטמון. עלות כתיבה 1.25×–2× אינה נכללת.</small></span>
               </label>
             </fieldset>
@@ -2574,20 +2574,20 @@
           <fieldset class="provider-card openai">
             <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">OpenAI</span></legend>
             <p class="provider-subtitle">מחירון API רשמי לקלט, קלט במטמון ופלט.</p>
-            <div class="field">
+            <div class="field org-optional-field">
               <label for="openai-model">מודל OpenAI</label>
               <select id="openai-model" aria-describedby="openai-rate-note"></select>
             </div>
             <div id="openai-rate-note" class="selected-rate"></div>
-            <fieldset class="toggle-list">
+            <fieldset class="toggle-list org-optional-section">
               <legend class="field-label">תרחיש הנחה ל־OpenAI</legend>
               <p id="openai-discount-help" class="micro-note">אפשר להפעיל אפשרות אחת בלבד; הפעלת אפשרות חדשה מבטלת את הקודמת.</p>
-              <label class="toggle">
-                <input id="openai-batch" type="checkbox" data-exclusive-group="openai-discount" aria-describedby="openai-discount-help">
+              <label class="toggle org-optional-field">
+                <input id="openai-batch" class="org-optional-field" type="checkbox" data-exclusive-group="openai-discount" aria-describedby="openai-discount-help">
                 <span>עיבוד אצווה (Batch API) — הנחה של 50%<small>חל על קלט ופלט.</small></span>
               </label>
-              <label id="openai-cache-toggle" class="toggle">
-                <input id="openai-cache" type="checkbox" data-exclusive-group="openai-discount" aria-describedby="openai-discount-help">
+              <label id="openai-cache-toggle" class="toggle org-optional-field">
+                <input id="openai-cache" class="org-optional-field" type="checkbox" data-exclusive-group="openai-discount" aria-describedby="openai-discount-help">
                 <span>קלט במטמון — לפי מחיר המודל<small>חל על שיעור הקלט מהמטמון בלבד.</small></span>
               </label>
             </fieldset>
@@ -2596,26 +2596,26 @@
           <fieldset class="provider-card google">
             <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">Google</span></legend>
             <p class="provider-subtitle">מחירון Gemini API רשמי. עיבוד אצווה מוזיל את עלות הקלט והפלט ב־50%; תעריף מטמון אינו נכלל משום שלא סופק לו נתון בר־חישוב.</p>
-            <div class="field">
+            <div class="field org-optional-field">
               <label for="google-model">מודל Google</label>
               <select id="google-model" aria-describedby="google-rate-note"></select>
             </div>
             <div id="google-rate-note" class="selected-rate"></div>
-            <fieldset class="toggle-list">
+            <fieldset class="toggle-list org-optional-section">
               <legend class="field-label">תרחישי תמחור ל־Google</legend>
-              <label class="toggle">
-                <input id="google-batch" type="checkbox" aria-describedby="google-rate-note">
+              <label class="toggle org-optional-field">
+                <input id="google-batch" class="org-optional-field" type="checkbox" aria-describedby="google-rate-note">
                 <span>עיבוד אצווה (Batch API) — הנחה של 50%<small>חל על עלות הקלט והפלט לפי מחירון Gemini API.</small></span>
               </label>
-              <label id="google-promo-toggle" class="toggle">
-                <input id="google-post-promo" type="checkbox">
+              <label id="google-promo-toggle" class="toggle org-optional-field">
+                <input id="google-post-promo" class="org-optional-field" type="checkbox">
                 <span>תרחיש לאחר סיום המבצע<small>ל־Gemini 3.7/3.6 Flash: החל מ־1.1.2027.</small></span>
               </label>
             </fieldset>
           </fieldset>
         </div>
 
-        <section class="cache-assumption" aria-labelledby="cache-share-title">
+        <section class="cache-assumption org-optional-section" aria-labelledby="cache-share-title">
           <div>
             <h3 id="cache-share-title">הנחת שיעור קלט מהמטמון</h3>
             <p>השדה פעיל רק כשנבחר מטמון ב־Anthropic או OpenAI. בכל ספק אפשר לבחור עיבוד אצווה או מטמון — לא שניהם יחד.</p>
