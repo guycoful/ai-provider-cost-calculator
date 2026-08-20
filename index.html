@@ -3859,7 +3859,9 @@
           document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · ${formatUsd(cheapest.runCost)} להרצה`;
         }
         const coffeeText = coffeeComparison(monthlyIls);
-        document.getElementById("coffee-comparison").textContent = coffeeText;
+        // השוואת כוסות הקפה הוסרה מהתצוגה הארגונית; ההשמה נשמרת מוגנת למקרה שהאלמנט יוחזר
+        const coffeeEl = document.getElementById("coffee-comparison");
+        if (coffeeEl) coffeeEl.textContent = coffeeText;
         document.getElementById("coffee-comparison-detail").textContent = coffeeText;
         document.getElementById("monthly-tokens").textContent = formatNumber((state.inputTokens + state.outputTokens) * state.runsMonth, 0);
         document.getElementById("official-range").textContent = `${formatUsd(cheapest.monthCost)}–${formatUsd(highest.monthCost)}`;
