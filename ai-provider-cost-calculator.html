@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <meta name="description" content="מחשבון עברי ופשוט להשוואת עלויות AI: בוחרים שימוש, מזיזים סליידר ורואים עלות חודשית בשקלים ובדולרים.">
-  <title>כמה יעלה לי AI? מחשבון פשוט להשוואת עלויות</title>
+  <meta name="description" content="מחשבון עלויות לארגונים: מתארים תהליך אחד, מזינים כמה פעמים הוא רץ בחודש, ומקבלים עלות חודשית מול Microsoft Copilot ומול החלופות בשוק.">
+  <title>כמה עולה להריץ תהליך AI · מחשבון עלויות</title>
   <style>
     :root {
       --ink: #15241f;
@@ -2382,7 +2382,7 @@
     <div class="hero-grid">
       <div>
         <p class="eyebrow">בוחרים שימוש · מזיזים סליידר · רואים מחיר</p>
-        <h1>כמה יעלה לי AI בחודש?</h1>
+        <h1>כמה עולה להריץ תהליך AI בחודש?</h1>
         <p class="hero-lead">בוחרים שימוש, מזיזים את הסליידר ורואים מיד הערכת מחיר חודשית בשקלים.</p>
       </div>
     </div>
@@ -2391,7 +2391,8 @@
   <main id="main-content" class="shell" tabindex="-1">
     <div class="calculator-layout">
     <form id="calculator-form" novalidate>
-      <section id="simple-workload-view" class="panel quick-start" aria-labelledby="workload-title">
+      <!-- מצב אישי הוסר לבקשת ואלור, 20.8.2026. הסליידר היומי נשאר בקוד כדי לא לשבור תלויות ומוסתר תמידית. -->
+      <section id="simple-workload-view" class="panel quick-start" aria-labelledby="workload-title" hidden style="display:none">
         <div class="section-heading">
           <div>
             <p class="section-kicker">מתחילים כאן</p>
@@ -2437,19 +2438,18 @@
           <div class="slider-scale" dir="ltr" aria-hidden="true"><span>0</span><span>15</span><span>30</span></div>
           <p id="daily-runs-help" class="usage-explanation">במחשבון, שיחה אחת היא הפעלה אחת של המשימה. חודש מחושב כ־30 יום.</p>
           <p id="daily-runs-monthly" class="usage-explanation"><strong>כ־60 שיחות בחודש</strong></p>
-          <p id="daily-override-note" class="usage-explanation override-note" hidden>מצב הזנה חודשית מדויקת פעיל; הסליידר היומי מושבת עד לביטול המצב בהגדרות הדיוק.</p>
+          <p id="daily-override-note" class="usage-explanation override-note" hidden>מצב הזנה חודשית מדויקת פעיל.</p>
 
         </div>
       </section>
 
       <div class="mode-gate">
         <div class="mode-tabs" role="tablist" aria-label="בחירת מצב המחשבון">
-          <button id="simple-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="true" aria-controls="simple-workload-view results-panel">מצב אישי</button>
-          <button id="developer-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="developer-workspace results-panel results-details developer-reference" tabindex="-1">מצב ארגוני</button>
-          <button id="costs-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="results-details developer-reference" tabindex="-1">פירוט עלויות</button>
+          <button id="developer-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="true" aria-controls="developer-workspace results-panel results-details developer-reference">התהליך והעלות</button>
+          <button id="costs-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="results-details developer-reference" tabindex="-1">פירוט מלא</button>
         </div>
         <input id="developer-mode" class="mode-state-input" type="checkbox" tabindex="-1" aria-hidden="true" aria-controls="developer-workspace results-panel results-details developer-reference" aria-describedby="developer-mode-help">
-        <p id="developer-mode-help" class="mode-help">מצב ארגוני מיועד להזנת תהליך ומחלקה. פירוט המחירים, המודלים וההנחות נמצא במסך נפרד.</p>
+        <p id="developer-mode-help" class="mode-help">כאן מזינים את התהליך ומקבלים את העלות החודשית. פירוט המחירים, המודלים וההנחות נמצא במסך הנפרד.</p>
       </div>
 
       <div id="developer-workspace" class="developer-workspace" data-developer-content hidden>
@@ -2464,7 +2464,7 @@
         </aside>
 
         <aside class="advanced-how-to-use" aria-labelledby="advanced-how-to-use-title">
-          <h2 id="advanced-how-to-use-title">מדריך למצב ארגוני</h2>
+          <h2 id="advanced-how-to-use-title">איך עובדים עם המחשבון</h2>
           <ol>
             <li><strong>מתארים את התהליך</strong> בשפה חופשית, כולל הקבצים שנכנסים ומה רוצים לקבל.</li>
             <li><strong>מזינים מחלקה וכמות חודשית.</strong> המחשבון מעריך אוטומטית את היקף הקלט, הפלט ואירועי Microsoft.</li>
@@ -2500,13 +2500,13 @@
               <div class="field process-field">
                 <label for="process-description">מה בדיוק עושים?</label>
                 <textarea id="process-description" rows="4" placeholder="למשל: לקחת שני קובצי Excel, להשוות ביניהם ולהחזיר דוח מסכם" aria-describedby="process-description-help process-auto-estimate"></textarea>
-                <p id="process-description-help" class="field-help">אין צורך לחשב טוקנים או להכיר מונחים טכניים. התיאור נשאר בדפדפן ואינו נשלח לשירות חיצוני.</p>
+                <p id="process-description-help" class="field-help">אין צורך לחשב טוקנים או להכיר מונחים טכניים. התיאור נשאר בדפדפן ואינו נשלח לשום שירות חיצוני.</p>
               </div>
 
               <div class="field">
                 <label for="department-name">לאיזו מחלקה שייך התהליך?</label>
-                <input id="department-name" type="text" maxlength="120" placeholder="למשל: שירות לקוחות, כספים או שיווק" aria-describedby="department-name-help">
-                <p id="department-name-help" class="field-help">המחלקה משמשת להתאמת אומדן התהליך ונשארת בדפדפן בלבד.</p>
+                <input id="department-name" type="text" maxlength="120" placeholder="למשל: כספים, רכש או לוגיסטיקה" aria-describedby="department-name-help">
+                <p id="department-name-help" class="field-help">שם המחלקה משמש להתאמת האומדן ונשאר בדפדפן בלבד.</p>
               </div>
 
               <div id="process-auto-estimate" class="process-auto-estimate" aria-live="polite">
@@ -2535,12 +2535,12 @@
 
               <div class="field">
                 <label for="runs-month">הרצות בחודש</label>
-                <label class="compact-check org-optional-field" for="monthly-override"><input id="monthly-override" type="checkbox" aria-describedby="runs-month-help"> הזנה חודשית מדויקת במקום הסליידר</label>
+                <label class="compact-check org-optional-field" for="monthly-override"><input id="monthly-override" type="checkbox" aria-describedby="runs-month-help"> הזנה חודשית מדויקת</label>
                 <div class="input-wrap">
                   <input id="runs-month" type="number" inputmode="numeric" min="0" max="1000000" step="1" value="60" readonly aria-describedby="runs-month-help runs-month-error">
                   <span class="input-suffix">הרצות</span>
                 </div>
-                <p id="runs-month-help" class="field-help">כמה פעמים התהליך כולו צפוי לרוץ בחודש.</p>
+                <p id="runs-month-help" class="field-help">כמה פעמים התהליך כולו רץ בחודש.</p>
                 <p id="runs-month-error" class="field-error" aria-live="polite"></p>
               </div>
 
@@ -3335,7 +3335,7 @@
       const advancedSettingsStatus = document.getElementById("advanced-settings-status");
       const humanResultCard = document.querySelector(".human-result-card");
       const simpleWorkloadView = document.getElementById("simple-workload-view");
-      const simpleModeTab = document.getElementById("simple-mode-tab");
+      const simpleModeTab = null;
       const developerModeTab = document.getElementById("developer-mode-tab");
       const costsModeTab = document.getElementById("costs-mode-tab");
       const processDescriptionInput = document.getElementById("process-description");
@@ -3650,17 +3650,17 @@
         const organizational = view === "organizational";
         const costs = view === "costs";
 
-        simpleWorkloadView.hidden = !personal;
-        resultsPanel.hidden = !personal;
-        developerWorkspace.hidden = personal;
+        simpleWorkloadView.hidden = true;
+        resultsPanel.hidden = costs;
+        developerWorkspace.hidden = costs;
         resultsDetails.hidden = !costs;
         developerReference.hidden = !costs;
         runsMonthInput.readOnly = !organizational;
 
-        simpleModeTab.setAttribute("aria-selected", String(personal));
+        simpleModeTab?.setAttribute("aria-selected", "false");
         developerModeTab.setAttribute("aria-selected", String(organizational));
         costsModeTab.setAttribute("aria-selected", String(costs));
-        simpleModeTab.tabIndex = personal ? 0 : -1;
+        if (simpleModeTab) simpleModeTab.tabIndex = -1;
         developerModeTab.tabIndex = organizational ? 0 : -1;
         costsModeTab.tabIndex = costs ? 0 : -1;
 
@@ -3954,13 +3954,13 @@
         }
       }
 
-      simpleModeTab.addEventListener("click", () => activateMode(false, simpleModeTab));
+      
       developerModeTab.addEventListener("click", () => activateMode(true, developerModeTab));
       costsModeTab.addEventListener("click", () => {
         setCostsMode();
         afterPaint(() => costsModeTab.focus());
       });
-      const modeTabs = [simpleModeTab, developerModeTab, costsModeTab];
+      const modeTabs = [developerModeTab, costsModeTab].filter(Boolean);
       modeTabs.forEach((tab, index) => {
         tab.addEventListener("keydown", (event) => {
           if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
@@ -4040,11 +4040,11 @@
         runsMonthInput.value = monthlyRunsFromDaily(PRESETS.student.dailyRuns);
         setMonthlyOverride(false, false);
         setActivePreset("student");
-        setDeveloperMode(false, { force: true, announce: false });
+        setDeveloperMode(true, { force: true, announce: false });
         document.querySelectorAll("details[open]").forEach((details) => { details.open = false; });
         render();
-        announcement.textContent = "המחשבון אופס לתבנית סטודנט ולברירות המחדל.";
-        if (focusPreset) document.querySelector('[data-preset="student"]').focus();
+        announcement.textContent = "המחשבון אופס לברירות המחדל.";
+        if (focusPreset) document.getElementById("process-description")?.focus();
       }
 
       document.getElementById("reset-calculator").addEventListener("click", () => resetCalculator());
@@ -4061,7 +4061,7 @@
 
       setMonthlyOverride(false, false);
       setActivePreset("student");
-      setDeveloperMode(false, { force: true, announce: false });
+      setDeveloperMode(true, { force: true, announce: false });
       render();
     })();
   </script>
