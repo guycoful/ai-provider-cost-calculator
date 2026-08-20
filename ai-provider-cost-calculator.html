@@ -440,6 +440,7 @@
 
     .mode-tabs {
       display: inline-flex;
+      flex-wrap: wrap;
       gap: 4px;
       padding: 4px;
       background: #edf2ed;
@@ -599,6 +600,17 @@
       font-weight: 900;
     }
 
+    .process-auto-estimate {
+      grid-column: 1 / -1;
+      padding: 13px 15px;
+      color: #214f42;
+      background: #edf7f1;
+      border: 1px solid #b9d8c8;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
     .developer-workspace {
       display: grid;
       gap: 24px;
@@ -622,9 +634,27 @@
       }
     }
 
-    body.developer-mode .org-optional-field,
-    body.developer-mode .org-optional-section {
+    body.developer-mode:not(.costs-mode) .org-optional-field,
+    body.developer-mode:not(.costs-mode) .org-optional-section {
       display: none !important;
+    }
+
+    body.developer-mode:not(.costs-mode) .critical-alert,
+    body.developer-mode:not(.costs-mode) .provider-disclosure {
+      display: none !important;
+    }
+
+    body.costs-mode .advanced-how-to-use,
+    body.costs-mode .precision-settings {
+      display: none !important;
+    }
+
+    body.costs-mode .developer-workspace {
+      display: block;
+    }
+
+    body.costs-mode .provider-disclosure {
+      width: 100%;
     }
 
     .developer-workspace > .panel,
@@ -2416,9 +2446,10 @@
         <div class="mode-tabs" role="tablist" aria-label="בחירת מצב המחשבון">
           <button id="simple-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="true" aria-controls="simple-workload-view results-panel">מצב אישי</button>
           <button id="developer-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="developer-workspace results-panel results-details developer-reference" tabindex="-1">מצב ארגוני</button>
+          <button id="costs-mode-tab" class="mode-tab" type="button" role="tab" aria-selected="false" aria-controls="results-details developer-reference" tabindex="-1">פירוט עלויות</button>
         </div>
         <input id="developer-mode" class="mode-state-input" type="checkbox" tabindex="-1" aria-hidden="true" aria-controls="developer-workspace results-panel results-details developer-reference" aria-describedby="developer-mode-help">
-        <p id="developer-mode-help" class="mode-help">מצב אישי פתוח כברירת מחדל. מצב ארגוני מציג תהליך, מחלקה, הרצות חודשיות ופירוט מקצועי; ההגדרות נשמרות במעבר בין המצבים.</p>
+        <p id="developer-mode-help" class="mode-help">מצב ארגוני מיועד להזנת תהליך ומחלקה. פירוט המחירים, המודלים וההנחות נמצא במסך נפרד.</p>
       </div>
 
       <div id="developer-workspace" class="developer-workspace" data-developer-content hidden>
@@ -2435,11 +2466,9 @@
         <aside class="advanced-how-to-use" aria-labelledby="advanced-how-to-use-title">
           <h2 id="advanced-how-to-use-title">מדריך למצב ארגוני</h2>
           <ol>
-            <li><strong>מגדירים את התרחיש:</strong> מזינים טוקני קלט ופלט ומספר הרצות בחודש, או מפעילים הזנה חודשית מדויקת.</li>
-            <li><strong>מתעדים את ההקשר:</strong> כותבים מהו התהליך, לאיזו מחלקה הוא שייך, וכמה פעמים הוא רץ בחודש.</li>
-            <li><strong>בוחרים מודל וספק:</strong> בוחרים מודל אחד מכל ספק שרוצים להשוות. השאירו ספקים לא רלוונטיים ללא בחירה.</li>
-            <li><strong>מפעילים הנחות רק כשמתאימות:</strong> Batch מתאים להרצות אצווה; Cache מתאים רק לחלק הקלט שחוזר על עצמו. אפשר לשלב Batch עם תרחיש המבצע של Google.</li>
-            <li><strong>קוראים את התוצאה:</strong> הדירוג והחישוב המקורי מוצגים בדולר. Microsoft ו־Cowork מסומנים בנפרד כי הם אומדנים או מיפוי חלקי, לא מחירון API שקול.</li>
+            <li><strong>מתארים את התהליך</strong> בשפה חופשית, כולל הקבצים שנכנסים ומה רוצים לקבל.</li>
+            <li><strong>מזינים מחלקה וכמות חודשית.</strong> המחשבון מעריך אוטומטית את היקף הקלט, הפלט ואירועי Microsoft.</li>
+            <li><strong>עוברים לפירוט העלויות</strong> כדי לראות את ההשוואה, ההנחות והסייגים במסך נפרד.</li>
           </ol>
         </aside>
 
@@ -2447,12 +2476,12 @@
           <div class="section-heading">
             <div>
               <p class="section-kicker">דיוק מקצועי</p>
-              <h2 id="precision-title">טקסט, טוקנים, כמות חודשית ושער הדולר</h2>
+              <h2 id="precision-title">תהליך, מחלקה וכמות חודשית</h2>
             </div>
-          <p>התבנית ממלאת את הערכים האלה אוטומטית. במצב ארגוני אפשר לתעד תהליך ומחלקה ולשנות כל ערך ידנית.</p>
+          <p>כתבו את התהליך בשפה רגילה. המחשבון יזהה את סוג העבודה ויעריך את היקף השימוש אוטומטית.</p>
           </div>
 
-          <div class="plain-language-note">
+          <div class="plain-language-note org-optional-section">
             <span class="plain-language-icon" aria-hidden="true">💬</span>
             <div>
               <strong>מה זה טוקן?</strong>
@@ -2460,7 +2489,7 @@
             </div>
           </div>
 
-          <div class="human-translation" aria-label="תרגום משוער של הטוקנים לשפה יומיומית">
+          <div class="human-translation org-optional-section" aria-label="תרגום משוער של הטוקנים לשפה יומיומית">
             <div class="translation-item"><span>מה שולחים בכל שיחה</span><strong id="input-human-equivalent">—</strong></div>
             <div class="translation-item"><span>מה מקבלים בחזרה</span><strong id="output-human-equivalent">—</strong></div>
             <p class="translation-caveat">זו הערכה גסה שמשתנה לפי שפה, עיצוב והמודל.</p>
@@ -2470,17 +2499,21 @@
             <div class="advanced-grid">
               <div class="field process-field">
                 <label for="process-description">מה בדיוק עושים?</label>
-                <textarea id="process-description" rows="4" aria-describedby="process-description-help">סיכום מאמר או חומר לימוד וכתיבת טיוטה לעבודה</textarea>
-                <p id="process-description-help" class="field-help">התיאור נשמר בדפדפן בלבד ואינו נשלח לשום שירות.</p>
+                <textarea id="process-description" rows="4" placeholder="למשל: לקחת שני קובצי Excel, להשוות ביניהם ולהחזיר דוח מסכם" aria-describedby="process-description-help process-auto-estimate"></textarea>
+                <p id="process-description-help" class="field-help">אין צורך לחשב טוקנים או להכיר מונחים טכניים. התיאור נשאר בדפדפן ואינו נשלח לשירות חיצוני.</p>
               </div>
 
               <div class="field">
                 <label for="department-name">לאיזו מחלקה שייך התהליך?</label>
                 <input id="department-name" type="text" maxlength="120" placeholder="למשל: שירות לקוחות, כספים או שיווק" aria-describedby="department-name-help">
-                <p id="department-name-help" class="field-help">שדה תיעוד לבדו; הוא אינו משנה את החישוב ונשמר בדפדפן בלבד.</p>
+                <p id="department-name-help" class="field-help">המחלקה משמשת להתאמת אומדן התהליך ונשארת בדפדפן בלבד.</p>
               </div>
 
-              <div class="field">
+              <div id="process-auto-estimate" class="process-auto-estimate" aria-live="polite">
+                לאחר הזנת התהליך יוצג כאן האומדן האוטומטי.
+              </div>
+
+              <div class="field org-optional-field">
                 <label for="input-tokens">מה שולחים למודל (קלט)</label>
                 <div class="input-wrap">
                   <input id="input-tokens" type="number" inputmode="numeric" min="0" max="1000000000" step="1" value="8000" aria-describedby="input-tokens-help input-tokens-error">
@@ -2490,7 +2523,7 @@
                 <p id="input-tokens-error" class="field-error" aria-live="polite"></p>
               </div>
 
-              <div class="field">
+              <div class="field org-optional-field">
                 <label for="output-tokens">מה מקבלים בחזרה (פלט)</label>
                 <div class="input-wrap">
                   <input id="output-tokens" type="number" inputmode="numeric" min="0" max="1000000000" step="1" value="1500" aria-describedby="output-tokens-help output-tokens-error">
@@ -2501,13 +2534,13 @@
               </div>
 
               <div class="field">
-                <label for="runs-month">שיחות בחודש</label>
-                <label class="compact-check" for="monthly-override"><input id="monthly-override" type="checkbox" aria-describedby="runs-month-help"> הזנה חודשית מדויקת במקום הסליידר</label>
+                <label for="runs-month">הרצות בחודש</label>
+                <label class="compact-check org-optional-field" for="monthly-override"><input id="monthly-override" type="checkbox" aria-describedby="runs-month-help"> הזנה חודשית מדויקת במקום הסליידר</label>
                 <div class="input-wrap">
                   <input id="runs-month" type="number" inputmode="numeric" min="0" max="1000000" step="1" value="60" readonly aria-describedby="runs-month-help runs-month-error">
-                  <span class="input-suffix">שיחות</span>
+                  <span class="input-suffix">הרצות</span>
                 </div>
-                <p id="runs-month-help" class="field-help">כשהאפשרות פעילה אפשר להזין כל מספר חודשי; הסליידר היומי יושבת כדי למנוע סתירה. כדי לחזור לתצוגה פשוטה יש לבטל אפשרות זו.</p>
+                <p id="runs-month-help" class="field-help">כמה פעמים התהליך כולו צפוי לרוץ בחודש.</p>
                 <p id="runs-month-error" class="field-error" aria-live="polite"></p>
               </div>
 
@@ -2555,7 +2588,7 @@
                 </div>
                 <div id="studio-selected-rate" class="selected-rate"></div>
 
-                <details class="advanced">
+                <details class="advanced org-optional-section">
                   <summary>הוספת אירועים קבועים להרצה (אופציונלי)</summary>
                   <p class="micro-note">אירועים אלה מתומחרים בקרדיטים קבועים ואינם תלויים בטוקנים. ברירת המחדל היא אפס.</p>
                   <div class="event-grid">
@@ -2725,7 +2758,7 @@
       <div class="section-heading">
         <div>
           <p class="section-kicker">פירוט מקצועי</p>
-          <h2 id="results-details-title">דולר, גרף וטבלת השוואה</h2>
+          <h2 id="results-details-title">השורה התחתונה: פירוט עלויות</h2>
         </div>
         <p>כאן מופיעים מחיר המקור, המודל שנבחר וכל הנחות החישוב.</p>
       </div>
@@ -2942,7 +2975,7 @@
       <p class="about-note"><strong>סיווג הנתונים:</strong> מחירי Anthropic, OpenAI ו־Google מבוססים על מחירונים רשמיים לקלט ולפלט עבור המודלים המוצגים. מיפוי Copilot Studio הוא רשמי אך חלקי ומוגבל ל־GenAI tools. משקלי Cowork אומתו בקובץ האומדן שמפרסמת Microsoft, אך הקובץ עצמו מגדיר אותם ככיווניים ולהמחשה בלבד — ולכן הם אינם מוצגים באותה רמת ודאות.</p>
     </section>
       <div class="developer-end-actions">
-        <button id="close-advanced-settings" type="button">חזרה לתצוגה פשוטה</button>
+        <button id="close-advanced-settings" type="button">חזרה למצב הארגוני</button>
       </div>
     </div>
 
@@ -3297,11 +3330,17 @@
       const dailyOverrideNote = document.getElementById("daily-override-note");
       const developerModeInput = document.getElementById("developer-mode");
       const developerContents = Array.from(document.querySelectorAll("[data-developer-content]"));
+      const developerWorkspace = document.getElementById("developer-workspace");
+      const developerReference = document.getElementById("developer-reference");
       const advancedSettingsStatus = document.getElementById("advanced-settings-status");
       const humanResultCard = document.querySelector(".human-result-card");
       const simpleWorkloadView = document.getElementById("simple-workload-view");
       const simpleModeTab = document.getElementById("simple-mode-tab");
       const developerModeTab = document.getElementById("developer-mode-tab");
+      const costsModeTab = document.getElementById("costs-mode-tab");
+      const processDescriptionInput = document.getElementById("process-description");
+      const departmentNameInput = document.getElementById("department-name");
+      const processAutoEstimate = document.getElementById("process-auto-estimate");
       const numericFields = [
         ["input-tokens", "טוקני הקלט"],
         ["output-tokens", "טוקני הפלט"],
@@ -3317,6 +3356,8 @@
       let lastRows = [];
       let renderTimer = null;
       let activePresetKey = "student";
+      let activeView = "personal";
+      let processInferenceTimer = null;
       const afterPaint = (callback) => typeof requestAnimationFrame === "function"
         ? requestAnimationFrame(callback)
         : setTimeout(callback, 0);
@@ -3455,7 +3496,6 @@
       function applyPreset(key) {
         const preset = PRESETS[key];
         if (!preset) return;
-        document.getElementById("process-description").value = preset.process;
         document.getElementById("input-tokens").value = preset.inputTokens;
         document.getElementById("output-tokens").value = preset.outputTokens;
         dailyRunsInput.value = preset.dailyRuns;
@@ -3526,6 +3566,76 @@
         advancedSettingsStatus.hidden = developerModeInput.checked || !hasProfessionalSettings();
       }
 
+      function inferOrganizationalWorkload() {
+        const description = processDescriptionInput.value.trim();
+        const enteredDepartment = departmentNameInput.value.trim();
+        if (!description) {
+          processAutoEstimate.textContent = "לאחר הזנת התהליך יוצג כאן האומדן האוטומטי.";
+          return;
+        }
+
+        const text = `${description} ${enteredDepartment}`.toLowerCase();
+        const includesAny = (terms) => terms.some((term) => text.includes(term));
+        let processType = "עיבוד ויצירת טקסט";
+        let inputTokens = Math.max(2500, Math.round(description.length * 3.2));
+        let outputTokens = 900;
+
+        if (includesAny(["excel", "אקסל", "csv", "טבלה", "גיליון", "השווה", "להשוות"])) {
+          processType = "השוואת נתונים וקבצים";
+          inputTokens = includesAny(["שני", "2 ", "כמה קבצים", "מספר קבצים"]) ? 18000 : 12000;
+          outputTokens = 1500;
+        } else if (includesAny(["סיכום", "לסכם", "מאמר", "מסמך", "חוזה", "דוח"])) {
+          processType = "קריאה וסיכום מסמכים";
+          inputTokens = 8000;
+          outputTokens = includesAny(["דוח", "מפורט", "ניתוח"]) ? 2000 : 1200;
+        } else if (includesAny(["קוד", "באג", "תקלה", "api", "פיתוח"])) {
+          processType = "ניתוח ופיתוח תוכנה";
+          inputTokens = 12000;
+          outputTokens = 3000;
+        } else if (includesAny(["מייל", "דוא", "פוסט", "קמפיין", "לנסח", "לכתוב"])) {
+          processType = "ניסוח ויצירת תוכן";
+          inputTokens = 3500;
+          outputTokens = 1000;
+        }
+
+        let inferredDepartment = enteredDepartment;
+        if (!inferredDepartment) {
+          if (includesAny(["חשבונית", "תקציב", "כספים", "תשלום", "אקסל"])) inferredDepartment = "כספים ותפעול";
+          else if (includesAny(["לקוח", "פנייה", "שירות", "תמיכה"])) inferredDepartment = "שירות לקוחות";
+          else if (includesAny(["קמפיין", "שיווק", "פוסט", "תוכן"])) inferredDepartment = "שיווק";
+          else if (includesAny(["עובד", "גיוס", "קורות חיים", "משאבי אנוש"])) inferredDepartment = "משאבי אנוש";
+          else if (includesAny(["קוד", "api", "פיתוח", "תקלה"])) inferredDepartment = "טכנולוגיה";
+          else inferredDepartment = "מחלקה כללית";
+        }
+
+        const agentEvents = includesAny(["אייג'נט", "agent", "אוטומטי", "אוטומציה", "לבצע פעולה"]) ? 1 : 0;
+        const graphEvents = includesAny(["graph", "sharepoint", "teams", "מיקרוסופט 365"]) ? 1 : 0;
+        const generativeEvents = includesAny(["לנסח", "לכתוב", "לסכם", "סיכום", "דוח", "להחזיר"]) ? 1 : 0;
+
+        document.getElementById("input-tokens").value = inputTokens;
+        document.getElementById("output-tokens").value = outputTokens;
+        document.getElementById("classic-events").value = 0;
+        document.getElementById("generative-events").value = generativeEvents;
+        document.getElementById("agent-events").value = agentEvents;
+        document.getElementById("graph-events").value = graphEvents;
+
+        const specialEvents = [
+          generativeEvents ? "תשובה גנרטיבית" : "",
+          agentEvents ? "פעולת סוכן" : "",
+          graphEvents ? "עיגון Microsoft Graph" : ""
+        ].filter(Boolean);
+        const eventText = specialEvents.length ? specialEvents.join(" · ") : "לא זוהו אירועי Microsoft מיוחדים";
+        processAutoEstimate.textContent = `זוהה: ${processType} · מחלקה: ${inferredDepartment} · אומדן שימוש אוטומטי הוכן · ${eventText}.`;
+        setActivePreset(null);
+        updateHumanInputSummary();
+        render(false);
+      }
+
+      function scheduleProcessInference() {
+        clearTimeout(processInferenceTimer);
+        processInferenceTimer = setTimeout(inferOrganizationalWorkload, 350);
+      }
+
       function updateMobileResultInset() {
         const isMobile = typeof window.matchMedia === "function" && window.matchMedia("(max-width: 740px)").matches;
         const height = isMobile && !resultsPanel.hidden && !resultContent.hidden && typeof humanResultCard.getBoundingClientRect === "function"
@@ -3534,32 +3644,34 @@
         document.documentElement.style.setProperty("--mobile-result-height", `${height}px`);
       }
 
-      function syncModePresentation(enabled) {
-        simpleWorkloadView.hidden = enabled;
-        resultsPanel.hidden = enabled;
-        simpleModeTab.setAttribute("aria-selected", String(!enabled));
-        developerModeTab.setAttribute("aria-selected", String(enabled));
-        simpleModeTab.tabIndex = enabled ? -1 : 0;
-        developerModeTab.tabIndex = enabled ? 0 : -1;
+      function syncModePresentation(view) {
+        activeView = view;
+        const personal = view === "personal";
+        const organizational = view === "organizational";
+        const costs = view === "costs";
+
+        simpleWorkloadView.hidden = !personal;
+        resultsPanel.hidden = !personal;
+        developerWorkspace.hidden = personal;
+        resultsDetails.hidden = !costs;
+        developerReference.hidden = !costs;
+        runsMonthInput.readOnly = !organizational;
+
+        simpleModeTab.setAttribute("aria-selected", String(personal));
+        developerModeTab.setAttribute("aria-selected", String(organizational));
+        costsModeTab.setAttribute("aria-selected", String(costs));
+        simpleModeTab.tabIndex = personal ? 0 : -1;
+        developerModeTab.tabIndex = organizational ? 0 : -1;
+        costsModeTab.tabIndex = costs ? 0 : -1;
+
+        document.body.classList.toggle("developer-mode", !personal);
+        document.body.classList.toggle("costs-mode", costs);
       }
 
       function setDeveloperMode(enabled, { force = false, announce = true } = {}) {
-        if (!enabled && !force && monthlyOverrideInput.checked) {
-          developerModeInput.checked = true;
-          syncModePresentation(true);
-          developerContents.forEach((element) => { element.hidden = false; });
-          document.body.classList.add("developer-mode");
-          announcement.textContent = "כדי לחזור לתצוגה הפשוטה, יש לבטל תחילה את ההזנה החודשית המדויקת.";
-          afterPaint(() => monthlyOverrideInput.focus());
-          return { changed: false, normalized: false };
-        }
-
         if (!enabled && !force && !getState()) {
           developerModeInput.checked = true;
-          syncModePresentation(true);
-          developerContents.forEach((element) => { element.hidden = false; });
-          resultsDetails.hidden = true;
-          document.body.classList.add("developer-mode");
+          syncModePresentation("organizational");
           resultsPanel.classList.add("is-invalid");
           resultContent.hidden = true;
           afterPaint(updateMobileResultInset);
@@ -3569,9 +3681,7 @@
         }
 
         developerModeInput.checked = enabled;
-        syncModePresentation(enabled);
-        developerContents.forEach((element) => { element.hidden = !enabled; });
-        document.body.classList.toggle("developer-mode", enabled);
+        syncModePresentation(enabled ? "organizational" : "personal");
         updateAdvancedSettingsStatus();
         const hasCustomSettings = hasProfessionalSettings();
         afterPaint(updateMobileResultInset);
@@ -3584,6 +3694,19 @@
               : "המצב הארגוני נסגר. חזרת למצב האישי.";
         }
         return { changed: true, normalized: false };
+      }
+
+      function scrollToModeStart() {
+        const reduceMotion = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        afterPaint(() => document.querySelector(".mode-gate")?.scrollIntoView({ block: "start", behavior: reduceMotion ? "auto" : "smooth" }));
+      }
+
+      function setCostsMode({ announce = true } = {}) {
+        developerModeInput.checked = true;
+        syncModePresentation("costs");
+        render(false);
+        scrollToModeStart();
+        if (announce) announcement.textContent = "פירוט העלויות נפתח במסך נפרד.";
       }
 
       function qualityBadge(quality) {
@@ -3781,7 +3904,7 @@
 
         resultsPanel.classList.remove("is-invalid");
         resultContent.hidden = false;
-        resultsDetails.hidden = !developerModeInput.checked;
+        resultsDetails.hidden = activeView !== "costs";
         afterPaint(updateMobileResultInset);
         lastRows = calculateRows(state);
         const outcome = renderSummary(lastRows, state);
@@ -3826,17 +3949,24 @@
         const modeChange = setDeveloperMode(enabled);
         if (modeChange.changed) {
           render(false);
+          scrollToModeStart();
           afterPaint(() => focusTarget?.focus());
         }
       }
 
       simpleModeTab.addEventListener("click", () => activateMode(false, simpleModeTab));
       developerModeTab.addEventListener("click", () => activateMode(true, developerModeTab));
-      [simpleModeTab, developerModeTab].forEach((tab) => {
+      costsModeTab.addEventListener("click", () => {
+        setCostsMode();
+        afterPaint(() => costsModeTab.focus());
+      });
+      const modeTabs = [simpleModeTab, developerModeTab, costsModeTab];
+      modeTabs.forEach((tab, index) => {
         tab.addEventListener("keydown", (event) => {
           if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
             event.preventDefault();
-            const next = tab === simpleModeTab ? developerModeTab : simpleModeTab;
+            const direction = event.key === "ArrowLeft" ? 1 : -1;
+            const next = modeTabs[(index + direction + modeTabs.length) % modeTabs.length];
             next.focus();
             next.click();
           }
@@ -3847,12 +3977,15 @@
         if (modeChange.changed) render(false);
       });
       document.getElementById("open-advanced-settings").addEventListener("click", () => {
-        activateMode(true, developerModeTab);
+        setCostsMode();
+        afterPaint(() => costsModeTab.focus());
       });
       document.getElementById("close-advanced-settings").addEventListener("click", () => {
-        activateMode(false, simpleModeTab);
+        activateMode(true, developerModeTab);
       });
-      ["process-description", "input-tokens", "output-tokens"].forEach((id) => {
+      processDescriptionInput.addEventListener("input", scheduleProcessInference);
+      departmentNameInput.addEventListener("input", scheduleProcessInference);
+      ["input-tokens", "output-tokens"].forEach((id) => {
         document.getElementById(id).addEventListener("input", () => setActivePreset(null));
       });
 
