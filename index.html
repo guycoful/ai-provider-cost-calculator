@@ -265,9 +265,10 @@
     .critical-alert {
       display: grid;
       grid-template-columns: auto 1fr;
-      gap: 18px;
-      margin-block-start: 42px;
-      padding: clamp(20px, 3vw, 30px);
+      gap: 12px;
+      margin-block-start: 20px;
+      padding: 14px 16px;
+      align-items: center;
       background: var(--amber-soft);
       border: 1px solid #e0bb68;
       border-inline-start: 8px solid var(--amber);
@@ -287,11 +288,32 @@
       font-weight: 700;
     }
 
-    .critical-alert h2 {
-      margin-block-end: 9px;
+    .critical-alert summary {
       color: var(--amber-dark);
-      font-size: clamp(1.15rem, 2vw, 1.45rem);
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
+
+    .critical-alert summary::-webkit-details-marker { display: none; }
+
+    .critical-alert summary::after {
+      content: "▾";
+      font-size: 0.8em;
+      opacity: .7;
+    }
+
+    .critical-alert details[open] summary::after { content: "▴"; }
+
+    .critical-alert .alert-body > p { margin-block-start: 10px; }
+
+    /* בטאב הפירוט האזהרה פרושה במלואה; במסך הראשי היא שורה אחת שנפתחת. */
+    body.costs-mode .critical-alert summary { pointer-events: none; }
+    body.costs-mode .critical-alert summary::after { content: ""; }
 
     .critical-alert p {
       margin-block-end: 10px;
@@ -2391,12 +2413,12 @@
       <div id="developer-workspace" class="developer-workspace" data-developer-content hidden>
         <aside id="microsoft-comparison-warning" class="critical-alert" tabindex="-1" aria-labelledby="microsoft-warning-title">
           <span class="alert-icon" aria-hidden="true">!</span>
-          <div>
-            <h2 id="microsoft-warning-title">חשוב: נתוני Microsoft אינם שקולים למחירי ה־API האחרים</h2>
+          <details class="alert-body">
+            <summary id="microsoft-warning-title">נתוני Microsoft אינם שקולים למחירי ה־API האחרים — למה זה חשוב</summary>
             <p><strong>במילים פשוטות:</strong> אפשר להשוות כאן את כל האפשרויות, אבל המספר של Microsoft מחושב בשיטה אחרת ולכן אינו השוואת מחיר מדויקת אחד־לאחד.</p>
             <p><strong>Anthropic, OpenAI ו־Google</strong> מחושבים לפי מחירוני API רשמיים לקלט ולפלט. <strong>Microsoft Copilot</strong> מתומחר בקרדיטים, והמיפוי הרשמי לטוקנים הוא חלקי ומוגבל לכלי GenAI ב־Copilot Studio בלבד: <bdi>Basic 0.1</bdi>, <bdi>Standard 1.5</bdi> ו־<bdi>Premium 10</bdi> קרדיטים לכל 1,000 טוקנים, ללא הפרדה בין קלט לפלט. פעולות שיחה אחרות מחויבות במחיר קבוע לאירוע. <span class="badge badge-partial">מיפוי רשמי חלקי</span></p>
             <p>ערכי Cowork — <bdi>Light 125</bdi> / <bdi>Medium 500</bdi> / <bdi>Heavy 1,200</bdi> קרדיטים למשימה — מגיעים מקובץ Customer Cowork Estimator של Microsoft. הקובץ מגדיר אותם כהנחות המחשה/כיוון המבוססות על נתוני Frontier מ־27.5.2026, ומניח שימוש ב־<bdi>Anthropic Opus 4.8</bdi>. אין נוסחה ציבורית להמרת משימת Cowork לקרדיטים. <span class="badge badge-estimate">הערכה כיוונית — לא מחירון רשמי</span></p>
-          </div>
+          </details>
         </aside>
 
         <aside class="advanced-how-to-use" aria-labelledby="advanced-how-to-use-title">
@@ -3639,6 +3661,7 @@
       }
 
       function setCostsMode({ announce = true } = {}) {
+        document.querySelector("#microsoft-comparison-warning details")?.setAttribute("open","");
         developerModeInput.checked = true;
         syncModePresentation("costs");
         render(false);
