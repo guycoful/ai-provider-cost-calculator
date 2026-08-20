@@ -3694,27 +3694,17 @@
           document.getElementById("cheapest-label").textContent = "תיקו בעלות החודשית הנמוכה";
           setLocalizedResultText("cheapest-model", tiedNames, "en");
           document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · אותו מחיר ב־${tiedRows.length} מודלים`;
+          setResultAnchor(tiedNames);
         } else {
           document.getElementById("human-result-simple-context").textContent = "אומדן לפי שלושה מודלי API · לפני מס ועמלות";
           setLocalizedResultText("human-result-model", `${cheapest.provider} · ${cheapest.model}`, "en");
           document.getElementById("human-result-context").textContent = " — הזול מבין מודלי ה־API שנבחרו";
           document.getElementById("human-result-per-run").textContent = `${formatIls(runIls)} להרצה`;
-          document.getElementById("human-result-rate").textContent = `שווה ל־${formatUsd(cheapest.monthCost)} לפי שער של ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר. ההמרה משוערת בלבד;
-        // שורת עוגן מתחת למספר הראשי: בלעדיה המספר מוצג בלי מודל, בלי שער ובלי תאריך
-        (function(){
-          var el = document.getElementById("human-result-anchor");
-          if (!el) return;
-          var modelName = document.getElementById("human-result-model");
-          var rateTxt = "לפי שער " + formatNumber(state.usdIls, 4) + " ש\u05f4ח לדולר, שער יציג 18.8.2026";
-          el.textContent = (modelName && modelName.textContent && modelName.textContent !== "\u2014"
-              ? "המודל הזול מבין השלושה: " + modelName.textContent + " \u00b7 " : "")
-            + rateTxt
-            + " \u00b7 לא כולל רישיונות מושב ולא כולל מסלולי Microsoft";
-        })();
- מחירי המקור בדולר ומטבע החיוב בפועל תלוי בספק ובאזור.`;
+          document.getElementById("human-result-rate").textContent = `שווה ל־${formatUsd(cheapest.monthCost)} לפי שער של ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר. ההמרה משוערת בלבד; מחירי המקור בדולר ומטבע החיוב בפועל תלוי בספק ובאזור.`;
           document.getElementById("cheapest-label").textContent = "הזול ביותר מבין מודלי ה־API שנבחרו";
           setLocalizedResultText("cheapest-model", `${cheapest.provider} · ${cheapest.model}`, "en");
           document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · ${formatUsd(cheapest.runCost)} להרצה`;
+          setResultAnchor(`${cheapest.provider} · ${cheapest.model}`);
         }
         const coffeeText = coffeeComparison(monthlyIls);
         const coffeeEl = document.getElementById("coffee-comparison");
@@ -3781,6 +3771,18 @@
         }
       }
 
+
+      // שורת עוגן מתחת למספר הראשי. בלעדיה המספר מוצג בלי מודל, בלי שער ובלי תאריך,
+      // וכל הסייגים יושבים במסך שהמשתמש אינו פותח.
+      function setResultAnchor(modelText) {
+        const el = document.getElementById("human-result-anchor");
+        if (!el) return;
+        const parts = [];
+        if (modelText) parts.push(`המודל הזול מבין השלושה: ${modelText}`);
+        parts.push(`לפי שער ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר, שער יציג 18.8.2026`);
+        parts.push("לא כולל רישיונות מושב ולא כולל את מסלולי Microsoft");
+        el.textContent = parts.join(" · ");
+      }
       function render(announceUpdate = true) {
         updateHumanInputSummary();
         updateControlNotes();
