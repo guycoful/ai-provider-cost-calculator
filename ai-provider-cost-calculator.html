@@ -548,6 +548,26 @@
       display: none !important;
     }
 
+    /* באנר האימות חייב להיראות גם בטאב הפירוט, אחרת שדה שגוי יוצר מבוי סתום:
+       הטבלה נעלמת, וההודעה שמסבירה למה יושבת במסך אחר.
+       כשהפאנל במצב שגיאה מציגים אותו — אבל רק את הבאנר שבתוכו. */
+    body.costs-mode #results-panel.is-invalid {
+      display: block !important;
+      margin: 0 0 16px;
+      padding: 0;
+      background: none;
+      box-shadow: none;
+      border: 0;
+    }
+
+    body.costs-mode #results-panel.is-invalid > *:not(#validation-banner) {
+      display: none !important;
+    }
+
+    body.costs-mode #results-panel.is-invalid #validation-banner {
+      display: block;
+    }
+
     /* במצב הארגוני הטופס תופס את כל הרוחב בכל גודל מסך שבו הפריסה
        כבר אינה עמודה אחת (מעל 740px), לא רק מ־1101px ומעלה. */
     @media (min-width: 741px) {
@@ -564,7 +584,22 @@
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     }
 
-    body.developer-mode:not(.costs-mode) .org-optional-field,
+    /* הטופס והתוצאה נערמים לרוחב מלא במצב הארגוני, במקום שתי עמודות
+       שמשאירות חצי מסך ריק ומטות את התוכן לצד אחד. */
+    body.developer-mode:not(.costs-mode) .calculator-layout {
+      display: block;
+    }
+
+    body.developer-mode:not(.costs-mode) #calculator-form,
+    body.developer-mode:not(.costs-mode) .calculator-layout > .results-panel {
+      width: 100%;
+      max-width: none;
+    }
+
+    body.developer-mode:not(.costs-mode) .calculator-layout > .results-panel {
+      margin-block-start: 20px;
+    }
+
     body.developer-mode:not(.costs-mode) .org-optional-section {
       display: none !important;
     }
@@ -1324,6 +1359,22 @@
       margin-block-start: 20px;
     }
 
+    .button-primary {
+      appearance: none;
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 18px;
+      background: var(--green);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 44px;
+    }
+
+    .button-primary:hover { background: var(--green-dark); }
+    .button-primary:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
     .button-secondary,
     .scale-button {
       min-height: 44px;
@@ -1338,7 +1389,7 @@
     .button-secondary:hover,
     .scale-button:hover {
       background: var(--green-soft);
-      border-color: #8dbda7;
+      border-color: #9dbcd8;
     }
 
     .results-panel {
@@ -1435,6 +1486,11 @@
       margin: 12px 0 0;
       color: #cfe0ef;
       font-size: 0.75rem;
+    }
+
+    .result-cta {
+      margin-block-start: 12px;
+      align-self: flex-start;
     }
 
     .human-result-trust {
@@ -2623,6 +2679,7 @@
             <strong id="human-result-title" class="human-result-value">—</strong>
             <p id="human-result-simple-context" class="human-result-trust">אומדן לפי שלושה מודלי API · לפני מס ועמלות</p>
             <p id="human-result-anchor" class="human-result-trust">—</p>
+            <button id="goto-details" class="button-primary result-cta" type="button">הצג פירוט מלא</button>
             <div id="advanced-settings-status" class="advanced-status" hidden>
               <span>הגדרות מקצועיות מותאמות פעילות.</span>
               <button id="open-advanced-settings" type="button">בדיקת הגדרות</button>
@@ -3851,6 +3908,11 @@
 
       
       developerModeTab.addEventListener("click", () => activateMode(true, developerModeTab));
+      document.getElementById("goto-details")?.addEventListener("click", () => {
+        setCostsMode();
+        afterPaint(() => costsModeTab.focus());
+      });
+
       costsModeTab.addEventListener("click", () => {
         setCostsMode();
         afterPaint(() => costsModeTab.focus());
