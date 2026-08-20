@@ -543,9 +543,7 @@
       margin-block-start: 24px;
     }
 
-    /* 20.8.2026: הכלל שהסתיר את פאנל התוצאה במצב הארגוני הוסר.
-       מאז שהמצב האישי ירד, המצב הארגוני הוא היחיד — והוא חייב להציג את התוצאה.
-       הסתרה במצב "פירוט מלא" נעשית ב-JS בלבד. */
+    
     body.costs-mode #results-panel {
       display: none !important;
     }
@@ -571,7 +569,7 @@
       display: none !important;
     }
 
-    body.developer-mode:not(.costs-mode) .critical-alert,
+    
     body.developer-mode:not(.costs-mode) .provider-disclosure {
       display: none !important;
     }
@@ -2274,7 +2272,6 @@
   <main id="main-content" class="shell" tabindex="-1">
     <div class="calculator-layout">
     <form id="calculator-form" novalidate>
-      <!-- מצב אישי הוסר לבקשת ואלור, 20.8.2026. הסליידר היומי נשאר בקוד כדי לא לשבור תלויות ומוסתר תמידית. -->
       <section id="simple-workload-view" class="panel quick-start" aria-labelledby="workload-title" hidden style="display:none">
         <div class="section-heading">
           <div>
@@ -2320,7 +2317,7 @@
           <input id="daily-runs" class="usage-slider" type="range" min="0" max="30" step="1" value="2" dir="ltr" aria-describedby="daily-runs-help daily-runs-monthly">
           <div class="slider-scale" dir="ltr" aria-hidden="true"><span>0</span><span>15</span><span>30</span></div>
           <p id="daily-runs-help" class="usage-explanation">במחשבון, שיחה אחת היא הפעלה אחת של המשימה. חודש מחושב כ־30 יום.</p>
-          <p id="daily-runs-monthly" class="usage-explanation"><strong>כ־60 שיחות בחודש</strong></p>
+          <p id="daily-runs-monthly" class="usage-explanation"><strong>כ־60 הרצות בחודש</strong></p>
           <p id="daily-override-note" class="usage-explanation override-note" hidden>מצב הזנה חודשית מדויקת פעיל.</p>
 
         </div>
@@ -2625,6 +2622,7 @@
             <span class="human-result-kicker">אומדן חודשי לתהליך שהוזן</span>
             <strong id="human-result-title" class="human-result-value">—</strong>
             <p id="human-result-simple-context" class="human-result-trust">אומדן לפי שלושה מודלי API · לפני מס ועמלות</p>
+            <p id="human-result-anchor" class="human-result-trust">—</p>
             <div id="advanced-settings-status" class="advanced-status" hidden>
               <span>הגדרות מקצועיות מותאמות פעילות.</span>
               <button id="open-advanced-settings" type="button">בדיקת הגדרות</button>
@@ -3226,7 +3224,7 @@
       const numericFields = [
         ["input-tokens", "טוקני הקלט"],
         ["output-tokens", "טוקני הפלט"],
-        ["runs-month", "מספר השיחות"],
+        ["runs-month", "מספר ההרצות"],
         ["usd-ils-rate", "שער הדולר", false],
         ["classic-events", "מספר התשובות הקלאסיות"],
         ["generative-events", "מספר התשובות הגנרטיביות"],
@@ -3356,7 +3354,7 @@
         document.getElementById("input-human-equivalent").textContent = humanEquivalentText(inputTokens);
         document.getElementById("output-human-equivalent").textContent = humanEquivalentText(outputTokens);
         document.getElementById("daily-runs-output").textContent = dailyAverage === null ? "—" : `כ־${formatNumber(dailyAverage, 1)} שיחות ביום`;
-        document.getElementById("daily-runs-monthly").innerHTML = `<strong>${runsMonth === null ? "—" : formatNumber(runsMonth, 0)} שיחות בחודש</strong>`;
+        document.getElementById("daily-runs-monthly").innerHTML = `<strong>${runsMonth === null ? "—" : formatNumber(runsMonth, 0)} הרצות בחודש</strong>`;
         dailyRunsInput.setAttribute("aria-valuetext", monthlyOverrideInput.checked
           ? "הסליידר מושבת; מצב הזנה חודשית מדויקת פעיל"
           : dailyAverage === null
@@ -3573,7 +3571,7 @@
             ? "המצב הארגוני נפתח. אפשר לתעד תהליך, מחלקה והרצות חודשיות; ערכי החישוב לא השתנו."
             : hasCustomSettings
               ? "המצב הארגוני נסגר. ההגדרות המותאמות נשמרו ומסומנות בכרטיס התוצאה."
-              : "המצב הארגוני נסגר. חזרת למצב האישי.";
+              : "המצב הארגוני פעיל.";
         }
         return { changed: true, normalized: false };
       }
@@ -3691,7 +3689,7 @@
           const tiedNames = tiedRows.map((row) => `${row.provider} · ${row.model}`).join(" / ");
           setLocalizedResultText("human-result-model", tiedNames, "en");
           document.getElementById("human-result-context").textContent = " — תיקו בעלות החודשית הנמוכה";
-          document.getElementById("human-result-per-run").textContent = `${formatIls(runIls)} לשיחה`;
+          document.getElementById("human-result-per-run").textContent = `${formatIls(runIls)} להרצה`;
           document.getElementById("human-result-rate").textContent = `כל המודלים המוצגים בתיקו עולים ${formatUsd(cheapest.monthCost)} לחודש. ההמרה לפי ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר היא להמחשה בלבד.`;
           document.getElementById("cheapest-label").textContent = "תיקו בעלות החודשית הנמוכה";
           setLocalizedResultText("cheapest-model", tiedNames, "en");
@@ -3700,14 +3698,25 @@
           document.getElementById("human-result-simple-context").textContent = "אומדן לפי שלושה מודלי API · לפני מס ועמלות";
           setLocalizedResultText("human-result-model", `${cheapest.provider} · ${cheapest.model}`, "en");
           document.getElementById("human-result-context").textContent = " — הזול מבין מודלי ה־API שנבחרו";
-          document.getElementById("human-result-per-run").textContent = `${formatIls(runIls)} לשיחה`;
-          document.getElementById("human-result-rate").textContent = `שווה ל־${formatUsd(cheapest.monthCost)} לפי שער של ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר. ההמרה משוערת בלבד; מחירי המקור בדולר ומטבע החיוב בפועל תלוי בספק ובאזור.`;
+          document.getElementById("human-result-per-run").textContent = `${formatIls(runIls)} להרצה`;
+          document.getElementById("human-result-rate").textContent = `שווה ל־${formatUsd(cheapest.monthCost)} לפי שער של ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר. ההמרה משוערת בלבד;
+        // שורת עוגן מתחת למספר הראשי: בלעדיה המספר מוצג בלי מודל, בלי שער ובלי תאריך
+        (function(){
+          var el = document.getElementById("human-result-anchor");
+          if (!el) return;
+          var modelName = document.getElementById("human-result-model");
+          var rateTxt = "לפי שער " + formatNumber(state.usdIls, 4) + " ש\u05f4ח לדולר, שער יציג 18.8.2026";
+          el.textContent = (modelName && modelName.textContent && modelName.textContent !== "\u2014"
+              ? "המודל הזול מבין השלושה: " + modelName.textContent + " \u00b7 " : "")
+            + rateTxt
+            + " \u00b7 לא כולל רישיונות מושב ולא כולל מסלולי Microsoft";
+        })();
+ מחירי המקור בדולר ומטבע החיוב בפועל תלוי בספק ובאזור.`;
           document.getElementById("cheapest-label").textContent = "הזול ביותר מבין מודלי ה־API שנבחרו";
           setLocalizedResultText("cheapest-model", `${cheapest.provider} · ${cheapest.model}`, "en");
           document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · ${formatUsd(cheapest.runCost)} להרצה`;
         }
         const coffeeText = coffeeComparison(monthlyIls);
-        // השוואת כוסות הקפה הוסרה מהתצוגה הארגונית; ההשמה נשמרת מוגנת למקרה שהאלמנט יוחזר
         const coffeeEl = document.getElementById("coffee-comparison");
         if (coffeeEl) coffeeEl.textContent = coffeeText;
         document.getElementById("coffee-comparison-detail").textContent = coffeeText;
