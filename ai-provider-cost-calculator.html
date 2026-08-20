@@ -651,8 +651,10 @@
       margin-block-start: 24px;
     }
 
-    /* במצב הארגוני כרטיס הסיכום האישי אינו חלק מהפריסה. */
-    body.developer-mode #results-panel {
+    /* 20.8.2026: הכלל שהסתיר את פאנל התוצאה במצב הארגוני הוסר.
+       מאז שהמצב האישי ירד, המצב הארגוני הוא היחיד — והוא חייב להציג את התוצאה.
+       הסתרה במצב "פירוט מלא" נעשית ב-JS בלבד. */
+    body.costs-mode #results-panel {
       display: none !important;
     }
 
@@ -1839,13 +1841,14 @@
       display: block;
     }
 
-    .model-cell small,
+    .model-cell span,
     .basis-cell small,
-    .rate-cell small {
+    .money-cell small {
       display: block;
       margin-block-start: 3px;
       color: var(--ink-soft);
-      font-size: 0.7rem;
+      font-weight: 400;
+      font-size: 0.78rem;
       line-height: 1.4;
     }
 
@@ -3686,7 +3689,7 @@
 
         simpleWorkloadView.hidden = true;
         resultsPanel.hidden = costs;
-        developerWorkspace.hidden = costs;
+        developerWorkspace.hidden = false;
         resultsDetails.hidden = !costs;
         developerReference.hidden = !costs;
         runsMonthInput.readOnly = !organizational;
