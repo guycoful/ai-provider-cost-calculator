@@ -622,6 +622,10 @@
       margin-block-start: 20px;
     }
 
+    /* המשתמש הארגוני אינו מזין טוקנים ואינו מזין שער דולר. הוא מתאר תהליך,
+       מציין מחלקה וכמה הרצות בחודש — והמחשבון עושה את השאר.
+       השדות הטכניים חיים בטאב הפירוט המלא בלבד. */
+    body.developer-mode:not(.costs-mode) .org-optional-field,
     body.developer-mode:not(.costs-mode) .org-optional-section {
       display: none !important;
     }
@@ -2536,7 +2540,7 @@
                   <h3 id="studio-track-title">Copilot Studio · מיפוי GenAI</h3>
                   <span class="badge badge-partial">מיפוי רשמי חלקי</span>
                 </div>
-                <div class="field">
+                <div class="field org-optional-field">
                   <label for="microsoft-studio">רמת עיבוד</label>
                   <select id="microsoft-studio" aria-describedby="studio-selected-rate">
                     <option value="basic" lang="en" dir="ltr">Basic</option>
@@ -2550,22 +2554,22 @@
                   <summary>הוספת אירועים קבועים להרצה (אופציונלי)</summary>
                   <p class="micro-note">אירועים אלה מתומחרים בקרדיטים קבועים ואינם תלויים בטוקנים. ברירת המחדל היא אפס.</p>
                   <div class="event-grid">
-                    <div class="field">
+                    <div class="field org-optional-field">
                       <label for="classic-events">תשובה קלאסית (Classic)</label>
                       <div class="input-wrap"><input id="classic-events" type="number" min="0" max="100000" step="1" value="0" aria-label="מספר תשובות קלאסיות; קרדיט אחד לאירוע" aria-describedby="classic-events-error"><span class="input-suffix">× 1</span></div>
                       <p id="classic-events-error" class="field-error"></p>
                     </div>
-                    <div class="field">
+                    <div class="field org-optional-field">
                       <label for="generative-events">תשובה גנרטיבית</label>
                       <div class="input-wrap"><input id="generative-events" type="number" min="0" max="100000" step="1" value="0" aria-label="מספר תשובות גנרטיביות; שני קרדיטים לאירוע" aria-describedby="generative-events-error"><span class="input-suffix">× 2</span></div>
                       <p id="generative-events-error" class="field-error"></p>
                     </div>
-                    <div class="field">
+                    <div class="field org-optional-field">
                       <label for="agent-events">פעולת סוכן</label>
                       <div class="input-wrap"><input id="agent-events" type="number" min="0" max="100000" step="1" value="0" aria-label="מספר פעולות סוכן; חמישה קרדיטים לאירוע" aria-describedby="agent-events-error"><span class="input-suffix">× 5</span></div>
                       <p id="agent-events-error" class="field-error"></p>
                     </div>
-                    <div class="field">
+                    <div class="field org-optional-field">
                       <label for="graph-events">עיגון ב־Graph</label>
                       <div class="input-wrap"><input id="graph-events" type="number" min="0" max="100000" step="1" value="0" aria-label="מספר אירועי עיגון בגרף; עשרה קרדיטים לאירוע" aria-describedby="graph-events-error"><span class="input-suffix">× 10</span></div>
                       <p id="graph-events-error" class="field-error"></p>
@@ -2579,7 +2583,7 @@
                   <h3 id="cowork-track-title">Copilot Cowork · אומדן משימה</h3>
                   <span class="badge badge-estimate">הערכה כיוונית — לא מחירון רשמי</span>
                 </div>
-                <div class="field">
+                <div class="field org-optional-field">
                   <label for="microsoft-cowork">רמת משימה באומדן</label>
                   <select id="microsoft-cowork" aria-describedby="cowork-selected-rate">
                     <option value="light" lang="en" dir="ltr">Light</option>
@@ -2596,7 +2600,7 @@
           <fieldset class="provider-card anthropic">
             <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">Anthropic</span></legend>
             <p class="provider-subtitle">מחירון API רשמי לקלט ולפלט, בדולר למיליון טוקנים.</p>
-            <div class="field">
+            <div class="field org-optional-field">
               <label for="anthropic-model">מודל Anthropic</label>
               <select id="anthropic-model" aria-describedby="anthropic-rate-note"></select>
             </div>
@@ -2618,7 +2622,7 @@
           <fieldset class="provider-card openai">
             <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">OpenAI</span></legend>
             <p class="provider-subtitle">מחירון API רשמי לקלט, קלט במטמון ופלט.</p>
-            <div class="field">
+            <div class="field org-optional-field">
               <label for="openai-model">מודל OpenAI</label>
               <select id="openai-model" aria-describedby="openai-rate-note"></select>
             </div>
@@ -2640,7 +2644,7 @@
           <fieldset class="provider-card google">
             <legend class="provider-legend"><span class="provider-dot" aria-hidden="true"></span><span lang="en">Google</span></legend>
             <p class="provider-subtitle">מחירון Gemini API רשמי. עיבוד אצווה מוזיל את עלות הקלט והפלט ב־50%; תעריף מטמון אינו נכלל משום שלא סופק לו נתון בר־חישוב.</p>
-            <div class="field">
+            <div class="field org-optional-field">
               <label for="google-model">מודל Google</label>
               <select id="google-model" aria-describedby="google-rate-note"></select>
             </div>
@@ -2664,7 +2668,7 @@
             <h3 id="cache-share-title">הנחת שיעור קלט מהמטמון</h3>
             <p>השדה פעיל רק כשנבחר מטמון ב־Anthropic או OpenAI. בכל ספק אפשר לבחור עיבוד אצווה או מטמון — לא שניהם יחד.</p>
           </div>
-          <div class="field">
+          <div class="field org-optional-field">
             <label for="cache-share">אחוז מטוקני הקלט</label>
             <div class="input-wrap">
               <input id="cache-share" type="number" min="0" max="100" step="1" value="50" disabled aria-describedby="cache-share-error">
