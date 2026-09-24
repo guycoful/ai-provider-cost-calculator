@@ -1169,7 +1169,10 @@
         grid-column: 1;
       }
 
-      body.developer-mode .developer-workspace > .advanced-how-to-use,
+      body.developer-mode .developer-workspace > .advanced-how-to-use {
+        grid-column: 1;
+      }
+
       body.developer-mode .developer-workspace > .provider-disclosure {
         grid-column: 2;
       }
@@ -1524,6 +1527,26 @@
       color: #cfe0ef;
       font-size: 0.7rem;
       font-weight: 700;
+    }
+
+    .human-result-math {
+      margin: 10px 0 0;
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* הסייג על Copilot יושב בכרטיס עצמו: היועץ צריך לומר אותו בפגישה בלי לעבור מסך. */
+    .human-result-caveat {
+      margin: 12px 0 0;
+      padding: 10px 12px;
+      color: #fdf3e1;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      background: rgba(0, 0, 0, 0.18);
+      border-inline-start: 4px solid var(--amber-dark);
+      border-radius: 8px;
     }
 
     .results-disclosure {
@@ -2093,6 +2116,22 @@
         display: none;
       }
 
+      /* בפס הצף במובייל נשארת רק כותרת הסייג, כדי שהפס לא יכסה את שדות הטופס. */
+      .result-dock .human-result-caveat {
+        margin-block-start: 4px;
+        padding: 4px 8px;
+        font-size: 0.72rem;
+      }
+
+      .result-dock .caveat-detail {
+        display: none;
+      }
+
+      .result-dock .human-result-math {
+        margin-block-start: 3px;
+        font-size: 0.78rem;
+      }
+
       .result-dock .human-result-trust {
         margin-block-start: 3px;
         font-size: 0.75rem;
@@ -2437,7 +2476,7 @@
         <section class="panel precision-settings" aria-labelledby="precision-title">
           <div class="section-heading">
             <div>
-              <p class="section-kicker">דיוק מקצועי</p>
+              <p class="section-kicker">תהליך אחד של מחלקה</p>
               <h2 id="precision-title">תהליך, מחלקה וכמות חודשית</h2>
             </div>
           <p>כתבו את התהליך בשפה רגילה. המחשבון יזהה את סוג העבודה ויעריך את היקף השימוש אוטומטית.</p>
@@ -2704,7 +2743,9 @@
             <span class="human-result-kicker">אומדן חודשי לתהליך שהוזן</span>
             <strong id="human-result-title" class="human-result-value">—</strong>
             <p id="human-result-simple-context" class="human-result-trust">אומדן לפי שלושה מודלי API · לפני מס ועמלות</p>
+            <p id="human-result-math" class="human-result-math">—</p>
             <p id="human-result-anchor" class="human-result-trust">—</p>
+            <p id="human-result-copilot-caveat" class="human-result-caveat"><strong>Copilot אינו כלול במספר הזה: הוא מתומחר בקרדיטים, לא בטוקנים.</strong><span class="caveat-detail"> Microsoft מתמחרת את Copilot בקרדיטים ולא לפי טוקנים, והמיפוי הרשמי מקרדיטים לטוקנים חלקי ומוגבל ל־Copilot Studio. ההשוואה מול Copilot בפירוט המלא מסומנת כהערכה ולא כמחיר אחד־לאחד.</span></p>
             <button id="goto-details" class="button-primary result-cta" type="button">הצג פירוט מלא</button>
             <div id="advanced-settings-status" class="advanced-status" hidden>
               <span>הגדרות מקצועיות מותאמות פעילות.</span>
@@ -3229,6 +3270,18 @@
 
       function monthlyRunsFromDaily(dailyRuns) {
         return Math.max(0, dailyRuns) * DAYS_PER_MONTH;
+      }
+
+      // בשורת החשבון בכרטיס הראשי: עיגול לאגורות ישבור את המכפלה מול המספר הגדול
+      // (0.06 × 40 ≠ 2.28), ולקוח ששם לב לפער מפסיק לסמוך על המספר.
+      function formatIlsPerRun(value) {
+        if (Math.abs(value) >= 1) return formatIls(value);
+        return new Intl.NumberFormat("he-IL", {
+          style: "currency",
+          currency: "ILS",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 4
+        }).format(value);
       }
 
       function formatIls(value) {
@@ -3768,6 +3821,7 @@
           document.getElementById("cheapest-label").textContent = "אין שימוש חודשי — כל מודלי ה־API בתיקו";
           setLocalizedResultText("cheapest-model", "כל המודלים שנבחרו", "he");
           document.getElementById("cheapest-cost").textContent = `${formatUsd(0)} לחודש`;
+          setResultAnchor("", state);
         } else if (isTie) {
           document.getElementById("human-result-simple-context").textContent = "תיקו בעלות הנמוכה בין מודלי ה־API שנבחרו";
           const tiedNames = tiedRows.map((row) => `${row.provider} · ${row.model}`).join(" / ");
@@ -3778,7 +3832,7 @@
           document.getElementById("cheapest-label").textContent = "תיקו בעלות החודשית הנמוכה";
           setLocalizedResultText("cheapest-model", tiedNames, "en");
           document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · אותו מחיר ב־${tiedRows.length} מודלים`;
-          setResultAnchor(tiedNames);
+          setResultAnchor(tiedNames, state);
         } else {
           document.getElementById("human-result-simple-context").textContent = "אומדן לפי שלושה מודלי API · לפני מס ועמלות";
           setLocalizedResultText("human-result-model", `${cheapest.provider} · ${cheapest.model}`, "en");
@@ -3788,8 +3842,11 @@
           document.getElementById("cheapest-label").textContent = "הזול ביותר מבין מודלי ה־API שנבחרו";
           setLocalizedResultText("cheapest-model", `${cheapest.provider} · ${cheapest.model}`, "en");
           document.getElementById("cheapest-cost").textContent = `${formatUsd(cheapest.monthCost)} לחודש · ${formatUsd(cheapest.runCost)} להרצה`;
-          setResultAnchor(`${cheapest.provider} · ${cheapest.model}`);
+          setResultAnchor(`${cheapest.provider} · ${cheapest.model}`, state);
         }
+        document.getElementById("human-result-math").textContent = noMonthlyUsage
+          ? "הזינו כמה פעמים התהליך רץ בחודש"
+          : `${formatIlsPerRun(runIls)} להרצה × ${formatNumber(state.runsMonth, 0)} הרצות בחודש`;
         const coffeeText = coffeeComparison(monthlyIls);
         const coffeeEl = document.getElementById("coffee-comparison");
         if (coffeeEl) coffeeEl.textContent = coffeeText;
@@ -3858,12 +3915,16 @@
 
       // שורת עוגן מתחת למספר הראשי. בלעדיה המספר מוצג בלי מודל, בלי שער ובלי תאריך,
       // וכל הסייגים יושבים במסך שהמשתמש אינו פותח.
-      function setResultAnchor(modelText) {
+      function setResultAnchor(modelText, state) {
         const el = document.getElementById("human-result-anchor");
         if (!el) return;
         const parts = [];
         if (modelText) parts.push(`המודל הזול מבין השלושה: ${modelText}`);
-        parts.push(`לפי שער ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר, שער יציג 18.8.2026`);
+        const rateInput = document.getElementById("usd-ils-rate");
+        const isDefaultRate = Number(rateInput.defaultValue) === state.usdIlsRate;
+        parts.push(isDefaultRate
+          ? `לפי שער ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר, שער יציג 18.8.2026`
+          : `לפי שער ${formatExchangeRate(state.usdIlsRate)} ₪ לדולר שהוזן ידנית (לא השער היציג מ־18.8.2026)`);
         parts.push("לא כולל רישיונות מושב ולא כולל את מסלולי Microsoft");
         el.textContent = parts.join(" · ");
       }
